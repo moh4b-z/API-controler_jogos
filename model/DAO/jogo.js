@@ -1,5 +1,5 @@
 /*************************************************************************
-Objetiv: model responsável palo CRUD de dados referente a jogos no Banco de Dados
+Objetiv: model responsável pelo CRUD de dados referente a jogos no Banco de Dados
 Data: 13/02/2025
 Autor: Mohammmad
 Versão: 1.0
@@ -54,4 +54,12 @@ async function selectAllJogo (){
 // filtro pelo ID
 async function selectByIdJogo (){
 
+}
+
+module.exports = {
+    insertJogo,
+    updateJogo,
+    deleteJogo,
+    selectAllJogo,
+    selectByIdJogo
 }
