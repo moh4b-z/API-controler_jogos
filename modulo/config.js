@@ -26,7 +26,7 @@ const ERROR_INTERNAL_SERVER = {
 
 const SUCCVESS_CEATED_ITEM = {
     status: false,
-    status_code: 200,
+    status_code: 201,
     messagem: "Campo obrigatorio não colocado, ou ultrapassagem de cariteres"
 }
 

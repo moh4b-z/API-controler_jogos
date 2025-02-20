@@ -14,3 +14,4 @@ create table tbl_jogo(
 );
 show tables;
 desc tbl_jogo;
+select * from tbl_jogo

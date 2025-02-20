@@ -69,15 +69,15 @@ function teste(jogo){
     
 }
 
-console.log(teste({
-    "nome": "Mario Bros",
-    "data_lancamento": "1986-06-03",
-    "versao": "1.0",
-    "tamanho": "500Kb",
-    "descricao": "Jogo legal",
-    "foto_capa": "http://foto.jpg",
-    "link": "http://downloadjogo.zip"
-}))
+// console.log(teste({
+//     "nome": "Mario Bros",
+//     "data_lacamento": "1986-06-03",
+//     "versao": "1.0",
+//     "tamanho": "500Kb",
+//     "descricao": "Jogo legal",
+//     "foto_capa": "http://foto.jpg",
+//     "link": "http://downloadjogo.zip"
+// }))
 
 
 
