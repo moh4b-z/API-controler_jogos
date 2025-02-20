@@ -7,6 +7,7 @@ Versão: 1.0
 const MENSAGE = require("../../modulo/config")
 
 const jogoDAO = require("../../model/DAO/jogo")
+const { log } = require("console")
 
 async function inserirJogo(jogo) {
     if(
@@ -56,10 +57,10 @@ function teste(jogo){
         console.log(corrigirNotNullVarchar(jogo.nome, 80))
         console.log(corrigirNotNullVarchar(jogo.data_lacamento, 10))
         console.log(corrigirNotNullVarchar(jogo.versao, 10))
-        console.log(corrigirVarchar(jogo.tamanho, 10))
-        console.log(corrigirUndefined(jogo.descricao))
-        console.log(corrigirVarchar(jogo.foto_capa, 200))
-        console.log(corrigirVarchar(jogo.link, 200))
+        // console.log(corrigirVarchar(jogo.tamanho, 10))
+        // console.log(corrigirUndefined(jogo.descricao))
+        // console.log(corrigirVarchar(jogo.foto_capa, 200))
+        // console.log(corrigirVarchar(jogo.link, 200))
         console.log(jogo)
         return MENSAGE.ERROR_REQUIRED_FIELDS
     }else{
@@ -81,6 +82,7 @@ console.log(teste({
 
 
 function corrigirNotNullVarchar(text, letras){
+    console.log(text + " - " + letras)
     if(text == undefined || text == "" || text == null || text.length > letras){
         return true
     }else{
