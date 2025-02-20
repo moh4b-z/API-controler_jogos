@@ -19,4 +19,46 @@ Versão: 1.0
 
             Após a instalação completa do prisma deve rodar:
                 comando         npx prisma init
+
+            Para realizzar o sincronismo do prisma com BD, devemos executa o seguinte comando:
+                comando        npx prisma migrate dev
 ************************************************************************/
+
+
+const express = require('express')
+const cors = require('cors')
+const bodyParser = require('body-parser')
+
+const controllerJogo = require('.//controller/jogo/controllerJogo')
+
+// só quando for POST ou PUT
+const bodyParserJSON = bodyParser.json()
+
+const app = express()
+
+app.use((request, response, next) =>{
+
+    response.header('Acces-Control-Allow-Origin', '*')
+    response.header('Acces-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+
+    app.use(cors()) 
+
+    next()
+})
+
+app.post('/v1/controle-jogos/jogo', cors(), bodyParserJSON, async function(request, response) {
+    let dadosBody = request.body
+
+    let resultJogo = await controllerJogo.inserirJogo(dadosBody)
+
+    response.status(resultJogo.status_code)
+    response.json(resultJogo)
+})
+
+
+
+
+const port = process.env.PORT || 8080
+app.listen(port, function(){
+    console.log('API aguardando requisição ...')
+})
