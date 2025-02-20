@@ -20,13 +20,13 @@ async function insertJogo (jogo){
                                         foto_capa,
                                         link                                
                                     ) values (
-                                        ${jogo.nome},
-                                        ${jogo.data_lancamento},
-                                        ${jogo.versao},
-                                        ${jogo.tamanho},
-                                        ${jogo.descricao},
-                                        ${jogo.foto_capa},
-                                        ${jogo.link} 
+                                        '${jogo.nome}',
+                                        '${jogo.data_lancamento}',
+                                        '${jogo.versao}',
+                                        '${jogo.tamanho}',
+                                        '${jogo.descricao}',
+                                        '${jogo.foto_capa}',
+                                        '${jogo.link}'
                                     )`
 
     //executar script no BD

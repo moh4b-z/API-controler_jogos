@@ -4,7 +4,9 @@ Data: 13/02/2025
 Autor: Mohammmad
 Versão: 1.0
 ************************************************************************/
+const MENSAGE = require("../../modulo/config")
 
+const jogoDAO = require("../../model/DAO/jogo")
 
 async function inserirJogo(jogo) {
     if(
@@ -16,7 +18,14 @@ async function inserirJogo(jogo) {
         corrigirVarchar(jogo.foto_capa, 200) ||
         corrigirVarchar(jogo.link, 200)
     ){
-
+        return MENSAGE.ERROR_REQUIRED_FIELDS
+    }else{
+        let resultJogo = await jogoDAO.insertJogo(jogo)
+        if (resultJogo){
+            return MENSAGE.SUCCVESS_CEATED_ITEM
+        }else{
+            return MENSAGE.ERROR_INTERNAL_SERVER
+        }
     }
     
 }
@@ -35,24 +44,24 @@ async function buscarJogo(jogo) {
 
 function corrigirNotNullVarchar(text, letras){
     if(text == undefined || text == "" || text == null || text.length > letras){
-        return false
-    }else{
         return true
+    }else{
+        return false
     }
 }
 
 function corrigirVarchar(text, letras){
     if(text == undefined || text.length > letras){
-        return false
-    }else{
         return true
+    }else{
+        return false
     }
 }
 function corrigirUndefined(text){
     if(text == undefined){
-        return false
-    }else{
         return true
+    }else{
+        return false
     }
 }
 

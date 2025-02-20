@@ -12,8 +12,11 @@ Versão: 1.0
 
                 body-parser     npm install body-parser --save   
 **********  Para configura e instalar o acesso ao Banco de dados, 
-            precisamos:
+            precisamos baixar:
                 prisma          npm install prisma --save (conexão com o BD)
 
                 prisma/client   npm install @prisma/client --save   (Executa scripts no BD)
+
+            Após a instalação completa do prisma deve rodar:
+                comando         npx prisma init
 ************************************************************************/
