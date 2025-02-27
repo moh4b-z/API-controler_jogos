@@ -7,27 +7,37 @@ Versão: 1.0
 const MENSAGE = require("../../modulo/config")
 
 const jogoDAO = require("../../model/DAO/jogo")
-const { log } = require("console")
+// const { log } = require("console")
 
-async function inserirJogo(jogo) {
-    if(
-        corrigirNotNullVarchar(jogo.nome, 80) ||
-        corrigirNotNullVarchar(jogo.data_lacamento, 10) ||
-        corrigirNotNullVarchar(jogo.versao, 10) ||
-        corrigirVarchar(jogo.tamanho, 10) ||
-        corrigirUndefined(jogo.descricao) ||
-        corrigirVarchar(jogo.foto_capa, 200) ||
-        corrigirVarchar(jogo.link, 200)
-    ){
-        return MENSAGE.ERROR_REQUIRED_FIELDS
-    }else{
-        let resultJogo = await jogoDAO.insertJogo(jogo)
-        if (resultJogo){
-            return MENSAGE.SUCCVESS_CEATED_ITEM
+async function inserirJogo(jogo, contentType) {
+    try {
+        if(contentType == "application/json"){
+            if(
+                corrigirNotNullVarchar(jogo.nome, 80) ||
+                corrigirNotNullVarchar(jogo.data_lacamento, 10) ||
+                corrigirNotNullVarchar(jogo.versao, 10) ||
+                corrigirVarchar(jogo.tamanho, 10) ||
+                corrigirUndefined(jogo.descricao) ||
+                corrigirVarchar(jogo.foto_capa, 200) ||
+                corrigirVarchar(jogo.link, 200)
+            ){
+                return MENSAGE.ERROR_REQUIRED_FIELDS
+            }else{
+                let resultJogo = await jogoDAO.insertJogo(jogo)
+                if (resultJogo){
+                    return MENSAGE.SUCCVESS_CEATED_ITEM
+                }else{
+                    return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+                }
+            }
         }else{
-            return MENSAGE.ERROR_INTERNAL_SERVER
+            return MENSAGE.ERROR_CONTENT_TYPE
         }
+    } catch (error) {
+        console.log(error)
+        return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
     }
+    
     
 }
 async function atualizarJogo(jogo) {
@@ -82,7 +92,7 @@ function teste(jogo){
 
 
 function corrigirNotNullVarchar(text, letras){
-    console.log(text + " - " + letras)
+    // console.log(text + " - " + letras)
     if(text == undefined || text == "" || text == null || text.length > letras){
         return true
     }else{

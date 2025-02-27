@@ -9,31 +9,38 @@ const { PrismaClient } = require('@prisma/client')
 
 // inseri
 async function insertJogo (jogo){
-    const prisma = new PrismaClient()
+    try {
+        //Instancia da classe do prisma client, para gera um objeto
+        const prisma = new PrismaClient()
 
-    let sql = `insert into tbl_jogo (
-                                        nome,
-                                        data_lancamento,
-                                        versao,
-                                        tamanho,
-                                        descricao,
-                                        foto_capa,
-                                        link                                
-                                    ) values (
-                                        '${jogo.nome}',
-                                        '${jogo.data_lancamento}',
-                                        '${jogo.versao}',
-                                        '${jogo.tamanho}',
-                                        '${jogo.descricao}',
-                                        '${jogo.foto_capa}',
-                                        '${jogo.link}'
-                                    )`
+        let sql = `insert into tbl_jogo (
+                                            nome,
+                                            data_lacamento,
+                                            versao,
+                                            tamanho,
+                                            descricao,
+                                            foto_capa,
+                                            link                                
+                                        ) values (
+                                            '${jogo.nome}',
+                                            '${jogo.data_lacamento}',
+                                            '${jogo.versao}',
+                                            '${jogo.tamanho}',
+                                            '${jogo.descricao}',
+                                            '${jogo.foto_capa}',
+                                            '${jogo.link}'
+                                        )`
 
-    //executar script no BD
+        //executar script no BD        
+        let result = await prisma.$executeRawUnsafe(sql)
+
+        return result ? true : false
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+
     
-    let result = await prisma.$executeRawUnsafe(sql)
-
-    return result ? true : false
 }
 
 // atualizar

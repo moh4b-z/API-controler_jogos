@@ -47,9 +47,11 @@ app.use((request, response, next) =>{
 })
 
 app.post('/v1/controle-jogos/jogo', cors(), bodyParserJSON, async function(request, response) {
+    let contentType = request.headers['content-type']
+    
     let dadosBody = request.body
 
-    let resultJogo = await controllerJogo.inserirJogo(dadosBody)
+    let resultJogo = await controllerJogo.inserirJogo(dadosBody, contentType)
 
     response.status(resultJogo.status_code)
     response.json(resultJogo)
