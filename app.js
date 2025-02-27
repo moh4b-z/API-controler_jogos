@@ -57,6 +57,20 @@ app.post('/v1/controle-jogos/jogo', cors(), bodyParserJSON, async function(reque
     response.json(resultJogo)
 })
 
+app.get('/v1/controle-jogos/listar/jogo', cors(), async function(request, response) {
+    let resultJogo = await controllerJogo.listarTodosJogo()
+
+    response.status(resultJogo.status_code)
+    response.json(resultJogo)
+})
+app.get('/v1/controle-jogos/listar/jogo/:idJogo', cors(), async function(request, response) {
+    let idJogo = request.params.idJogo
+    let resultJogo = await controllerJogo.buscarJogo(idJogo)
+
+    response.status(resultJogo.status_code)
+    response.json(resultJogo)
+})
+
 
 
 

@@ -6,13 +6,13 @@ Versão: 1.0
 ************************************************************************/
 
 const { PrismaClient } = require('@prisma/client')
+//Instancia da classe do prisma client, para gera um objeto
+const prisma = new PrismaClient()
 
 // inseri
 async function insertJogo (jogo){
     try {
-        //Instancia da classe do prisma client, para gera um objeto
-        const prisma = new PrismaClient()
-
+        
         let sql = `insert into tbl_jogo (
                                             nome,
                                             data_lacamento,
@@ -45,22 +45,50 @@ async function insertJogo (jogo){
 
 // atualizar
 async function updateJogo (){
+    try {
+        let sql = ``
+        let result = await prisma.$executeRawUnsafe(sql)
 
+        return result ? true : false
+    } catch (error) {
+        return false
+    }
 }
 
 // deletar
 async function deleteJogo (){
+    try {
+        let sql = ``
+        let result = await prisma.$executeRawUnsafe(sql)
 
+        return result ? true : false
+    } catch (error) {
+        return false
+    }
 }
 
 // select de todos os jogos
 async function selectAllJogo (){
+    try {
+        let sql = 'select * from tbl_jogo order by id desc'
+        let result = await prisma.$queryRawUnsafe(sql)
 
+        return result ? result : false
+    } catch (error) {
+        return false
+    }
 }
 
 // filtro pelo ID
-async function selectByIdJogo (){
+async function selectByIdJogo (idJogo){
+    try {
+        let sql = `SELECT * FROM tbl_jogo WHERE id = ${idJogo}`
+        let result = await prisma.$queryRawUnsafe(sql)
 
+        return result ? result : false
+    } catch (error) {
+        return false
+    }
 }
 
 module.exports = {

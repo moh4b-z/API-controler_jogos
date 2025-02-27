@@ -1,6 +1,5 @@
-create database db_controle_jogos_bb;
-
 use db_controle_jogos_bb;
+
 
 create table tbl_jogo(
 	id int not null primary key auto_increment,
@@ -12,6 +11,9 @@ create table tbl_jogo(
     foto_capa varchar(200),
     link varchar(200)
 );
+
 show tables;
-desc tbl_jogo;
-select * from tbl_jogo
+use db_controle_jogos_bb;
+SELECT * FROM tbl_jogo WHERE id = 1;
+
+select * from tbl_jogo;

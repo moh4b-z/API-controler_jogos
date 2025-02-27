@@ -46,11 +46,61 @@ async function atualizarJogo(jogo) {
 async function excluirJogo(jogo) {
     
 }
-async function listarTodosJogo(jogo) {
-    
+async function listarTodosJogo() {
+    try {
+        let resultJogo = await jogoDAO.selectAllJogo()
+
+        if(resultJogo != false || typeof(resultJogo) == 'object'){
+            if(resultJogo.length > 0){
+                let dadosJogos = {
+                    "status": true,
+                    "status_code": 201,
+                    "items": resultJogo.length,
+                    "games": resultJogo
+                }
+                return dadosJogos
+            }else{
+                return MENSAGE.ERROR_NOT_FOUND
+            }
+        }else{
+            return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+        }
+        
+    } catch (error) {
+        return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
 }
-async function buscarJogo(jogo) {
-    
+
+
+async function buscarJogo(idJogo) {
+    try {
+        let id = verificarNumero(idJogo)
+        if(id){
+            let resultJogo = await jogoDAO.selectByIdJogo(id)
+
+            if(resultJogo != false || typeof(resultJogo) == 'object'){
+                if(resultJogo.length > 0){
+                    let dadosJogos = {
+                        "status": true,
+                        "status_code": 201,
+                        "items": resultJogo.length,
+                        "games": resultJogo
+                    }
+                    return dadosJogos
+                }else{
+                    return MENSAGE.ERROR_NOT_FOUND
+                }
+            }else{
+                return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }else{
+            return MENSAGE.ERROR_REQUIRED_FIELDS
+        }
+        
+        
+    } catch (error) {
+        return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
 }
 
 
@@ -90,6 +140,13 @@ function teste(jogo){
 // }))
 
 
+function verificarNumero(number){
+    let numero = Number(number)
+    if(numero == undefined || numero == "" || numero == null ){
+        numero = false
+    }
+    return numero
+}
 
 function corrigirNotNullVarchar(text, letras){
     // console.log(text + " - " + letras)

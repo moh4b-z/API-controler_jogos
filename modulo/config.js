@@ -13,6 +13,11 @@ const ERROR_REQUIRED_FIELDS = {
     status_code: 400,
     messagem: "Campo obrigatorio não colocado, ou ultrapassagem de cariteres"
 }
+const ERROR_NOT_FOUND = {
+    status: false,
+    status_code: 404,
+    messagem: "Conteudo não Encontrado para retornar"
+}
 const ERROR_CONTENT_TYPE = {
     status: false,
     status_code: 415,
@@ -44,5 +49,6 @@ module.exports = {
     SUCCVESS_CEATED_ITEM,
     ERROR_INTERNAL_SERVER_MODEL,
     ERROR_INTERNAL_SERVER_CONTROLLER,
-    ERROR_CONTENT_TYPE
+    ERROR_CONTENT_TYPE,
+    ERROR_NOT_FOUND
 }
