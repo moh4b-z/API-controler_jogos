@@ -25,7 +25,7 @@ async function inserirJogo(jogo, contentType) {
             }else{
                 let resultJogo = await jogoDAO.insertJogo(jogo)
                 if (resultJogo){
-                    return MENSAGE.SUCCVESS_CEATED_ITEM
+                    return MENSAGE.SUCCESS_CEATED_ITEM
                 }else{
                     return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                 }
@@ -43,8 +43,30 @@ async function inserirJogo(jogo, contentType) {
 async function atualizarJogo(jogo) {
     
 }
-async function excluirJogo(jogo) {
-    
+async function excluirJogo(idJogo) {
+    try {
+        let id = verificarNumero(idJogo)
+        if(id){
+            let verification = await jogoDAO.selectByIdJogo(id)
+            let resultJogo = await jogoDAO.deleteJogo(id)
+
+            if(verification != false || typeof(verification) == 'object'){
+                if(verification.length > 0){
+                    return resultJogo ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
+                }else{
+                    return MENSAGE.ERROR_NOT_FOUND
+                }
+            }else{
+                return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }else{
+            return MENSAGE.ERROR_REQUIRED_FIELDS
+        }
+        
+        
+    } catch (error) {
+        return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
 }
 async function listarTodosJogo() {
     try {

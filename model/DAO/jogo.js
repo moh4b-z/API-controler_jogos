@@ -56,9 +56,9 @@ async function updateJogo (){
 }
 
 // deletar
-async function deleteJogo (){
+async function deleteJogo (idJogo){
     try {
-        let sql = ``
+        let sql = `DELETE FROM tbl_jogo WHERE id = ${idJogo}`
         let result = await prisma.$executeRawUnsafe(sql)
 
         return result ? true : false

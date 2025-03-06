@@ -13,10 +13,15 @@ const ERROR_REQUIRED_FIELDS = {
     status_code: 400,
     messagem: "Campo obrigatorio não colocado, ou ultrapassagem de cariteres"
 }
+const ERROR_NOT_DELETE = {
+    status: false,
+    status_code: 400,
+    messagem: "Não foi possivel deletar"
+}
 const ERROR_NOT_FOUND = {
     status: false,
     status_code: 404,
-    messagem: "Conteudo não Encontrado para retornar"
+    messagem: "Conteudo não encontrado"
 }
 const ERROR_CONTENT_TYPE = {
     status: false,
@@ -38,17 +43,26 @@ const ERROR_INTERNAL_SERVER_CONTROLLER = {
 
 /************************* MENSAGENS DE SUCESSO *************************/
 
-const SUCCVESS_CEATED_ITEM = {
+const SUCCESS_CEATED_ITEM = {
     status: true,
     status_code: 201,
-    messagem: "Jogo inserido no banco"
+    messagem: "Inserido no banco"
+}
+
+const SUCCESS_DELETE_ITEM = {
+    status: true,
+    status_code: 200,
+    messagem: "Deletado do banco"
 }
 
 module.exports = {
     ERROR_REQUIRED_FIELDS,
-    SUCCVESS_CEATED_ITEM,
     ERROR_INTERNAL_SERVER_MODEL,
     ERROR_INTERNAL_SERVER_CONTROLLER,
     ERROR_CONTENT_TYPE,
-    ERROR_NOT_FOUND
+    ERROR_NOT_FOUND,
+    ERROR_NOT_DELETE,
+
+    SUCCESS_CEATED_ITEM,
+    SUCCESS_DELETE_ITEM
 }
