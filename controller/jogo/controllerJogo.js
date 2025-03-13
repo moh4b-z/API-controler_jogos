@@ -5,6 +5,7 @@ Autor: Mohammmad
 Versão: 1.0
 ************************************************************************/
 const MENSAGE = require("../../modulo/config")
+const CORRECTION = require("../../utils/inputCheck")
 
 const jogoDAO = require("../../model/DAO/jogo")
 // const { log } = require("console")
@@ -13,13 +14,13 @@ async function inserirJogo(jogo, contentType) {
     try {
         if(contentType == "application/json"){
             if(
-                corrigirNotNullVarchar(jogo.nome, 80) ||
-                corrigirNotNullVarchar(jogo.data_lacamento, 10) ||
-                corrigirNotNullVarchar(jogo.versao, 10) ||
-                corrigirVarchar(jogo.tamanho, 10) ||
-                corrigirUndefined(jogo.descricao) ||
-                corrigirVarchar(jogo.foto_capa, 200) ||
-                corrigirVarchar(jogo.link, 200)
+                CORRECTION.corrigirNotNullVarchar(jogo.nome, 80) ||
+                CORRECTION.corrigirNotNullVarchar(jogo.data_lacamento, 10) ||
+                CORRECTION.corrigirNotNullVarchar(jogo.versao, 10) ||
+                CORRECTION.corrigirVarchar(jogo.tamanho, 10) ||
+                CORRECTION.corrigirUndefined(jogo.descricao) ||
+                CORRECTION.corrigirVarchar(jogo.foto_capa, 200) ||
+                CORRECTION.corrigirVarchar(jogo.link, 200)
             ){
                 return MENSAGE.ERROR_REQUIRED_FIELDS
             }else{
@@ -40,18 +41,21 @@ async function inserirJogo(jogo, contentType) {
     
     
 }
+
 async function atualizarJogo(jogo) {
     
 }
+
 async function excluirJogo(idJogo) {
     try {
-        let id = verificarNumero(idJogo)
+        let id = CORRECTION.verificarID(idJogo)
         if(id){
             let verification = await jogoDAO.selectByIdJogo(id)
-            let resultJogo = await jogoDAO.deleteJogo(id)
+            
 
             if(verification != false || typeof(verification) == 'object'){
                 if(verification.length > 0){
+                    let resultJogo = await jogoDAO.deleteJogo(id)
                     return resultJogo ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
@@ -68,6 +72,7 @@ async function excluirJogo(idJogo) {
         return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
+
 async function listarTodosJogo() {
     try {
         let resultJogo = await jogoDAO.selectAllJogo()
@@ -93,10 +98,9 @@ async function listarTodosJogo() {
     }
 }
 
-
 async function buscarJogo(idJogo) {
     try {
-        let id = verificarNumero(idJogo)
+        let id = CORRECTION.verificarID(idJogo)
         if(id){
             let resultJogo = await jogoDAO.selectByIdJogo(id)
 
@@ -105,8 +109,7 @@ async function buscarJogo(idJogo) {
                     let dadosJogos = {
                         "status": true,
                         "status_code": 201,
-                        "items": resultJogo.length,
-                        "games": resultJogo
+                        "game": resultJogo
                     }
                     return dadosJogos
                 }else{
@@ -128,17 +131,17 @@ async function buscarJogo(idJogo) {
 
 function teste(jogo){
     if(
-        corrigirNotNullVarchar(jogo.nome, 80) ||
-        corrigirNotNullVarchar(jogo.data_lacamento, 10) ||
-        corrigirNotNullVarchar(jogo.versao, 10) ||
-        corrigirVarchar(jogo.tamanho, 10) ||
-        corrigirUndefined(jogo.descricao) ||
-        corrigirVarchar(jogo.foto_capa, 200) ||
-        corrigirVarchar(jogo.link, 200)
+        CORRECTION.corrigirNotNullVarchar(jogo.nome, 80) ||
+        CORRECTION.corrigirNotNullVarchar(jogo.data_lacamento, 10) ||
+        CORRECTION.corrigirNotNullVarchar(jogo.versao, 10) ||
+        CORRECTION.corrigirVarchar(jogo.tamanho, 10) ||
+        CORRECTION.corrigirUndefined(jogo.descricao) ||
+        CORRECTION.corrigirVarchar(jogo.foto_capa, 200) ||
+        CORRECTION.corrigirVarchar(jogo.link, 200)
     ){
-        console.log(corrigirNotNullVarchar(jogo.nome, 80))
-        console.log(corrigirNotNullVarchar(jogo.data_lacamento, 10))
-        console.log(corrigirNotNullVarchar(jogo.versao, 10))
+        console.log(CORRECTION.corrigirNotNullVarchar(jogo.nome, 80))
+        console.log(CORRECTION.corrigirNotNullVarchar(jogo.data_lacamento, 10))
+        console.log(CORRECTION.corrigirNotNullVarchar(jogo.versao, 10))
         // console.log(corrigirVarchar(jogo.tamanho, 10))
         // console.log(corrigirUndefined(jogo.descricao))
         // console.log(corrigirVarchar(jogo.foto_capa, 200))
@@ -162,37 +165,7 @@ function teste(jogo){
 // }))
 
 
-function verificarNumero(number){
-    let numero = Number(number)
-    if(numero == undefined || numero == "" || numero == null ){
-        numero = false
-    }
-    return numero
-}
 
-function corrigirNotNullVarchar(text, letras){
-    // console.log(text + " - " + letras)
-    if(text == undefined || text == "" || text == null || text.length > letras){
-        return true
-    }else{
-        return false
-    }
-}
-
-function corrigirVarchar(text, letras){
-    if(text == undefined || text.length > letras){
-        return true
-    }else{
-        return false
-    }
-}
-function corrigirUndefined(text){
-    if(text == undefined){
-        return true
-    }else{
-        return false
-    }
-}
 
 module.exports = {
     inserirJogo,
