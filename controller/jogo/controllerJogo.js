@@ -13,15 +13,7 @@ const jogoDAO = require("../../model/DAO/jogo")
 async function inserirJogo(jogo, contentType) {
     try {
         if(contentType == "application/json"){
-            if(
-                CORRECTION.corrigirNotNullVarchar(jogo.nome, 80) ||
-                CORRECTION.corrigirNotNullVarchar(jogo.data_lacamento, 10) ||
-                CORRECTION.corrigirNotNullVarchar(jogo.versao, 10) ||
-                CORRECTION.corrigirVarchar(jogo.tamanho, 10) ||
-                CORRECTION.corrigirUndefined(jogo.descricao) ||
-                CORRECTION.corrigirVarchar(jogo.foto_capa, 200) ||
-                CORRECTION.corrigirVarchar(jogo.link, 200)
-            ){
+            if(CORRECTION.verificarAtributosJogo(jogo)){
                 return MENSAGE.ERROR_REQUIRED_FIELDS
             }else{
                 let resultJogo = await jogoDAO.insertJogo(jogo)
@@ -42,20 +34,61 @@ async function inserirJogo(jogo, contentType) {
     
 }
 
-async function atualizarJogo(jogo) {
-    
+async function atualizarJogo(jogo, idJogo, contentType) {
+    try {
+        if(contentType == "application/json"){
+            console.log(jogo);
+            console.log(CORRECTION.verificarAtributosJogo(jogo));
+            console.log(CORRECTION.verificarID(idJogo));
+            
+            if(CORRECTION.verificarAtributosJogo(jogo) || (CORRECTION.verificarID(idJogo))){
+                return MENSAGE.ERROR_REQUIRED_FIELDS
+            }else{
+                console.log(parseInt(idJogo));
+                
+                let resultJogo = await buscarJogo(parseInt(idJogo))
+                console.log(resultJogo);
+                
+
+                if(resultJogo.status_code == 200){
+
+                    jogo.id = parseInt(idJogo)
+                    
+
+                    let result = await jogoDAO.updateJogo()
+                    
+                    if(result){
+                        return MENSAGE.SUCCESS_UPDATED_ITEM
+                    }else{
+                        return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+                    }
+
+                }else if(resultJogo.status_code == 404){
+
+                    return MENSAGE.ERROR_NOT_FOUND
+                }else{
+                    console.log("buscar");
+                    
+                    return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
+                }
+            }
+        }else{
+
+            return MENSAGE.ERROR_CONTENT_TYPE
+        }
+    } catch (error) {
+        return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
 }
 
 async function excluirJogo(idJogo) {
-    try {
-        let id = CORRECTION.verificarID(idJogo)
-        if(id){
-            let verification = await jogoDAO.selectByIdJogo(id)
-            
+    try { 
+        if(CORRECTION.verificarID(idJogo)){
+            let verification = await jogoDAO.selectByIdJogo(parseInt(idJogo))
 
             if(verification != false || typeof(verification) == 'object'){
                 if(verification.length > 0){
-                    let resultJogo = await jogoDAO.deleteJogo(id)
+                    let resultJogo = await jogoDAO.deleteJogo(parseInt(idJogo))
                     return resultJogo ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
@@ -100,9 +133,10 @@ async function listarTodosJogo() {
 
 async function buscarJogo(idJogo) {
     try {
-        let id = CORRECTION.verificarID(idJogo)
-        if(id){
-            let resultJogo = await jogoDAO.selectByIdJogo(id)
+        // console.log(idJogo);
+        
+        if(CORRECTION.verificarID1(idJogo)){
+            let resultJogo = await jogoDAO.selectByIdJogo(parseInt(idJogo))
 
             if(resultJogo != false || typeof(resultJogo) == 'object'){
                 if(resultJogo.length > 0){

@@ -79,7 +79,15 @@ app.delete('/v1/controle-jogos/jogo/deletar/:idJogo', cors(), async function(req
     response.status(resultJogo.status_code)
     response.json(resultJogo)
 })
+app.put('/v1/controle-jogos/jogo/atualizar/:idJogo', cors(), bodyParserJSON, async function(request, response) {
+    let idJogo = request.params.idJogo
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+    let resultJogo = await controllerJogo.atualizarJogo(dadosBody, idJogo, contentType)
 
+    response.status(resultJogo.status_code)
+    response.json(resultJogo)
+})
 
 
 

@@ -55,6 +55,12 @@ const SUCCESS_DELETE_ITEM = {
     messagem: "Deletado do banco"
 }
 
+const SUCCESS_UPDATED_ITEM = {
+    status: true,
+    status_code: 200,
+    messagem: "Item atualizado"
+}
+
 module.exports = {
     ERROR_REQUIRED_FIELDS,
     ERROR_INTERNAL_SERVER_MODEL,
@@ -64,5 +70,6 @@ module.exports = {
     ERROR_NOT_DELETE,
 
     SUCCESS_CEATED_ITEM,
-    SUCCESS_DELETE_ITEM
+    SUCCESS_DELETE_ITEM,
+    SUCCESS_UPDATED_ITEM
 }
