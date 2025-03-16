@@ -1,14 +1,14 @@
 
 
-function verificarAtributosJogo(jogo){
+function CHECK_tbl_jogo(jogo){
     if(
-        corrigirNotNullVarchar(jogo.nome, 80) ||
-        corrigirNotNullVarchar(jogo.data_lancamento, 10) ||
-        corrigirNotNullVarchar(jogo.versao, 10) ||
-        corrigirVarchar(jogo.tamanho, 10) ||
-        corrigirUndefined(jogo.descricao) ||
-        corrigirVarchar(jogo.foto_capa, 200) ||
-        corrigirVarchar(jogo.link, 200)
+        CHECK_VARCHAR_NOT_NULL(jogo.nome, 80) &&
+        CHECK_VARCHAR_NOT_NULL(jogo.data_lancamento, 10) &&
+        CHECK_VARCHAR_NOT_NULL(jogo.versao, 10) &&
+        CHECK_VARCHAR(jogo.tamanho, 10) &&
+        CHECK_UNDEFINED(jogo.descricao) &&
+        CHECK_VARCHAR(jogo.foto_capa, 200) &&
+        CHECK_VARCHAR(jogo.link, 200)
     ){
         return true
     }else{
@@ -16,24 +16,16 @@ function verificarAtributosJogo(jogo){
     }
 }
 
-function verificarID(id){
-    let numero = id
-    if(numero == undefined || numero == "" || numero == null || isNaN(numero) || numero <= 0){
-        numero = true
-    }else(
-        numero = false
-    )
-    return numero
+function CHECK_ID(id){
+    if( !(CHECK_NOT_NULL(id)) || isNaN(id) || id <= 0){
+        return false
+    }else{
+        return true
+    }
 }
-function verificarID1(id){
-    let numero = id
-    if(numero == undefined || numero == "" || numero == null || isNaN(numero) || numero <= 0){
-        numero = false
-    }else(
-        numero = true
-    )
-    return numero
-}
+
+// console.log(!(CHECK_ID("1")));
+
 function verificarNumero(number){
     let numero = Number(number)
     if(numero == undefined || numero == "" || numero == null || isNaN(numero)){
@@ -43,23 +35,31 @@ function verificarNumero(number){
 }
 
 
-function corrigirNotNullVarchar(text, letras){
-    // console.log(text + " - " + letras)
-    if(text == undefined || text == "" || text == null || text.length > letras){
-        return true
-    }else{
+function CHECK_VARCHAR_NOT_NULL(text, letters){
+    // console.log(text + " - " + letters)
+    if(!(CHECK_NOT_NULL(text)) || !(CHECK_VARCHAR(text, letters))){
         return false
+    }else{
+        return true
     }
 }
 
-function corrigirVarchar(text, letras){
-    if(text == undefined || text.length > letras){
-        return true
-    }else{
+function CHECK_NOT_NULL(attribute){
+    if(attribute == undefined || attribute == "" || attribute == null){
         return false
+    }else{
+        return true
     }
 }
-function corrigirUndefined(text){
+
+function CHECK_VARCHAR(text, letters){
+    if(text == undefined || text.length > letters){
+        return false
+    }else{
+        return true
+    }
+}
+function CHECK_UNDEFINED(text){
     if(text == undefined){
         return true
     }else{
@@ -69,11 +69,10 @@ function corrigirUndefined(text){
 
 
 module.exports = {
-    verificarAtributosJogo,
-    verificarID,
+    CHECK_tbl_jogo,
+    CHECK_ID,
     verificarNumero,
-    corrigirNotNullVarchar,
-    corrigirVarchar,
-    corrigirUndefined,
-    verificarID1
+    CHECK_VARCHAR_NOT_NULL,
+    CHECK_VARCHAR,
+    CHECK_UNDEFINED
 }

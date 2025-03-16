@@ -13,21 +13,22 @@ const jogoDAO = require("../../model/DAO/jogo")
 async function inserirJogo(jogo, contentType) {
     try {
         if(contentType == "application/json"){
-            if(CORRECTION.verificarAtributosJogo(jogo)){
-                return MENSAGE.ERROR_REQUIRED_FIELDS
-            }else{
+            if(CORRECTION.CHECK_tbl_jogo(jogo)){
                 let resultJogo = await jogoDAO.insertJogo(jogo)
                 if (resultJogo){
                     return MENSAGE.SUCCESS_CEATED_ITEM
                 }else{
                     return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                 }
+                
+            }else{
+                return MENSAGE.ERROR_REQUIRED_FIELDS
             }
         }else{
             return MENSAGE.ERROR_CONTENT_TYPE
         }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
     }
     
@@ -37,17 +38,14 @@ async function inserirJogo(jogo, contentType) {
 async function atualizarJogo(jogo, idJogo, contentType) {
     try {
         if(contentType == "application/json"){
-            console.log(jogo);
-            console.log(CORRECTION.verificarAtributosJogo(jogo));
-            console.log(CORRECTION.verificarID(idJogo));
+            // console.log(jogo);
+            // console.log(CORRECTION.verificarAtributosJogo(jogo));
+            // console.log(CORRECTION.CHECK_ID(idJogo));
             
-            if(CORRECTION.verificarAtributosJogo(jogo) || (CORRECTION.verificarID(idJogo))){
-                return MENSAGE.ERROR_REQUIRED_FIELDS
-            }else{
-                console.log(parseInt(idJogo));
-                
+            if(CORRECTION.CHECK_tbl_jogo(jogo) && CORRECTION.CHECK_ID(idJogo)){
+
                 let resultJogo = await buscarJogo(parseInt(idJogo))
-                console.log(resultJogo);
+                // console.log(resultJogo);
                 
 
                 if(resultJogo.status_code == 200){
@@ -71,6 +69,9 @@ async function atualizarJogo(jogo, idJogo, contentType) {
                     
                     return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
                 }
+                
+            }else{
+                return MENSAGE.ERROR_REQUIRED_FIELDS
             }
         }else{
 
@@ -83,7 +84,7 @@ async function atualizarJogo(jogo, idJogo, contentType) {
 
 async function excluirJogo(idJogo) {
     try { 
-        if(CORRECTION.verificarID(idJogo)){
+        if(CORRECTION.CHECK_ID(idJogo)){
             let verification = await jogoDAO.selectByIdJogo(parseInt(idJogo))
 
             if(verification != false || typeof(verification) == 'object'){
@@ -135,7 +136,7 @@ async function buscarJogo(idJogo) {
     try {
         // console.log(idJogo);
         
-        if(CORRECTION.verificarID1(idJogo)){
+        if(CORRECTION.CHECK_ID(idJogo)){
             let resultJogo = await jogoDAO.selectByIdJogo(parseInt(idJogo))
 
             if(resultJogo != false || typeof(resultJogo) == 'object'){
@@ -163,31 +164,6 @@ async function buscarJogo(idJogo) {
 }
 
 
-function teste(jogo){
-    if(
-        CORRECTION.corrigirNotNullVarchar(jogo.nome, 80) ||
-        CORRECTION.corrigirNotNullVarchar(jogo.data_lacamento, 10) ||
-        CORRECTION.corrigirNotNullVarchar(jogo.versao, 10) ||
-        CORRECTION.corrigirVarchar(jogo.tamanho, 10) ||
-        CORRECTION.corrigirUndefined(jogo.descricao) ||
-        CORRECTION.corrigirVarchar(jogo.foto_capa, 200) ||
-        CORRECTION.corrigirVarchar(jogo.link, 200)
-    ){
-        console.log(CORRECTION.corrigirNotNullVarchar(jogo.nome, 80))
-        console.log(CORRECTION.corrigirNotNullVarchar(jogo.data_lacamento, 10))
-        console.log(CORRECTION.corrigirNotNullVarchar(jogo.versao, 10))
-        // console.log(corrigirVarchar(jogo.tamanho, 10))
-        // console.log(corrigirUndefined(jogo.descricao))
-        // console.log(corrigirVarchar(jogo.foto_capa, 200))
-        // console.log(corrigirVarchar(jogo.link, 200))
-        console.log(jogo)
-        return MENSAGE.ERROR_REQUIRED_FIELDS
-    }else{
-        return ("texto certo")
-    }
-    
-}
-
 // console.log(teste({
 //     "nome": "Mario Bros",
 //     "data_lacamento": "1986-06-03",
@@ -197,8 +173,6 @@ function teste(jogo){
 //     "foto_capa": "http://foto.jpg",
 //     "link": "http://downloadjogo.zip"
 // }))
-
-
 
 
 module.exports = {
