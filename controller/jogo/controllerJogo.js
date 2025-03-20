@@ -41,23 +41,28 @@ async function atualizarJogo(jogo, idJogo, contentType) {
             // console.log(jogo);
             // console.log(CORRECTION.verificarAtributosJogo(jogo));
             // console.log(CORRECTION.CHECK_ID(idJogo));
+            console.log(CORRECTION.CHECK_tbl_jogo(jogo));
+            console.log(CORRECTION.CHECK_ID(idJogo));
+            
             
             if(CORRECTION.CHECK_tbl_jogo(jogo) && CORRECTION.CHECK_ID(idJogo)){
 
                 let resultJogo = await buscarJogo(parseInt(idJogo))
-                // console.log(resultJogo);
+                
                 
 
-                if(resultJogo.status_code == 200){
+                if(resultJogo.status_code == 201){
 
                     jogo.id = parseInt(idJogo)
                     
 
-                    let result = await jogoDAO.updateJogo()
+                    let result = await jogoDAO.updateJogo(jogo)
+                    console.log(result)
                     
                     if(result){
                         return MENSAGE.SUCCESS_UPDATED_ITEM
                     }else{
+                        console.log("buscar");
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                     }
 
@@ -65,7 +70,7 @@ async function atualizarJogo(jogo, idJogo, contentType) {
 
                     return MENSAGE.ERROR_NOT_FOUND
                 }else{
-                    console.log("buscar");
+                    
                     
                     return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
                 }
@@ -78,6 +83,7 @@ async function atualizarJogo(jogo, idJogo, contentType) {
             return MENSAGE.ERROR_CONTENT_TYPE
         }
     } catch (error) {
+        
         return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }

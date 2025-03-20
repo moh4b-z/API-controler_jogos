@@ -10,9 +10,9 @@ function CHECK_tbl_jogo(jogo){
         CHECK_VARCHAR(jogo.foto_capa, 200) &&
         CHECK_VARCHAR(jogo.link, 200)
     ){
-        return true
-    }else{
         return false
+    }else{
+        return true
     }
 }
 
