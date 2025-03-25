@@ -1,8 +1,8 @@
 /*************************************************************************
 Objetiv: Controller responsável pela regra de negócio do CRUD do jogo
-Data: 13/02/2025
+Data: 24/03/2025
 Autor: Mohammmad
-Versão: 1.0
+Versão: 1.1
 ************************************************************************/
 const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
