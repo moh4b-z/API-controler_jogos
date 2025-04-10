@@ -10,7 +10,7 @@ CREATE TABLE `tbl_jogo` (
   `foto_capa` VARCHAR(200) NULL,
   `link` VARCHAR(200) NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Tabela de Países
 CREATE TABLE `tbl_paises` (
@@ -18,14 +18,14 @@ CREATE TABLE `tbl_paises` (
   `nome` VARCHAR(50) NOT NULL,
   `moeda` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Tabela de Sexo
 CREATE TABLE `tbl_sexo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(40) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Tabela de Usuários
 CREATE TABLE `tbl_usuario` (
@@ -42,7 +42,7 @@ CREATE TABLE `tbl_usuario` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_paises`) REFERENCES `tbl_paises` (`id`),
   FOREIGN KEY (`id_sexo`) REFERENCES `tbl_sexo` (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Tabela de Avaliações
 CREATE TABLE `tbl_avaliacao` (
@@ -54,14 +54,14 @@ CREATE TABLE `tbl_avaliacao` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_jogo`) REFERENCES `tbl_jogo` (`id`),
   FOREIGN KEY (`id_usuario`) REFERENCES `tbl_usuario` (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Tabela de Gêneros
 CREATE TABLE `tbl_genero` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Relacionamento entre Jogos e Gêneros
 CREATE TABLE `tbl_jogo_genero` (
@@ -71,7 +71,7 @@ CREATE TABLE `tbl_jogo_genero` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_jogo`) REFERENCES `tbl_jogo` (`id`),
   FOREIGN KEY (`id_genero`) REFERENCES `tbl_genero` (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Tabela de DLCs
 CREATE TABLE `tbl_dlc` (
@@ -81,14 +81,14 @@ CREATE TABLE `tbl_dlc` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_jogo_principal`) REFERENCES `tbl_jogo` (`id`),
   FOREIGN KEY (`id_jogo_dlc`) REFERENCES `tbl_jogo` (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Tabela de Tipos de Pagamento
 CREATE TABLE `tbl_tipo_pagamento` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `tipo` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Tabela de Compras de Jogos
 CREATE TABLE `tbl_compra_jogo` (
@@ -102,7 +102,7 @@ CREATE TABLE `tbl_compra_jogo` (
   FOREIGN KEY (`id_usuario`) REFERENCES `tbl_usuario` (`id`),
   FOREIGN KEY (`id_jogo`) REFERENCES `tbl_jogo` (`id`),
   FOREIGN KEY (`id_tipo_pagamento`) REFERENCES `tbl_tipo_pagamento` (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Tabela de Preços
 CREATE TABLE `tbl_preco` (
@@ -113,7 +113,7 @@ CREATE TABLE `tbl_preco` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_jogo`) REFERENCES `tbl_jogo` (`id`),
   FOREIGN KEY (`id_paises`) REFERENCES `tbl_paises` (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Tabela de Conquistas
 CREATE TABLE `tbl_conquistas` (
@@ -123,7 +123,7 @@ CREATE TABLE `tbl_conquistas` (
   `id_jogo` INT NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_jogo`) REFERENCES `tbl_jogo` (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Relacionamento entre Usuários e Conquistas
 CREATE TABLE `tbl_usuario_conquistas` (
@@ -134,7 +134,7 @@ CREATE TABLE `tbl_usuario_conquistas` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_usuario`) REFERENCES `tbl_usuario` (`id`),
   FOREIGN KEY (`id_conquistas`) REFERENCES `tbl_conquistas` (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Tabela de Empresas
 CREATE TABLE `tbl_empresa` (
@@ -149,7 +149,7 @@ CREATE TABLE `tbl_empresa` (
   `id_paises` INT NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_paises`) REFERENCES `tbl_paises` (`id`)
-) ENGINE=InnoDB;
+);
 
 -- Relacionamento entre Empresas e Jogos
 CREATE TABLE `tbl_empresa_jogo` (
@@ -160,7 +160,7 @@ CREATE TABLE `tbl_empresa_jogo` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_empresa`) REFERENCES `tbl_empresa` (`id`),
   FOREIGN KEY (`id_jogo`) REFERENCES `tbl_jogo` (`id`)
-) ENGINE=InnoDB;
+);
 
 CREATE TABLE tbl_usuario_jogo (
   id INT NOT NULL AUTO_INCREMENT,
