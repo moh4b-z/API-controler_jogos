@@ -1,4 +1,3 @@
-
 -- Tabela de Jogos
 CREATE TABLE tbl_jogo (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,

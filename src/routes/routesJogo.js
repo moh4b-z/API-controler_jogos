@@ -3,24 +3,24 @@ const router = express.Router()
 const controllerJogo = require('../controller/jogo/controllerJogo')
 
 router.post(
-    '/',
-    controllerJogo.postInserirJogo
+    '/post',
+    controllerJogo.postJogo
 )
 router.delete(
-    '/deletar/:idJogo',
-    controllerJogo.deleteExcluirJogo
+    '/delete/:idJogo',
+    controllerJogo.deleteJogo
 )
 router.put(
-    '/atualizar/:idJogo',
-    controllerJogo.putAtualizarJogo
+    '/put/:idJogo',
+    controllerJogo.putJogo
 )
 router.get(
-    '/listar',
-    controllerJogo.getListarTodosJogo
+    '/get/getSearchAllJogo',
+    controllerJogo.getSearchAllJogo
 )
 router.get(
-    '/listar/:idJogo',
-    controllerJogo.getBuscarJogo
+    '/get/getSearchJogo/:idJogo',
+    controllerJogo.getSearchJogo
 )
 
 module.exports = router

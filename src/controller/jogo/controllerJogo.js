@@ -7,7 +7,7 @@ Versão: 1.2
 const servicesJogo = require("../../services/servicesJogo")
 
 
-async function postInserirJogo (request, response) {
+async function postJogo (request, response) {
     let contentType = request.headers['content-type']
     
     let dadosBody = request.body
@@ -17,14 +17,14 @@ async function postInserirJogo (request, response) {
     response.status(resultJogo.status_code)
     response.json(resultJogo)
 }
-async function getListarTodosJogo(request, response) {
+async function getSearchAllJogo(request, response) {
     let resultJogo = await servicesJogo.listarTodosJogo()
 
     response.status(resultJogo.status_code)
     response.json(resultJogo)
 }
 
-async function getBuscarJogo(request, response) {
+async function getSearchJogo(request, response) {
     let idJogo = request.params.idJogo
     let resultJogo = await servicesJogo.buscarJogo(idJogo)
 
@@ -32,14 +32,14 @@ async function getBuscarJogo(request, response) {
     response.json(resultJogo)
 }
 
-async function deleteExcluirJogo (request, response) {
+async function deleteJogo (request, response) {
     let idJogo = request.params.idJogo
     let resultJogo = await servicesJogo.excluirJogo(idJogo)
 
     response.status(resultJogo.status_code)
     response.json(resultJogo)
 }
-async function putAtualizarJogo(request, response) {
+async function putJogo(request, response) {
     let idJogo = request.params.idJogo
     let contentType = request.headers['content-type']
     let dadosBody = request.body
@@ -51,9 +51,9 @@ async function putAtualizarJogo(request, response) {
 
 
 module.exports = {
-    postInserirJogo,
-    putAtualizarJogo,
-    deleteExcluirJogo,
-    getListarTodosJogo,
-    getBuscarJogo
+    postJogo,
+    putJogo,
+    deleteJogo,
+    getSearchAllJogo,
+    getSearchJogo
 }
