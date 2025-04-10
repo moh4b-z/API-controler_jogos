@@ -39,8 +39,6 @@ async function insertJogo(jogo){
         console.log(error)
         return false
     }
-
-    
 }
 
 // atualizar

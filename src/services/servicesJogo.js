@@ -29,7 +29,7 @@ async function inserirJogo(jogo, contentType) {
         }
     } catch (error) {
         // console.log(error)
-        return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
     
     
@@ -72,7 +72,7 @@ async function atualizarJogo(jogo, idJogo, contentType) {
                 }else{
                     
                     
-                    return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
+                    return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
                 }
                 
             }else{
@@ -84,7 +84,7 @@ async function atualizarJogo(jogo, idJogo, contentType) {
         }
     } catch (error) {
         
-        return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
 }
 
@@ -109,7 +109,7 @@ async function excluirJogo(idJogo) {
         
         
     } catch (error) {
-        return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
 }
 
@@ -134,7 +134,7 @@ async function listarTodosJogo() {
         }
         
     } catch (error) {
-        return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
 }
 
@@ -165,7 +165,7 @@ async function buscarJogo(idJogo) {
         
         
     } catch (error) {
-        return MENSAGE.ERROR_INTERNAL_SERVER_CONTROLLER
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
 }
 

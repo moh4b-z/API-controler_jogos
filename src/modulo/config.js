@@ -39,6 +39,11 @@ const ERROR_INTERNAL_SERVER_CONTROLLER = {
     status_code: 500,
     messagem: "Não foi possivel processar a requisição, pois ocoreram erros internos no controller"
 }
+const ERROR_INTERNAL_SERVER_SERVICES = {
+    status: false,
+    status_code: 500,
+    messagem: "Não foi possivel processar a requisição, pois ocoreram erros internos no services"
+}
 
 
 /************************* MENSAGENS DE SUCESSO *************************/
@@ -64,6 +69,7 @@ const SUCCESS_UPDATED_ITEM = {
 module.exports = {
     ERROR_REQUIRED_FIELDS,
     ERROR_INTERNAL_SERVER_MODEL,
+    ERROR_INTERNAL_SERVER_SERVICES,
     ERROR_INTERNAL_SERVER_CONTROLLER,
     ERROR_CONTENT_TYPE,
     ERROR_NOT_FOUND,

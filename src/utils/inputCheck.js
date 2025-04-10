@@ -15,6 +15,15 @@ function CHECK_tbl_jogo(jogo){
         return true
     }
 }
+function CHECK_tbl_genero(genero){
+    if(
+        CHECK_VARCHAR_NOT_NULL(genero.nome, 45)
+    ){
+        return false
+    }else{
+        return true
+    }
+}
 
 function CHECK_ID(id){
     if( !(CHECK_NOT_NULL(id)) || isNaN(id) || id <= 0){
@@ -70,6 +79,9 @@ function CHECK_UNDEFINED(text){
 
 module.exports = {
     CHECK_tbl_jogo,
+    CHECK_tbl_genero,
+
+    
     CHECK_ID,
     verificarNumero,
     CHECK_VARCHAR_NOT_NULL,

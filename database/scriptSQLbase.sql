@@ -15,13 +15,15 @@ CREATE TABLE tbl_jogo (
 CREATE TABLE tbl_paises (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(50) NOT NULL,
+  sigla VARCHAR(4) NOT NULL,
   moeda VARCHAR(30) NOT NULL
 );
 
 -- Tabela de Sexo
 CREATE TABLE tbl_sexo (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  nome VARCHAR(40) NOT NULL
+  nome VARCHAR(40) NOT NULL,
+  sigla VARCHAR(3) NOT NULL
 );
 
 -- Tabela de Usuários
