@@ -7,6 +7,10 @@ const sexoDAO = require("../model/DAO/sexo")
 async function inserirSexo(Sexo, contentType) {
     try {
         if(contentType == "application/json"){
+            // console.log(Sexo);
+            // console.log(CORRECTION.CHECK_tbl_sexo(Sexo));
+            
+            
             if(CORRECTION.CHECK_tbl_sexo(Sexo)){
                 let resultSexo = await sexoDAO.insertSexo(Sexo)
                 if (resultSexo){
@@ -25,7 +29,6 @@ async function inserirSexo(Sexo, contentType) {
         // console.log(error)
         return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
-    
     
 }
 

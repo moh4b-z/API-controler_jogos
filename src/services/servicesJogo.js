@@ -13,6 +13,8 @@ const jogoDAO = require("../model/DAO/jogo")
 async function inserirJogo(jogo, contentType) {
     try {
         if(contentType == "application/json"){
+            // console.log(CORRECTION.CHECK_tbl_jogo(jogo));
+            
             if(CORRECTION.CHECK_tbl_jogo(jogo)){
                 let resultJogo = await jogoDAO.insertJogo(jogo)
                 if (resultJogo){

@@ -19,27 +19,27 @@ function CHECK_tbl_genero(genero){
     if(
         CHECK_VARCHAR_NOT_NULL(genero.nome, 45)
     ){
-        return false
-    }else{
         return true
+    }else{
+        return false
     }
 }
 function CHECK_tbl_tipo_pagamento(tipo_pagamento){
     if(
         CHECK_VARCHAR_NOT_NULL(tipo_pagamento.tipo, 50)
     ){
-        return false
-    }else{
         return true
+    }else{
+        return false
     }
 }
 function CHECK_tbl_plataforma(plataforma){
     if(
         CHECK_VARCHAR_NOT_NULL(plataforma.nome, 45)
     ){
-        return false
-    }else{
         return true
+    }else{
+        return false
     }
 }
 function CHECK_tbl_paises(paises){
@@ -48,19 +48,21 @@ function CHECK_tbl_paises(paises){
         CHECK_VARCHAR_NOT_NULL(paises.sigla, 4) &&
         CHECK_VARCHAR_NOT_NULL(paises.moeda, 30)
     ){
-        return false
-    }else{
         return true
+    }else{
+        return false
     }
 }
 function CHECK_tbl_sexo(sexo){
+    // console.log(sexo);
+    
     if(
         CHECK_VARCHAR_NOT_NULL(sexo.nome, 50) &&
         CHECK_VARCHAR_NOT_NULL(sexo.sigla, 3)
     ){
-        return false
-    }else{
         return true
+    }else{
+        return false
     }
 }
 
