@@ -38,14 +38,10 @@ app.use(bodyParser.json())
 
 // Importação de rotas
 
-const routesJogo = require('./src/routes/routesJogo')
-
-
+const routesMain = require('./src/routes/MainRoutes')
 
 // Definição das rotas
-app.use("/v1/controle-jogos/jogo", routesJogo)
-
-
+app.use("/v1/controle-jogos", routesMain)
 
 
 const port = process.env.PORT || 8080
