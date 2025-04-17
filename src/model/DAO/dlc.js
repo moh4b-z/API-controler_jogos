@@ -3,15 +3,15 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 // inseri
-async function insertSexo(sexo){
+async function insertDlc(Dlc){
     try {
         
-        let sql = `insert into tbl_sexo (
-                                            nome,
-                                            sigla                              
+        let sql = `insert into tbl_dlc (
+                                            id_jogo_principal,
+                                            id_jogo_dlc                              
                                         ) values (
-                                            '${sexo.nome}',
-                                            '${sexo.sigla}'
+                                            '${Dlc.id_jogo_principal}',
+                                            '${Dlc.id_jogo_dlc}'
                                         )`
 
         //executar script no BD        
@@ -25,12 +25,12 @@ async function insertSexo(sexo){
 }
 
 // atualizar
-async function updateSexo(sexo){
+async function updateDlc(Dlc){
     try {
-        let sql = `update tbl_sexo set  nome = '${sexo.nome}',
-                                        sigla = '${sexo.sigla}'                      
+        let sql = `update tbl_dlc set  id_jogo_principal = '${Dlc.id_jogo_principal}',
+                                        id_jogo_dlc = '${Dlc.id_jogo_dlc}'                      
                                         
-                                where id = ${sexo.id}`
+                                where id = ${Dlc.id}`
         console.log(sql);
         let result = await prisma.$executeRawUnsafe(sql)
 
@@ -43,9 +43,9 @@ async function updateSexo(sexo){
 }
 
 // deletar
-async function deleteSexo(idSexo){
+async function deleteDlc(idDlc){
     try {
-        let sql = `DELETE FROM tbl_sexo WHERE id = ${idSexo}`
+        let sql = `DELETE FROM tbl_dlc WHERE id = ${idDlc}`
         let result = await prisma.$executeRawUnsafe(sql)
 
         return result ? true : false
@@ -55,9 +55,9 @@ async function deleteSexo(idSexo){
 }
 
 // select de todos os jogos
-async function selectAllSexo(){
+async function selectAllDlc(){
     try {
-        let sql = 'select * from tbl_sexo order by id desc'
+        let sql = 'select * from tbl_dlc order by id desc'
         let result = await prisma.$queryRawUnsafe(sql)
 
         return result ? result : false
@@ -67,9 +67,9 @@ async function selectAllSexo(){
 }
 
 // filtro pelo ID
-async function selectByIdSexo(idSexo){
+async function selectByIdDlc(idDlc){
     try {
-        let sql = `SELECT * FROM tbl_sexo WHERE id = ${idSexo}`
+        let sql = `SELECT * FROM tbl_dlc WHERE id = ${idDlc}`
         // console.log(sql);
         
         let result = await prisma.$queryRawUnsafe(sql)
@@ -83,9 +83,9 @@ async function selectByIdSexo(idSexo){
 }
 
 module.exports = {
-    insertSexo,
-    updateSexo,
-    deleteSexo,
-    selectAllSexo,
-    selectByIdSexo
+    insertDlc,
+    updateDlc,
+    deleteDlc,
+    selectAllDlc,
+    selectByIdDlc
 }

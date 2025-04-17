@@ -23,6 +23,11 @@ const ERROR_NOT_FOUND = {
     status_code: 404,
     messagem: "Conteudo não encontrado"
 }
+const ERROR_NOT_FOUND_FOREIGN_KEY = {
+    status: false,
+    status_code: 404,
+    messagem: "ID da chave estrageira não encontrado"
+}
 const ERROR_CONTENT_TYPE = {
     status: false,
     status_code: 415,
@@ -73,6 +78,7 @@ module.exports = {
     ERROR_INTERNAL_SERVER_CONTROLLER,
     ERROR_CONTENT_TYPE,
     ERROR_NOT_FOUND,
+    ERROR_NOT_FOUND_FOREIGN_KEY,
     ERROR_NOT_DELETE,
 
     SUCCESS_CEATED_ITEM,

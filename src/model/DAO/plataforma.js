@@ -7,9 +7,11 @@ const prisma = new PrismaClient()
 async function insertPlataforma(plataforma){
     try {        
         let sql = `insert into tbl_plataforma (
-                                            nome                                
+                                            nome,
+                                            logo
                                         ) values (
-                                            '${plataforma.nome}'
+                                            '${plataforma.nome}',
+                                            '${plataforma.logo}'
                                         )`
 
         //executar script no BD        
@@ -25,10 +27,10 @@ async function insertPlataforma(plataforma){
 // atualizar
 async function updatePlataforma(plataforma){
     try {
-        let sql = `update tbl_plataforma set      nome = '${plataforma.nome}'                            
-                                        
+        let sql = `update tbl_plataforma set      nome = '${plataforma.nome}',                       
+                                                logo = '${plataforma.logo}'
                                 where id = ${plataforma.id}`
-        console.log(sql);
+        // console.log(sql);
         let result = await prisma.$executeRawUnsafe(sql)
 
         return result ? true : false

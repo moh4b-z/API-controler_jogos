@@ -43,7 +43,6 @@ async function atualizarPaises(Paises, idPaises, contentType) {
 
                 let resultPaises = await buscarPaises(parseInt(idPaises))
                 
-                
 
                 if(resultPaises.status_code == 201){
 

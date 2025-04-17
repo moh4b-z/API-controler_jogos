@@ -35,8 +35,8 @@ async function atualizarTipo_pagamento(Tipo_pagamento, idTipo_pagamento, content
             // console.log(Tipo_pagamento);
             // console.log(CORRECTION.verificarAtributosTipo_pagamento(Tipo_pagamento));
             // console.log(CORRECTION.CHECK_ID(idTipo_pagamento));
-            console.log(CORRECTION.CHECK_tbl_tipo_pagamento(Tipo_pagamento));
-            console.log(CORRECTION.CHECK_ID(idTipo_pagamento));
+            // console.log(CORRECTION.CHECK_tbl_tipo_pagamento(Tipo_pagamento));
+            // console.log(CORRECTION.CHECK_ID(idTipo_pagamento));
             
             
             if(CORRECTION.CHECK_tbl_tipo_pagamento(Tipo_pagamento) && CORRECTION.CHECK_ID(idTipo_pagamento)){
@@ -56,7 +56,6 @@ async function atualizarTipo_pagamento(Tipo_pagamento, idTipo_pagamento, content
                     if(result){
                         return MENSAGE.SUCCESS_UPDATED_ITEM
                     }else{
-                        console.log("buscar");
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                     }
 

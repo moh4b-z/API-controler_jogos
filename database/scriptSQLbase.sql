@@ -102,13 +102,18 @@ CREATE TABLE tbl_compra_jogo (
 -- Tabela de Preços
 CREATE TABLE tbl_preco (
   id INT NOT NULL AUTO_INCREMENT,
-  valor DECIMAL(6,2) NOT NULL,
+  valor DECIMAL(10,2) NOT NULL,
   id_jogo INT NOT NULL,
   id_paises INT NOT NULL,
+  id_plataforma INT NOT NULL,
+  id_tipo_pagamento INT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id),
-  FOREIGN KEY (id_paises) REFERENCES tbl_paises (id)
+  FOREIGN KEY (id_paises) REFERENCES tbl_paises (id),
+  FOREIGN KEY (id_plataforma) REFERENCES tbl_plataforma (id),
+  FOREIGN KEY (id_tipo_pagamento) REFERENCES tbl_tipo_pagamento (id)
 );
+
 
 -- Tabela de Conquistas
 CREATE TABLE tbl_conquistas (

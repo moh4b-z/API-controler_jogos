@@ -9,11 +9,15 @@ async function insertPaises(paises){
         let sql = `insert into tbl_paises (
                                             nome,
                                             sigla,
-                                            moeda                               
+                                            moeda,
+                                            simbolo_de_moeda,
+                                            bandeira                             
                                         ) values (
                                             '${paises.nome}',
                                             '${paises.sigla}',
-                                            '${paises.moeda}'
+                                            '${paises.moeda}',
+                                            '${paises.simbolo_de_moeda}',
+                                            '${paises.bandeira}'
                                         )`
 
         //executar script no BD        
@@ -31,7 +35,9 @@ async function updatePaises(paises){
     try {
         let sql = `update tbl_paises set    nome = '${paises.nome}',
                                             sigla = '${paises.sigla}',
-                                            moeda = '${paises.moeda}'                            
+                                            moeda = '${paises.moeda}',                        
+                                            simbolo_de_moeda = '${paises.simbolo_de_moeda}',                        
+                                            bandeira = '${paises.bandeira}'                            
                                         
                                 where id = ${paises.id}`
         // console.log(sql);

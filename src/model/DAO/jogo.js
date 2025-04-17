@@ -53,7 +53,7 @@ async function updateJogo(jogo){
                                             link = '${jogo.link}'                             
                                         
                                 where id = ${jogo.id}`
-        console.log(sql);
+        // console.log(sql);
         let result = await prisma.$executeRawUnsafe(sql)
 
         return result ? true : false

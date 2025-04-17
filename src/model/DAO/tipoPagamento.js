@@ -7,9 +7,11 @@ async function insertTipo_pagamento(tipo_pagamento){
     try {
         
         let sql = `insert into tbl_tipo_pagamento (
-                                            tipo                             
+                                            tipo,
+                                            logo                            
                                         ) values (
-                                            '${tipo_pagamento.tipo}'
+                                            '${tipo_pagamento.tipo}',
+                                            '${tipo_pagamento.logo}'
                                         )`
 
         //executar script no BD        
@@ -17,7 +19,7 @@ async function insertTipo_pagamento(tipo_pagamento){
 
         return result ? true : false
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         return false
     }
 }
@@ -25,15 +27,16 @@ async function insertTipo_pagamento(tipo_pagamento){
 // atualizar
 async function updateTipo_pagamento(tipo_pagamento){
     try {
-        let sql = `update tbl_tipo_pagamento set  nome = '${tipo_pagamento.tipo}'                       
+        let sql = `update tbl_tipo_pagamento set  tipo = '${tipo_pagamento.tipo}',
+                                                logo = '${tipo_pagamento.logo}'                   
                                         
                                 where id = ${tipo_pagamento.id}`
-        // console.log(sql);
+        console.log(sql);
         let result = await prisma.$executeRawUnsafe(sql)
 
         return result ? true : false
     } catch (error) {
-        // console.log(error);
+        console.log(error);
         
         return false
     }

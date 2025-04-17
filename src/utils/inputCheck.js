@@ -1,5 +1,4 @@
 
-
 function CHECK_tbl_jogo(jogo){
     if(
         CHECK_VARCHAR_NOT_NULL(jogo.nome, 80) &&
@@ -26,7 +25,8 @@ function CHECK_tbl_genero(genero){
 }
 function CHECK_tbl_tipo_pagamento(tipo_pagamento){
     if(
-        CHECK_VARCHAR_NOT_NULL(tipo_pagamento.tipo, 50)
+        CHECK_VARCHAR_NOT_NULL(tipo_pagamento.tipo, 50) &&
+        CHECK_VARCHAR(tipo_pagamento.logo, 200)
     ){
         return true
     }else{
@@ -35,7 +35,8 @@ function CHECK_tbl_tipo_pagamento(tipo_pagamento){
 }
 function CHECK_tbl_plataforma(plataforma){
     if(
-        CHECK_VARCHAR_NOT_NULL(plataforma.nome, 45)
+        CHECK_VARCHAR_NOT_NULL(plataforma.nome, 45) &&
+        CHECK_VARCHAR(plataforma.logo, 200)
     ){
         return true
     }else{
@@ -46,7 +47,19 @@ function CHECK_tbl_paises(paises){
     if(
         CHECK_VARCHAR_NOT_NULL(paises.nome, 50) &&
         CHECK_VARCHAR_NOT_NULL(paises.sigla, 4) &&
-        CHECK_VARCHAR_NOT_NULL(paises.moeda, 30)
+        CHECK_VARCHAR_NOT_NULL(paises.moeda, 30) &&
+        CHECK_VARCHAR_NOT_NULL(paises.simbolo_de_moeda, 4) &&
+        CHECK_VARCHAR(paises.bandeira, 200) 
+    ){
+        return true
+    }else{
+        return false
+    }
+}
+function CHECK_tbl_dlc(dlc){    
+    if(
+        CHECK_ID(dlc.id_jogo_principal) &&
+        CHECK_ID(dlc.id_jogo_dlc)
     ){
         return true
     }else{
@@ -127,6 +140,8 @@ module.exports = {
     CHECK_tbl_sexo,
     CHECK_tbl_tipo_pagamento,
     CHECK_tbl_plataforma,
+
+    CHECK_tbl_dlc,
 
     
     CHECK_ID,

@@ -1,23 +1,29 @@
 const MENSAGE = require("../modulo/config")
 const CORRECTION = require("../utils/inputCheck")
 
-const sexoDAO = require("../model/DAO/sexo")
+const servicesJogo = require("./servicesJogo")
+const dlcDAO = require("../model/DAO/dlc")
 // const { log } = require("console")
 
-async function inserirSexo(Sexo, contentType) {
+async function inserirDlc(Dlc, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Sexo);
-            // console.log(CORRECTION.CHECK_tbl_sexo(Sexo));
+            // console.log(Dlc);
+            // console.log(CORRECTION.CHECK_tbl_dlc(Dlc));
             
             
-            if(CORRECTION.CHECK_tbl_sexo(Sexo)){
-                let resultSexo = await sexoDAO.insertSexo(Sexo)
-                if (resultSexo){
-                    return MENSAGE.SUCCESS_CEATED_ITEM
+            if(CORRECTION.CHECK_tbl_dlc(Dlc)){
+                if(servicesJogo.buscarJogo(Dlc.id_jogo_principal) && servicesJogo.buscarJogo(Dlc.id_jogo_dlc)){
+                    let resultDlc = await dlcDAO.insertDlc(Dlc)
+                    if (resultDlc){
+                        return MENSAGE.SUCCESS_CEATED_ITEM
+                    }else{
+                        return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+                    }
                 }else{
-                    return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+                    return MENSAGE.ERROR_NOT_FOUND_FOREIGN_KEY
                 }
+                
                 
             }else{
                 return MENSAGE.ERROR_REQUIRED_FIELDS
@@ -32,28 +38,28 @@ async function inserirSexo(Sexo, contentType) {
     
 }
 
-async function atualizarSexo(Sexo, idSexo, contentType) {
+async function atualizarDlc(Dlc, idDlc, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Sexo);
-            // console.log(CORRECTION.verificarAtributosSexo(Sexo));
-            // console.log(CORRECTION.CHECK_ID(idSexo));
-            // console.log((Sexo));
-            // console.log((idSexo));
+            // console.log(Dlc);
+            // console.log(CORRECTION.verificarAtributosDlc(Dlc));
+            // console.log(CORRECTION.CHECK_ID(idDlc));
+            // console.log((Dlc));
+            // console.log((idDlc));
             
             
-            if(CORRECTION.CHECK_tbl_sexo(Sexo) && CORRECTION.CHECK_ID(idSexo)){
+            if(CORRECTION.CHECK_tbl_dlc(Dlc) && CORRECTION.CHECK_ID(idDlc)){
 
-                let resultSexo = await buscarSexo(parseInt(idSexo))
+                let resultDlc = await buscarDlc(parseInt(idDlc))
                 
                 
 
-                if(resultSexo.status_code == 201){
+                if(resultDlc.status_code == 201){
 
-                    Sexo.id = parseInt(idSexo)
+                    Dlc.id = parseInt(idDlc)
                     
 
-                    let result = await sexoDAO.updateSexo(Sexo)
+                    let result = await dlcDAO.updateDlc(Dlc)
                     // console.log(result)
                     
                     if(result){
@@ -64,7 +70,7 @@ async function atualizarSexo(Sexo, idSexo, contentType) {
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                     }
 
-                }else if(resultSexo.status_code == 404){
+                }else if(resultDlc.status_code == 404){
 
                     return MENSAGE.ERROR_NOT_FOUND
                 }else{
@@ -86,15 +92,15 @@ async function atualizarSexo(Sexo, idSexo, contentType) {
     }
 }
 
-async function excluirSexo(idSexo) {
+async function excluirDlc(idDlc) {
     try { 
-        if(CORRECTION.CHECK_ID(idSexo)){
-            let verification = await sexoDAO.selectByIdSexo(parseInt(idSexo))
+        if(CORRECTION.CHECK_ID(idDlc)){
+            let verification = await dlcDAO.selectByIdDlc(parseInt(idDlc))
 
             if(verification != false || typeof(verification) == 'object'){
                 if(verification.length > 0){
-                    let resultSexo = await sexoDAO.deleteSexo(parseInt(idSexo))
-                    return resultSexo ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
+                    let resultDlc = await dlcDAO.deleteDlc(parseInt(idDlc))
+                    return resultDlc ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -111,19 +117,19 @@ async function excluirSexo(idSexo) {
     }
 }
 
-async function listarTodosSexo() {
+async function listarTodosDlc() {
     try {
-        let resultSexo = await sexoDAO.selectAllSexo()
+        let resultDlc = await dlcDAO.selectAllDlc()
 
-        if(resultSexo != false || typeof(resultSexo) == 'object'){
-            if(resultSexo.length > 0){
-                let dadosSexos = {
+        if(resultDlc != false || typeof(resultDlc) == 'object'){
+            if(resultDlc.length > 0){
+                let dadosDlcs = {
                     "status": true,
                     "status_code": 201,
-                    "items": resultSexo.length,
-                    "sexes": resultSexo
+                    "items": resultDlc.length,
+                    "sexes": resultDlc
                 }
-                return dadosSexos
+                return dadosDlcs
             }else{
                 return MENSAGE.ERROR_NOT_FOUND
             }
@@ -136,21 +142,21 @@ async function listarTodosSexo() {
     }
 }
 
-async function buscarSexo(idSexo) {
+async function buscarDlc(idDlc) {
     try {
-        // console.log(idSexo);
+        // console.log(idDlc);
         
-        if(CORRECTION.CHECK_ID(idSexo)){
-            let resultSexo = await sexoDAO.selectByIdSexo(parseInt(idSexo))
+        if(CORRECTION.CHECK_ID(idDlc)){
+            let resultDlc = await dlcDAO.selectByIdDlc(parseInt(idDlc))
 
-            if(resultSexo != false || typeof(resultSexo) == 'object'){
-                if(resultSexo.length > 0){
-                    let dadosSexos = {
+            if(resultDlc != false || typeof(resultDlc) == 'object'){
+                if(resultDlc.length > 0){
+                    let dadosDlcs = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultSexo
+                        "sex": resultDlc
                     }
-                    return dadosSexos
+                    return dadosDlcs
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -170,9 +176,9 @@ async function buscarSexo(idSexo) {
 
 
 module.exports = {
-    inserirSexo,
-    atualizarSexo,
-    excluirSexo,
-    listarTodosSexo,
-    buscarSexo
+    inserirDlc,
+    atualizarDlc,
+    excluirDlc,
+    listarTodosDlc,
+    buscarDlc
 }
