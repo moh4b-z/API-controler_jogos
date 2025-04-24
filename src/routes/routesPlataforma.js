@@ -15,11 +15,11 @@ router.put(
     controllerPlataforma.putPlataforma
 )
 router.get(
-    '/get/getSearchAllPlataforma',
+    '/get/getSearchAll',
     controllerPlataforma.getSearchAllPlataforma
 )
 router.get(
-    '/get/getSearchPlataforma/:idPlataforma',
+    '/get/getSearch/:idPlataforma',
     controllerPlataforma.getSearchPlataforma
 )
 

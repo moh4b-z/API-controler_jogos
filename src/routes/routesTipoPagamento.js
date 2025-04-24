@@ -15,11 +15,11 @@ router.put(
     controllerTipo_pagamento.putTipo_pagamento
 )
 router.get(
-    '/get/getSearchAllTipo_pagamento',
+    '/get/getSearchAll',
     controllerTipo_pagamento.getSearchAllTipo_pagamento
 )
 router.get(
-    '/get/getSearchTipo_pagamento/:idTipo_pagamento',
+    '/get/getSearch/:idTipo_pagamento',
     controllerTipo_pagamento.getSearchTipo_pagamento
 )
 

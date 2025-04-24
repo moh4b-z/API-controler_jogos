@@ -15,11 +15,11 @@ router.put(
     controllerPaises.putPaises
 )
 router.get(
-    '/get/getSearchAllPaises',
+    '/get/getSearchAll',
     controllerPaises.getSearchAllPaises
 )
 router.get(
-    '/get/getSearchPaises/:idPaises',
+    '/get/getSearch/:idPaises',
     controllerPaises.getSearchPaises
 )
 

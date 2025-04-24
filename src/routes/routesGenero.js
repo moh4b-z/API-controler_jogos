@@ -15,11 +15,11 @@ router.put(
     controllerGenero.putGenero
 )
 router.get(
-    '/get/getSearchAllGenero',
+    '/get/getSearchAll',
     controllerGenero.getSearchAllGenero
 )
 router.get(
-    '/get/getSearchGenero/:idGenero',
+    '/get/getSearch/:idGenero',
     controllerGenero.getSearchGenero
 )
 

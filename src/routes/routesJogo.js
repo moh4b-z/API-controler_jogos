@@ -15,11 +15,11 @@ router.put(
     controllerJogo.putJogo
 )
 router.get(
-    '/get/getSearchAllJogo',
+    '/get/getSearchAll',
     controllerJogo.getSearchAllJogo
 )
 router.get(
-    '/get/getSearchJogo/:idJogo',
+    '/get/getSearch/:idJogo',
     controllerJogo.getSearchJogo
 )
 

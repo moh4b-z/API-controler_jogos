@@ -15,11 +15,11 @@ router.put(
     controllerDlc.putDlc
 )
 router.get(
-    '/get/getSearchAllDlc',
+    '/get/getSearchAll',
     controllerDlc.getSearchAllDlc
 )
 router.get(
-    '/get/getSearchDlc/:idDlc',
+    '/get/getSearch/:idDlc',
     controllerDlc.getSearchDlc
 )
 

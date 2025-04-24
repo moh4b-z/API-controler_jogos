@@ -15,11 +15,11 @@ router.put(
     controllerSexo.putSexo
 )
 router.get(
-    '/get/getSearchAllSexo',
+    '/get/getSearchAll',
     controllerSexo.getSearchAllSexo
 )
 router.get(
-    '/get/getSearchSexo/:idSexo',
+    '/get/getSearch/:idSexo',
     controllerSexo.getSearchSexo
 )
 
