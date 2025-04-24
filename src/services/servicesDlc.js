@@ -56,26 +56,29 @@ async function atualizarDlc(Dlc, idDlc, contentType) {
 
                 if(resultDlc.status_code == 201){
 
-                    Dlc.id = parseInt(idDlc)
-                    
+                    if(
+                        servicesJogo.buscarJogo(Dlc.id_jogo_principal) && 
+                        servicesJogo.buscarJogo(Dlc.id_jogo_dlc)
+                    ){
+                        Dlc.id = parseInt(idDlc)
 
-                    let result = await dlcDAO.updateDlc(Dlc)
-                    // console.log(result)
-                    
-                    if(result){
-                        return MENSAGE.SUCCESS_UPDATED_ITEM
-                    }else{
-                        console.log(result);
+                        let result = await dlcDAO.updateDlc(Dlc)
+                        // console.log(result)
                         
-                        return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+                        if(result){
+                            return MENSAGE.SUCCESS_UPDATED_ITEM
+                        }else{
+                            console.log(result);
+                            
+                            return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+                        }
+                    }else{
+                        return MENSAGE.ERROR_NOT_FOUND_FOREIGN_KEY
                     }
-
                 }else if(resultDlc.status_code == 404){
 
                     return MENSAGE.ERROR_NOT_FOUND
                 }else{
-                    
-                    
                     return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
                 }
                 

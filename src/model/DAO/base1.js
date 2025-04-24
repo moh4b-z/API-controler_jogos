@@ -31,7 +31,7 @@ async function updateDlc(Dlc){
                                         id_jogo_dlc = '${Dlc.id_jogo_dlc}'                      
                                         
                                 where id = ${Dlc.id}`
-        // console.log(sql);
+        console.log(sql);
         let result = await prisma.$executeRawUnsafe(sql)
 
         return result ? true : false
