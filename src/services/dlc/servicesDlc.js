@@ -1,8 +1,8 @@
-const MENSAGE = require("../modulo/config")
-const CORRECTION = require("../utils/inputCheck")
+const MENSAGE = require("../../modulo/config")
+const CORRECTION = require("../../utils/inputCheck")
 
-const servicesJogo = require("./servicesJogo")
-const dlcDAO = require("../model/DAO/dlc")
+const servicesJogo = require("../jogo/servicesJogo")
+const dlcDAO = require("../../model/DAO/dlc")
 // const { log } = require("console")
 
 async function inserirDlc(Dlc, contentType) {

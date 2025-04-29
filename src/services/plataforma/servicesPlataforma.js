@@ -1,19 +1,15 @@
-const MENSAGE = require("../modulo/config")
-const CORRECTION = require("../utils/inputCheck")
+const MENSAGE = require("../../modulo/config")
+const CORRECTION = require("../../utils/inputCheck")
 
-const sexoDAO = require("../model/DAO/sexo")
+const plataformaDAO = require("../../model/DAO/plataforma")
 // const { log } = require("console")
 
-async function inserirSexo(Sexo, contentType) {
+async function inserirPlataforma(Plataforma, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Sexo);
-            // console.log(CORRECTION.CHECK_tbl_sexo(Sexo));
-            
-            
-            if(CORRECTION.CHECK_tbl_sexo(Sexo)){
-                let resultSexo = await sexoDAO.insertSexo(Sexo)
-                if (resultSexo){
+            if(CORRECTION.CHECK_tbl_plataforma(Plataforma)){
+                let resultPlataforma = await plataformaDAO.insertPlataforma(Plataforma)
+                if (resultPlataforma){
                     return MENSAGE.SUCCESS_CEATED_ITEM
                 }else{
                     return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
@@ -30,41 +26,41 @@ async function inserirSexo(Sexo, contentType) {
         return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
     
+    
 }
 
-async function atualizarSexo(Sexo, idSexo, contentType) {
+async function atualizarPlataforma(Plataforma, idPlataforma, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Sexo);
-            // console.log(CORRECTION.verificarAtributosSexo(Sexo));
-            // console.log(CORRECTION.CHECK_ID(idSexo));
-            // console.log((Sexo));
-            // console.log((idSexo));
+            // console.log(Plataforma);
+            // console.log(CORRECTION.verificarAtributosPlataforma(Plataforma));
+            // console.log(CORRECTION.CHECK_ID(idPlataforma));
+            console.log(CORRECTION.CHECK_tbl_plataforma(Plataforma));
+            console.log(CORRECTION.CHECK_ID(idPlataforma));
             
             
-            if(CORRECTION.CHECK_tbl_sexo(Sexo) && CORRECTION.CHECK_ID(idSexo)){
+            if(CORRECTION.CHECK_tbl_plataforma(Plataforma) && CORRECTION.CHECK_ID(idPlataforma)){
 
-                let resultSexo = await buscarSexo(parseInt(idSexo))
+                let resultPlataforma = await buscarPlataforma(parseInt(idPlataforma))
                 
                 
 
-                if(resultSexo.status_code == 201){
+                if(resultPlataforma.status_code == 201){
 
-                    Sexo.id = parseInt(idSexo)
+                    Plataforma.id = parseInt(idPlataforma)
                     
 
-                    let result = await sexoDAO.updateSexo(Sexo)
+                    let result = await plataformaDAO.updatePlataforma(Plataforma)
                     // console.log(result)
                     
                     if(result){
                         return MENSAGE.SUCCESS_UPDATED_ITEM
                     }else{
-                        console.log(result);
-                        
+                        console.log("buscar");
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                     }
 
-                }else if(resultSexo.status_code == 404){
+                }else if(resultPlataforma.status_code == 404){
 
                     return MENSAGE.ERROR_NOT_FOUND
                 }else{
@@ -86,15 +82,15 @@ async function atualizarSexo(Sexo, idSexo, contentType) {
     }
 }
 
-async function excluirSexo(idSexo) {
+async function excluirPlataforma(idPlataforma) {
     try { 
-        if(CORRECTION.CHECK_ID(idSexo)){
-            let verification = await sexoDAO.selectByIdSexo(parseInt(idSexo))
+        if(CORRECTION.CHECK_ID(idPlataforma)){
+            let verification = await plataformaDAO.selectByIdPlataforma(parseInt(idPlataforma))
 
             if(verification != false || typeof(verification) == 'object'){
                 if(verification.length > 0){
-                    let resultSexo = await sexoDAO.deleteSexo(parseInt(idSexo))
-                    return resultSexo ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
+                    let resultPlataforma = await plataformaDAO.deletePlataforma(parseInt(idPlataforma))
+                    return resultPlataforma ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -111,19 +107,19 @@ async function excluirSexo(idSexo) {
     }
 }
 
-async function listarTodosSexo() {
+async function listarTodosPlataforma() {
     try {
-        let resultSexo = await sexoDAO.selectAllSexo()
+        let resultPlataforma = await plataformaDAO.selectAllPlataforma()
 
-        if(resultSexo != false || typeof(resultSexo) == 'object'){
-            if(resultSexo.length > 0){
-                let dadosSexos = {
+        if(resultPlataforma != false || typeof(resultPlataforma) == 'object'){
+            if(resultPlataforma.length > 0){
+                let dadosPlataformas = {
                     "status": true,
                     "status_code": 201,
-                    "items": resultSexo.length,
-                    "sexes": resultSexo
+                    "items": resultPlataforma.length,
+                    "platforms": resultPlataforma
                 }
-                return dadosSexos
+                return dadosPlataformas
             }else{
                 return MENSAGE.ERROR_NOT_FOUND
             }
@@ -136,21 +132,21 @@ async function listarTodosSexo() {
     }
 }
 
-async function buscarSexo(idSexo) {
+async function buscarPlataforma(idPlataforma) {
     try {
-        // console.log(idSexo);
+        // console.log(idPlataforma);
         
-        if(CORRECTION.CHECK_ID(idSexo)){
-            let resultSexo = await sexoDAO.selectByIdSexo(parseInt(idSexo))
+        if(CORRECTION.CHECK_ID(idPlataforma)){
+            let resultPlataforma = await plataformaDAO.selectByIdPlataforma(parseInt(idPlataforma))
 
-            if(resultSexo != false || typeof(resultSexo) == 'object'){
-                if(resultSexo.length > 0){
-                    let dadosSexos = {
+            if(resultPlataforma != false || typeof(resultPlataforma) == 'object'){
+                if(resultPlataforma.length > 0){
+                    let dadosPlataformas = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultSexo
+                        "platform": resultPlataforma
                     }
-                    return dadosSexos
+                    return dadosPlataformas
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -170,9 +166,9 @@ async function buscarSexo(idSexo) {
 
 
 module.exports = {
-    inserirSexo,
-    atualizarSexo,
-    excluirSexo,
-    listarTodosSexo,
-    buscarSexo
+    inserirPlataforma,
+    atualizarPlataforma,
+    excluirPlataforma,
+    listarTodosPlataforma,
+    buscarPlataforma
 }

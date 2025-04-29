@@ -1,15 +1,15 @@
-const MENSAGE = require("../modulo/config")
-const CORRECTION = require("../utils/inputCheck")
+const MENSAGE = require("../../modulo/config")
+const CORRECTION = require("../../utils/inputCheck")
 
-const paisesDAO = require("../model/DAO/paises")
+const generoDAO = require("../../model/DAO/genero")
 // const { log } = require("console")
 
-async function inserirPaises(Paises, contentType) {
+async function inserirGenero(Genero, contentType) {
     try {
         if(contentType == "application/json"){
-            if(CORRECTION.CHECK_tbl_paises(Paises)){
-                let resultPaises = await paisesDAO.insertPaises(Paises)
-                if (resultPaises){
+            if(CORRECTION.CHECK_tbl_genero(Genero)){
+                let resultGenero = await generoDAO.insertGenero(Genero)
+                if (resultGenero){
                     return MENSAGE.SUCCESS_CEATED_ITEM
                 }else{
                     return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
@@ -29,27 +29,28 @@ async function inserirPaises(Paises, contentType) {
     
 }
 
-async function atualizarPaises(Paises, idPaises, contentType) {
+async function atualizarGenero(Genero, idGenero, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Paises);
-            // console.log(CORRECTION.verificarAtributosPaises(Paises));
-            // console.log(CORRECTION.CHECK_ID(idPaises));
-            console.log(CORRECTION.CHECK_tbl_paises(Paises));
-            console.log(CORRECTION.CHECK_ID(idPaises));
+            // console.log(Genero);
+            // console.log(CORRECTION.verificarAtributosGenero(Genero));
+            // console.log(CORRECTION.CHECK_ID(idGenero));
+            console.log(CORRECTION.CHECK_tbl_genero(Genero));
+            console.log(CORRECTION.CHECK_ID(idGenero));
             
             
-            if(CORRECTION.CHECK_tbl_paises(Paises) && CORRECTION.CHECK_ID(idPaises)){
+            if(CORRECTION.CHECK_tbl_genero(Genero) && CORRECTION.CHECK_ID(idGenero)){
 
-                let resultPaises = await buscarPaises(parseInt(idPaises))
+                let resultGenero = await buscarGenero(parseInt(idGenero))
+                
                 
 
-                if(resultPaises.status_code == 201){
+                if(resultGenero.status_code == 201){
 
-                    Paises.id = parseInt(idPaises)
+                    Genero.id = parseInt(idGenero)
                     
 
-                    let result = await paisesDAO.updatePaises(Paises)
+                    let result = await generoDAO.updateGenero(Genero)
                     // console.log(result)
                     
                     if(result){
@@ -59,7 +60,7 @@ async function atualizarPaises(Paises, idPaises, contentType) {
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                     }
 
-                }else if(resultPaises.status_code == 404){
+                }else if(resultGenero.status_code == 404){
 
                     return MENSAGE.ERROR_NOT_FOUND
                 }else{
@@ -81,15 +82,15 @@ async function atualizarPaises(Paises, idPaises, contentType) {
     }
 }
 
-async function excluirPaises(idPaises) {
+async function excluirGenero(idGenero) {
     try { 
-        if(CORRECTION.CHECK_ID(idPaises)){
-            let verification = await paisesDAO.selectByIdPaises(parseInt(idPaises))
+        if(CORRECTION.CHECK_ID(idGenero)){
+            let verification = await generoDAO.selectByIdGenero(parseInt(idGenero))
 
             if(verification != false || typeof(verification) == 'object'){
                 if(verification.length > 0){
-                    let resultPaises = await paisesDAO.deletePaises(parseInt(idPaises))
-                    return resultPaises ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
+                    let resultGenero = await generoDAO.deleteGenero(parseInt(idGenero))
+                    return resultGenero ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -106,19 +107,19 @@ async function excluirPaises(idPaises) {
     }
 }
 
-async function listarTodosPaises() {
+async function listarTodosGenero() {
     try {
-        let resultPaises = await paisesDAO.selectAllPaises()
+        let resultGenero = await generoDAO.selectAllGenero()
 
-        if(resultPaises != false || typeof(resultPaises) == 'object'){
-            if(resultPaises.length > 0){
-                let dadosPaisess = {
+        if(resultGenero != false || typeof(resultGenero) == 'object'){
+            if(resultGenero.length > 0){
+                let dadosGeneros = {
                     "status": true,
                     "status_code": 201,
-                    "items": resultPaises.length,
-                    "countries": resultPaises
+                    "items": resultGenero.length,
+                    "genres": resultGenero
                 }
-                return dadosPaisess
+                return dadosGeneros
             }else{
                 return MENSAGE.ERROR_NOT_FOUND
             }
@@ -131,21 +132,21 @@ async function listarTodosPaises() {
     }
 }
 
-async function buscarPaises(idPaises) {
+async function buscarGenero(idGenero) {
     try {
-        // console.log(idPaises);
+        // console.log(idGenero);
         
-        if(CORRECTION.CHECK_ID(idPaises)){
-            let resultPaises = await paisesDAO.selectByIdPaises(parseInt(idPaises))
+        if(CORRECTION.CHECK_ID(idGenero)){
+            let resultGenero = await generoDAO.selectByIdGenero(parseInt(idGenero))
 
-            if(resultPaises != false || typeof(resultPaises) == 'object'){
-                if(resultPaises.length > 0){
-                    let dadosPaisess = {
+            if(resultGenero != false || typeof(resultGenero) == 'object'){
+                if(resultGenero.length > 0){
+                    let dadosGeneros = {
                         "status": true,
                         "status_code": 201,
-                        "country": resultPaises
+                        "genre": resultGenero
                     }
-                    return dadosPaisess
+                    return dadosGeneros
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -165,9 +166,9 @@ async function buscarPaises(idPaises) {
 
 
 module.exports = {
-    inserirPaises,
-    atualizarPaises,
-    excluirPaises,
-    listarTodosPaises,
-    buscarPaises
+    inserirGenero,
+    atualizarGenero,
+    excluirGenero,
+    listarTodosGenero,
+    buscarGenero
 }

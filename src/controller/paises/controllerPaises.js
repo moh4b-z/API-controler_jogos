@@ -1,4 +1,4 @@
-const servicesPaises = require("../../services/servicesPaises")
+const servicesPaises = require("../../services/paises/servicesPaises")
 
 async function postPaises (request, response) {
     let contentType = request.headers['content-type']

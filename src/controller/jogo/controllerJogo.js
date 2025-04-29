@@ -4,7 +4,7 @@ Data: 24/03/2025
 Autor: Mohammmad
 Versão: 1.2
 ************************************************************************/
-const servicesJogo = require("../../services/servicesJogo")
+const servicesJogo = require("../../services/jogo/servicesJogo")
 
 async function postJogo (request, response) {
     let contentType = request.headers['content-type']

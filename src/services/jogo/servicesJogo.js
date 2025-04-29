@@ -4,10 +4,10 @@ Data: 24/03/2025
 Autor: Mohammmad
 Versão: 1.1
 ************************************************************************/
-const MENSAGE = require("../modulo/config")
-const CORRECTION = require("../utils/inputCheck")
+const MENSAGE = require("../../modulo/config")
+const CORRECTION = require("../../utils/inputCheck")
 
-const jogoDAO = require("../model/DAO/jogo")
+const jogoDAO = require("../../model/DAO/jogo")
 // const { log } = require("console")
 
 async function inserirJogo(jogo, contentType) {

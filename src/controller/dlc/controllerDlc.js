@@ -1,4 +1,4 @@
-const servicesDlc = require("../../services/servicesDlc")
+const servicesDlc = require("../../services/dlc/servicesDlc")
 
 async function postDlc (request, response) {
     let contentType = request.headers['content-type']

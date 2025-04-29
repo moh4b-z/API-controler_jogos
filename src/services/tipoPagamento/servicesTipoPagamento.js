@@ -1,7 +1,7 @@
-const MENSAGE = require("../modulo/config")
-const CORRECTION = require("../utils/inputCheck")
+const MENSAGE = require("../../modulo/config")
+const CORRECTION = require("../../utils/inputCheck")
 
-const tipo_pagamentoDAO = require("../model/DAO/tipoPagamento")
+const tipo_pagamentoDAO = require("../../model/DAO/tipoPagamento")
 // const { log } = require("console")
 
 async function inserirTipo_pagamento(Tipo_pagamento, contentType) {

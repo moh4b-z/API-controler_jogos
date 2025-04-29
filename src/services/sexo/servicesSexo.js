@@ -1,15 +1,19 @@
-const MENSAGE = require("../modulo/config")
-const CORRECTION = require("../utils/inputCheck")
+const MENSAGE = require("../../modulo/config")
+const CORRECTION = require("../../utils/inputCheck")
 
-const generoDAO = require("../model/DAO/genero")
+const sexoDAO = require("../../model/DAO/sexo")
 // const { log } = require("console")
 
-async function inserirGenero(Genero, contentType) {
+async function inserirSexo(Sexo, contentType) {
     try {
         if(contentType == "application/json"){
-            if(CORRECTION.CHECK_tbl_genero(Genero)){
-                let resultGenero = await generoDAO.insertGenero(Genero)
-                if (resultGenero){
+            // console.log(Sexo);
+            // console.log(CORRECTION.CHECK_tbl_sexo(Sexo));
+            
+            
+            if(CORRECTION.CHECK_tbl_sexo(Sexo)){
+                let resultSexo = await sexoDAO.insertSexo(Sexo)
+                if (resultSexo){
                     return MENSAGE.SUCCESS_CEATED_ITEM
                 }else{
                     return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
@@ -26,41 +30,41 @@ async function inserirGenero(Genero, contentType) {
         return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
     
-    
 }
 
-async function atualizarGenero(Genero, idGenero, contentType) {
+async function atualizarSexo(Sexo, idSexo, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Genero);
-            // console.log(CORRECTION.verificarAtributosGenero(Genero));
-            // console.log(CORRECTION.CHECK_ID(idGenero));
-            console.log(CORRECTION.CHECK_tbl_genero(Genero));
-            console.log(CORRECTION.CHECK_ID(idGenero));
+            // console.log(Sexo);
+            // console.log(CORRECTION.verificarAtributosSexo(Sexo));
+            // console.log(CORRECTION.CHECK_ID(idSexo));
+            // console.log((Sexo));
+            // console.log((idSexo));
             
             
-            if(CORRECTION.CHECK_tbl_genero(Genero) && CORRECTION.CHECK_ID(idGenero)){
+            if(CORRECTION.CHECK_tbl_sexo(Sexo) && CORRECTION.CHECK_ID(idSexo)){
 
-                let resultGenero = await buscarGenero(parseInt(idGenero))
+                let resultSexo = await buscarSexo(parseInt(idSexo))
                 
                 
 
-                if(resultGenero.status_code == 201){
+                if(resultSexo.status_code == 201){
 
-                    Genero.id = parseInt(idGenero)
+                    Sexo.id = parseInt(idSexo)
                     
 
-                    let result = await generoDAO.updateGenero(Genero)
+                    let result = await sexoDAO.updateSexo(Sexo)
                     // console.log(result)
                     
                     if(result){
                         return MENSAGE.SUCCESS_UPDATED_ITEM
                     }else{
-                        console.log("buscar");
+                        console.log(result);
+                        
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                     }
 
-                }else if(resultGenero.status_code == 404){
+                }else if(resultSexo.status_code == 404){
 
                     return MENSAGE.ERROR_NOT_FOUND
                 }else{
@@ -82,15 +86,15 @@ async function atualizarGenero(Genero, idGenero, contentType) {
     }
 }
 
-async function excluirGenero(idGenero) {
+async function excluirSexo(idSexo) {
     try { 
-        if(CORRECTION.CHECK_ID(idGenero)){
-            let verification = await generoDAO.selectByIdGenero(parseInt(idGenero))
+        if(CORRECTION.CHECK_ID(idSexo)){
+            let verification = await sexoDAO.selectByIdSexo(parseInt(idSexo))
 
             if(verification != false || typeof(verification) == 'object'){
                 if(verification.length > 0){
-                    let resultGenero = await generoDAO.deleteGenero(parseInt(idGenero))
-                    return resultGenero ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
+                    let resultSexo = await sexoDAO.deleteSexo(parseInt(idSexo))
+                    return resultSexo ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -107,19 +111,19 @@ async function excluirGenero(idGenero) {
     }
 }
 
-async function listarTodosGenero() {
+async function listarTodosSexo() {
     try {
-        let resultGenero = await generoDAO.selectAllGenero()
+        let resultSexo = await sexoDAO.selectAllSexo()
 
-        if(resultGenero != false || typeof(resultGenero) == 'object'){
-            if(resultGenero.length > 0){
-                let dadosGeneros = {
+        if(resultSexo != false || typeof(resultSexo) == 'object'){
+            if(resultSexo.length > 0){
+                let dadosSexos = {
                     "status": true,
                     "status_code": 201,
-                    "items": resultGenero.length,
-                    "genres": resultGenero
+                    "items": resultSexo.length,
+                    "sexes": resultSexo
                 }
-                return dadosGeneros
+                return dadosSexos
             }else{
                 return MENSAGE.ERROR_NOT_FOUND
             }
@@ -132,21 +136,21 @@ async function listarTodosGenero() {
     }
 }
 
-async function buscarGenero(idGenero) {
+async function buscarSexo(idSexo) {
     try {
-        // console.log(idGenero);
+        // console.log(idSexo);
         
-        if(CORRECTION.CHECK_ID(idGenero)){
-            let resultGenero = await generoDAO.selectByIdGenero(parseInt(idGenero))
+        if(CORRECTION.CHECK_ID(idSexo)){
+            let resultSexo = await sexoDAO.selectByIdSexo(parseInt(idSexo))
 
-            if(resultGenero != false || typeof(resultGenero) == 'object'){
-                if(resultGenero.length > 0){
-                    let dadosGeneros = {
+            if(resultSexo != false || typeof(resultSexo) == 'object'){
+                if(resultSexo.length > 0){
+                    let dadosSexos = {
                         "status": true,
                         "status_code": 201,
-                        "genre": resultGenero
+                        "sex": resultSexo
                     }
-                    return dadosGeneros
+                    return dadosSexos
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -166,9 +170,9 @@ async function buscarGenero(idGenero) {
 
 
 module.exports = {
-    inserirGenero,
-    atualizarGenero,
-    excluirGenero,
-    listarTodosGenero,
-    buscarGenero
+    inserirSexo,
+    atualizarSexo,
+    excluirSexo,
+    listarTodosSexo,
+    buscarSexo
 }
