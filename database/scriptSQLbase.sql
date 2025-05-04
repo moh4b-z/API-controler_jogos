@@ -108,10 +108,9 @@ CREATE TABLE tbl_usuario_jogo (
 
 
 CREATE TABLE tbl_plataforma_jogo (
-  id INT NOT NULL AUTO_INCREMENT,
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   id_plataforma INT NOT NULL,
   id_jogo INT NOT NULL,
-  PRIMARY KEY (id),
   FOREIGN KEY (id_plataforma) REFERENCES tbl_plataforma (id),
   FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id)
 );
