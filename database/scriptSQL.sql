@@ -3,8 +3,6 @@ DROP TABLE nome_da_tabela;
 
 
 
-
-
 create table tbl_jogo(
 	id int not null primary key auto_increment,
   nome varchar(80) not null UNIQUE,
@@ -80,6 +78,21 @@ CREATE TABLE tbl_jogo_plataforma (
   id_jogo INT NOT NULL,
   FOREIGN KEY (id_plataforma) REFERENCES tbl_plataforma (id),
   FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id)
+);
+
+
+-- Tabela de Preços
+CREATE TABLE tbl_preco (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  valor DECIMAL(7,2) NOT NULL,
+  id_jogo INT NOT NULL,
+  id_paises INT NOT NULL,
+  id_plataforma INT NOT NULL,
+  id_tipo_pagamento INT NOT NULL,
+  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id),
+  FOREIGN KEY (id_paises) REFERENCES tbl_paises (id),
+  FOREIGN KEY (id_plataforma) REFERENCES tbl_plataforma (id),
+  FOREIGN KEY (id_tipo_pagamento) REFERENCES tbl_tipo_pagamento (id)
 );
 
 

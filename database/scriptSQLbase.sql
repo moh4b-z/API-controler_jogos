@@ -39,19 +39,6 @@ CREATE TABLE tbl_compra_jogo (
   FOREIGN KEY (id_preco) REFERENCES tbl_preco (id)
 );
 
--- Tabela de Preços
-CREATE TABLE tbl_preco (
-  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  valor DECIMAL(10,2) NOT NULL,
-  id_jogo INT NOT NULL,
-  id_paises INT NOT NULL,
-  id_plataforma INT NOT NULL,
-  id_tipo_pagamento INT NOT NULL,
-  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id),
-  FOREIGN KEY (id_paises) REFERENCES tbl_paises (id),
-  FOREIGN KEY (id_plataforma) REFERENCES tbl_plataforma (id),
-  FOREIGN KEY (id_tipo_pagamento) REFERENCES tbl_tipo_pagamento (id)
-);
 
 
 -- Tabela de Conquistas
@@ -97,6 +84,7 @@ CREATE TABLE tbl_empresa_jogo (
   FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id)
 );
 
+-- Relacionamento entre Usuários e Jogos
 CREATE TABLE tbl_usuario_jogo (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   data_de_publicacao DATE NOT NULL,
