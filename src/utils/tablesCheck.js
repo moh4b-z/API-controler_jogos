@@ -38,7 +38,7 @@ function CHECK_tbl_tipo_pagamento(tipo_pagamento){
 function CHECK_tbl_plataforma(plataforma){
     if(
         CORRECTION.CHECK_VARCHAR_NOT_NULL(plataforma.nome, 45) &&
-        CORRECTION.CHECK_VARCHAR_NOT_NULL(plataforma.taxa, 45) &&
+        CORRECTION.CHECK_DECIMAL_NOT_NULL(plataforma.taxa, 4, 2) &&
         CORRECTION.CHECK_VARCHAR(plataforma.logo, 200)
     ){
         return true
