@@ -83,8 +83,18 @@ function CHECK_tbl_dlc(dlc){
 }
 function CHECK_tbl_jogo_genero(dlc){    
     if(
-        CORRECTION.CHECK_ID(dlc.id_jogo_principal) &&
-        CORRECTION.CHECK_ID(dlc.id_jogo_dlc)
+        CORRECTION.CHECK_ID(dlc.id_jogo) &&
+        CORRECTION.CHECK_ID(dlc.id_genero)
+    ){
+        return true
+    }else{
+        return false
+    }
+}
+function CHECK_tbl_jogo_plataforma(dlc){    
+    if(
+        CORRECTION.CHECK_ID(dlc.id_jogo) &&
+        CORRECTION.CHECK_ID(dlc.id_genero)
     ){
         return true
     }else{
@@ -102,5 +112,6 @@ module.exports = {
     CHECK_tbl_plataforma,
 
     CHECK_tbl_dlc,
-    CHECK_tbl_jogo_genero
+    CHECK_tbl_jogo_genero,
+    CHECK_tbl_jogo_plataforma
 }

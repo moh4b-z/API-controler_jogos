@@ -107,7 +107,7 @@ CREATE TABLE tbl_usuario_jogo (
 );
 
 
-CREATE TABLE tbl_plataforma_jogo (
+CREATE TABLE tbl_jogo_plataforma (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   id_plataforma INT NOT NULL,
   id_jogo INT NOT NULL,
