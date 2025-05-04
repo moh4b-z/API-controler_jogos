@@ -1,86 +1,4 @@
 
-function CHECK_tbl_jogo(jogo){
-    if(
-        CHECK_VARCHAR_NOT_NULL(jogo.nome, 80) &&
-        CHECK_VARCHAR_NOT_NULL(jogo.data_lancamento, 10) &&
-        CHECK_VARCHAR_NOT_NULL(jogo.versao, 10) &&
-        CHECK_VARCHAR(jogo.tamanho, 10) &&
-        CHECK_UNDEFINED(jogo.descricao) &&
-        CHECK_VARCHAR(jogo.foto_capa, 200) &&
-        CHECK_VARCHAR(jogo.link, 200)
-    ){
-        return false
-    }else{
-        return true
-    }
-}
-function CHECK_tbl_genero(genero){
-    if(
-        CHECK_VARCHAR_NOT_NULL(genero.nome, 45)
-    ){
-        return true
-    }else{
-        return false
-    }
-}
-function CHECK_tbl_tipo_pagamento(tipo_pagamento){
-    if(
-        CHECK_VARCHAR_NOT_NULL(tipo_pagamento.tipo, 50) &&
-        CHECK_VARCHAR(tipo_pagamento.logo, 200)
-    ){
-        return true
-    }else{
-        return false
-    }
-}
-function CHECK_tbl_plataforma(plataforma){
-    if(
-        CHECK_VARCHAR_NOT_NULL(plataforma.nome, 45) &&
-        CHECK_VARCHAR(plataforma.logo, 200)
-    ){
-        return true
-    }else{
-        return false
-    }
-}
-function CHECK_tbl_paises(paises){
-    if(
-        CHECK_VARCHAR_NOT_NULL(paises.nome, 50) &&
-        CHECK_VARCHAR_NOT_NULL(paises.sigla, 4) &&
-        CHECK_VARCHAR_NOT_NULL(paises.moeda, 30) &&
-        CHECK_VARCHAR_NOT_NULL(paises.simbolo_de_moeda, 4) &&
-        CHECK_VARCHAR(paises.bandeira, 200) 
-    ){
-        return true
-    }else{
-        return false
-    }
-}
-function CHECK_tbl_dlc(dlc){    
-    if(
-        CHECK_ID(dlc.id_jogo_principal) &&
-        CHECK_ID(dlc.id_jogo_dlc)
-    ){
-        return true
-    }else{
-        return false
-    }
-}
-function CHECK_tbl_sexo(sexo){
-    // console.log(sexo);
-    
-    if(
-        CHECK_VARCHAR_NOT_NULL(sexo.nome, 50) &&
-        CHECK_VARCHAR_NOT_NULL(sexo.sigla, 3)
-    ){
-        return true
-    }else{
-        return false
-    }
-}
-
-
-
 function CHECK_ID(id){
     if( !(CHECK_NOT_NULL(id)) || isNaN(id) || id <= 0){
         return false
@@ -98,6 +16,41 @@ function verificarNumero(number){
     }
     return numero
 }
+function CHECK_DECIMAL(value, p, s) {
+    if (value === undefined) return false
+
+    const number = parseFloat(value)
+    if (isNaN(number)) return false
+
+    const [intPart, decimalPart = ""] = number.toString().split(".")
+
+    // Total de dígitos: inteiros + decimais
+    const totalDigits = intPart.replace("-", "").length + decimalPart.length
+
+    // Valida número de casas decimais e total de dígitos
+    if (decimalPart.length > s) return false
+    if (totalDigits > p) return false
+
+    return true
+}
+function CHECK_DECIMAL_NOT_NULL(value, p, s) {
+    if (value === undefined || value === null || value === "") return false
+
+    const number = parseFloat(value)
+    if (isNaN(number)) return false
+
+    const [intPart, decimalPart = ""] = number.toString().split(".")
+
+    // Total de dígitos: inteiros + decimais
+    const totalDigits = intPart.replace("-", "").length + decimalPart.length
+
+    // Valida número de casas decimais e total de dígitos
+    if (decimalPart.length > s) return false
+    if (totalDigits > p) return false
+
+    return true
+}
+
 
 
 function CHECK_VARCHAR_NOT_NULL(text, letters){
@@ -133,20 +86,12 @@ function CHECK_UNDEFINED(text){
 }
 
 
-module.exports = {
-    CHECK_tbl_jogo,
-    CHECK_tbl_genero,
-    CHECK_tbl_paises,
-    CHECK_tbl_sexo,
-    CHECK_tbl_tipo_pagamento,
-    CHECK_tbl_plataforma,
-
-    CHECK_tbl_dlc,
-
-    
+module.exports = {    
     CHECK_ID,
     verificarNumero,
     CHECK_VARCHAR_NOT_NULL,
     CHECK_VARCHAR,
-    CHECK_UNDEFINED
+    CHECK_UNDEFINED,
+    CHECK_DECIMAL,
+    CHECK_DECIMAL_NOT_NULL
 }

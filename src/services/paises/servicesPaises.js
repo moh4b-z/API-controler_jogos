@@ -1,5 +1,6 @@
 const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
+const TableCORRECTION = require("../../utils/tablesCheck")
 
 const paisesDAO = require("../../model/DAO/paises")
 // const { log } = require("console")
@@ -7,7 +8,7 @@ const paisesDAO = require("../../model/DAO/paises")
 async function inserirPaises(Paises, contentType) {
     try {
         if(contentType == "application/json"){
-            if(CORRECTION.CHECK_tbl_paises(Paises)){
+            if(TableCORRECTION.CHECK_tbl_paises(Paises)){
                 let resultPaises = await paisesDAO.insertPaises(Paises)
                 if (resultPaises){
                     return MENSAGE.SUCCESS_CEATED_ITEM
@@ -35,11 +36,11 @@ async function atualizarPaises(Paises, idPaises, contentType) {
             // console.log(Paises);
             // console.log(CORRECTION.verificarAtributosPaises(Paises));
             // console.log(CORRECTION.CHECK_ID(idPaises));
-            console.log(CORRECTION.CHECK_tbl_paises(Paises));
+            console.log(TableCORRECTION.CHECK_tbl_paises(Paises));
             console.log(CORRECTION.CHECK_ID(idPaises));
             
             
-            if(CORRECTION.CHECK_tbl_paises(Paises) && CORRECTION.CHECK_ID(idPaises)){
+            if(TableCORRECTION.CHECK_tbl_paises(Paises) && CORRECTION.CHECK_ID(idPaises)){
 
                 let resultPaises = await buscarPaises(parseInt(idPaises))
                 

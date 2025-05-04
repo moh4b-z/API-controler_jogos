@@ -8,9 +8,11 @@ async function insertPlataforma(plataforma){
     try {        
         let sql = `insert into tbl_plataforma (
                                             nome,
+                                            taxa,
                                             logo
                                         ) values (
                                             '${plataforma.nome}',
+                                            '${plataforma.taxa}',
                                             '${plataforma.logo}'
                                         )`
 
@@ -27,7 +29,8 @@ async function insertPlataforma(plataforma){
 // atualizar
 async function updatePlataforma(plataforma){
     try {
-        let sql = `update tbl_plataforma set      nome = '${plataforma.nome}',                       
+        let sql = `update tbl_plataforma set    nome = '${plataforma.nome}',   
+                                                taxa = '${plataforma.taxa}',                     
                                                 logo = '${plataforma.logo}'
                                 where id = ${plataforma.id}`
         // console.log(sql);

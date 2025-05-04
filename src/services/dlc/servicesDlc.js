@@ -1,5 +1,6 @@
 const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
+const TableCORRECTION = require("../../utils/tablesCheck")
 
 const servicesJogo = require("../jogo/servicesJogo")
 const dlcDAO = require("../../model/DAO/dlc")
@@ -9,10 +10,10 @@ async function inserirDlc(Dlc, contentType) {
     try {
         if(contentType == "application/json"){
             // console.log(Dlc);
-            // console.log(CORRECTION.CHECK_tbl_dlc(Dlc));
+            // console.log(TableCORRECTION.CHECK_tbl_dlc(Dlc));
             
             
-            if(CORRECTION.CHECK_tbl_dlc(Dlc)){
+            if(TableCORRECTION.CHECK_tbl_dlc(Dlc)){
                 if(servicesJogo.buscarJogo(Dlc.id_jogo_principal) && servicesJogo.buscarJogo(Dlc.id_jogo_dlc)){
                     let resultDlc = await dlcDAO.insertDlc(Dlc)
                     if (resultDlc){
@@ -48,7 +49,7 @@ async function atualizarDlc(Dlc, idDlc, contentType) {
             // console.log((idDlc));
             
             
-            if(CORRECTION.CHECK_tbl_dlc(Dlc) && CORRECTION.CHECK_ID(idDlc)){
+            if(TableCORRECTION.CHECK_tbl_dlc(Dlc) && CORRECTION.CHECK_ID(idDlc)){
 
                 let resultDlc = await buscarDlc(parseInt(idDlc))
                 

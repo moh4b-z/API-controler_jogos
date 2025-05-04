@@ -1,5 +1,6 @@
 const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
+const TableCORRECTION = require("../../utils/tablesCheck")
 
 const plataformaDAO = require("../../model/DAO/plataforma")
 // const { log } = require("console")
@@ -7,7 +8,7 @@ const plataformaDAO = require("../../model/DAO/plataforma")
 async function inserirPlataforma(Plataforma, contentType) {
     try {
         if(contentType == "application/json"){
-            if(CORRECTION.CHECK_tbl_plataforma(Plataforma)){
+            if(TableCORRECTION.CHECK_tbl_plataforma(Plataforma)){
                 let resultPlataforma = await plataformaDAO.insertPlataforma(Plataforma)
                 if (resultPlataforma){
                     return MENSAGE.SUCCESS_CEATED_ITEM
@@ -32,14 +33,14 @@ async function inserirPlataforma(Plataforma, contentType) {
 async function atualizarPlataforma(Plataforma, idPlataforma, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Plataforma);
-            // console.log(CORRECTION.verificarAtributosPlataforma(Plataforma));
-            // console.log(CORRECTION.CHECK_ID(idPlataforma));
-            console.log(CORRECTION.CHECK_tbl_plataforma(Plataforma));
-            console.log(CORRECTION.CHECK_ID(idPlataforma));
+            // console.log(Plataforma)
+            // console.log(CORRECTION.verificarAtributosPlataforma(Plataforma))
+            // console.log(CORRECTION.CHECK_ID(idPlataforma))
+            console.log(TableCORRECTION.CHECK_tbl_plataforma(Plataforma))
+            console.log(CORRECTION.CHECK_ID(idPlataforma))
             
             
-            if(CORRECTION.CHECK_tbl_plataforma(Plataforma) && CORRECTION.CHECK_ID(idPlataforma)){
+            if(TableCORRECTION.CHECK_tbl_plataforma(Plataforma) && CORRECTION.CHECK_ID(idPlataforma)){
 
                 let resultPlataforma = await buscarPlataforma(parseInt(idPlataforma))
                 

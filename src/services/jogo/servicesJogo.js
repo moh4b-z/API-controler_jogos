@@ -6,6 +6,7 @@ Versão: 1.1
 ************************************************************************/
 const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
+const TableCORRECTION = require("../../utils/tablesCheck")
 
 const jogoDAO = require("../../model/DAO/jogo")
 // const { log } = require("console")
@@ -13,9 +14,9 @@ const jogoDAO = require("../../model/DAO/jogo")
 async function inserirJogo(jogo, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(CORRECTION.CHECK_tbl_jogo(jogo));
+            // console.log(TableCORRECTION.CHECK_tbl_jogo(jogo));
             
-            if(CORRECTION.CHECK_tbl_jogo(jogo)){
+            if(TableCORRECTION.CHECK_tbl_jogo(jogo)){
                 let resultJogo = await jogoDAO.insertJogo(jogo)
                 if (resultJogo){
                     return MENSAGE.SUCCESS_CEATED_ITEM
@@ -43,11 +44,11 @@ async function atualizarJogo(jogo, idJogo, contentType) {
             // console.log(jogo);
             // console.log(CORRECTION.verificarAtributosJogo(jogo));
             // console.log(CORRECTION.CHECK_ID(idJogo));
-            console.log(CORRECTION.CHECK_tbl_jogo(jogo));
-            console.log(CORRECTION.CHECK_ID(idJogo));
+            console.log(TableCORRECTION.CHECK_tbl_jogo(jogo))
+            console.log(CORRECTION.CHECK_ID(idJogo))
             
             
-            if(CORRECTION.CHECK_tbl_jogo(jogo) && CORRECTION.CHECK_ID(idJogo)){
+            if(TableCORRECTION.CHECK_tbl_jogo(jogo) && CORRECTION.CHECK_ID(idJogo)){
 
                 let resultJogo = await buscarJogo(parseInt(idJogo))
                 

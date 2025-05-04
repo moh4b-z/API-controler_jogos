@@ -1,5 +1,6 @@
 const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
+const TableCORRECTION = require("../../utils/tablesCheck")
 
 const tipo_pagamentoDAO = require("../../model/DAO/tipoPagamento")
 // const { log } = require("console")
@@ -7,7 +8,7 @@ const tipo_pagamentoDAO = require("../../model/DAO/tipoPagamento")
 async function inserirTipo_pagamento(Tipo_pagamento, contentType) {
     try {
         if(contentType == "application/json"){
-            if(CORRECTION.CHECK_tbl_tipo_pagamento(Tipo_pagamento)){
+            if(TableCORRECTION.CHECK_tbl_tipo_pagamento(Tipo_pagamento)){
                 let resultTipo_pagamento = await tipo_pagamentoDAO.insertTipo_pagamento(Tipo_pagamento)
                 if (resultTipo_pagamento){
                     return MENSAGE.SUCCESS_CEATED_ITEM
@@ -35,11 +36,11 @@ async function atualizarTipo_pagamento(Tipo_pagamento, idTipo_pagamento, content
             // console.log(Tipo_pagamento);
             // console.log(CORRECTION.verificarAtributosTipo_pagamento(Tipo_pagamento));
             // console.log(CORRECTION.CHECK_ID(idTipo_pagamento));
-            // console.log(CORRECTION.CHECK_tbl_tipo_pagamento(Tipo_pagamento));
+            // console.log(TableCORRECTION.CHECK_tbl_tipo_pagamento(Tipo_pagamento));
             // console.log(CORRECTION.CHECK_ID(idTipo_pagamento));
             
             
-            if(CORRECTION.CHECK_tbl_tipo_pagamento(Tipo_pagamento) && CORRECTION.CHECK_ID(idTipo_pagamento)){
+            if(TableCORRECTION.CHECK_tbl_tipo_pagamento(Tipo_pagamento) && CORRECTION.CHECK_ID(idTipo_pagamento)){
 
                 let resultTipo_pagamento = await buscarTipo_pagamento(parseInt(idTipo_pagamento))
                 

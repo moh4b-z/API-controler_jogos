@@ -1,5 +1,6 @@
 const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
+const TableCORRECTION = require("../../utils/tablesCheck")
 
 const sexoDAO = require("../../model/DAO/sexo")
 // const { log } = require("console")
@@ -8,10 +9,10 @@ async function inserirSexo(Sexo, contentType) {
     try {
         if(contentType == "application/json"){
             // console.log(Sexo);
-            // console.log(CORRECTION.CHECK_tbl_sexo(Sexo));
+            // console.log(TableCORRECTION.CHECK_tbl_sexo(Sexo));
             
             
-            if(CORRECTION.CHECK_tbl_sexo(Sexo)){
+            if(TableCORRECTION.CHECK_tbl_sexo(Sexo)){
                 let resultSexo = await sexoDAO.insertSexo(Sexo)
                 if (resultSexo){
                     return MENSAGE.SUCCESS_CEATED_ITEM
@@ -42,7 +43,7 @@ async function atualizarSexo(Sexo, idSexo, contentType) {
             // console.log((idSexo));
             
             
-            if(CORRECTION.CHECK_tbl_sexo(Sexo) && CORRECTION.CHECK_ID(idSexo)){
+            if(TableCORRECTION.CHECK_tbl_sexo(Sexo) && CORRECTION.CHECK_ID(idSexo)){
 
                 let resultSexo = await buscarSexo(parseInt(idSexo))
                 

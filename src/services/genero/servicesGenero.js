@@ -1,5 +1,6 @@
 const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
+const TableCORRECTION = require("../../utils/tablesCheck")
 
 const generoDAO = require("../../model/DAO/genero")
 // const { log } = require("console")
@@ -7,7 +8,7 @@ const generoDAO = require("../../model/DAO/genero")
 async function inserirGenero(Genero, contentType) {
     try {
         if(contentType == "application/json"){
-            if(CORRECTION.CHECK_tbl_genero(Genero)){
+            if(TableCORRECTION.CHECK_tbl_genero(Genero)){
                 let resultGenero = await generoDAO.insertGenero(Genero)
                 if (resultGenero){
                     return MENSAGE.SUCCESS_CEATED_ITEM
@@ -35,11 +36,11 @@ async function atualizarGenero(Genero, idGenero, contentType) {
             // console.log(Genero);
             // console.log(CORRECTION.verificarAtributosGenero(Genero));
             // console.log(CORRECTION.CHECK_ID(idGenero));
-            console.log(CORRECTION.CHECK_tbl_genero(Genero));
+            console.log(TableCORRECTION.CHECK_tbl_genero(Genero));
             console.log(CORRECTION.CHECK_ID(idGenero));
             
             
-            if(CORRECTION.CHECK_tbl_genero(Genero) && CORRECTION.CHECK_ID(idGenero)){
+            if(TableCORRECTION.CHECK_tbl_genero(Genero) && CORRECTION.CHECK_ID(idGenero)){
 
                 let resultGenero = await buscarGenero(parseInt(idGenero))
                 
