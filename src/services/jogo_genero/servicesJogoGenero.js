@@ -3,20 +3,20 @@ const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
 
 const servicesJogo = require("../jogo/servicesJogo")
-const dlcDAO = require("../../model/DAO/dlc")
+const jogo_generoDAO = require("../../model/DAO/jogoGenero")
 // const { log } = require("console")
 
-async function inserirDlc(Dlc, contentType) {
+async function inserirJogo_genero(Jogo_genero, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Dlc);
-            // console.log(TableCORRECTION.CHECK_tbl_dlc(Dlc));
+            // console.log(Jogo_genero)
+            // console.log(TableCORRECTION.CHECK_tbl_jogo_genero(Jogo_genero))
             
             
-            if(TableCORRECTION.CHECK_tbl_dlc(Dlc)){
-                if(servicesJogo.buscarJogo(Dlc.id_jogo_principal) && servicesJogo.buscarJogo(Dlc.id_jogo_dlc)){
-                    let resultDlc = await dlcDAO.insertDlc(Dlc)
-                    if (resultDlc){
+            if(TableCORRECTION.CHECK_tbl_jogo_genero(Jogo_genero)){
+                if(servicesJogo.buscarJogo(Jogo_genero.id_jogo_principal) && servicesJogo.buscarJogo(Jogo_genero.id_jogo_Jogo_genero)){
+                    let resultJogo_genero = await jogo_generoDAO.insertJogo_genero(Jogo_genero)
+                    if (resultJogo_genero){
                         return MENSAGE.SUCCESS_CEATED_ITEM
                     }else{
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
@@ -39,31 +39,31 @@ async function inserirDlc(Dlc, contentType) {
     
 }
 
-async function atualizarDlc(Dlc, idDlc, contentType) {
+async function atualizarJogo_genero(Jogo_genero, idJogo_genero, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Dlc);
-            // console.log(CORRECTION.verificarAtributosDlc(Dlc));
-            // console.log(CORRECTION.CHECK_ID(idDlc));
-            // console.log((Dlc));
-            // console.log((idDlc));
+            // console.log(Jogo_genero);
+            // console.log(CORRECTION.verificarAtributosJogo_genero(Jogo_genero));
+            // console.log(CORRECTION.CHECK_ID(idJogo_genero));
+            // console.log((Jogo_genero));
+            // console.log((idJogo_genero));
             
             
-            if(TableCORRECTION.CHECK_tbl_dlc(Dlc) && CORRECTION.CHECK_ID(idDlc)){
+            if(TableCORRECTION.CHECK_tbl_jogo_genero(Jogo_genero) && CORRECTION.CHECK_ID(idJogo_genero)){
 
-                let resultDlc = await buscarDlc(parseInt(idDlc))
+                let resultJogo_genero = await buscarJogo_genero(parseInt(idJogo_genero))
                 
                 
 
-                if(resultDlc.status_code == 201){
+                if(resultJogo_genero.status_code == 201){
 
                     if(
-                        servicesJogo.buscarJogo(Dlc.id_jogo_principal) && 
-                        servicesJogo.buscarJogo(Dlc.id_jogo_dlc)
+                        servicesJogo.buscarJogo(Jogo_genero.id_jogo_principal) && 
+                        servicesJogo.buscarJogo(Jogo_genero.id_jogo_Jogo_genero)
                     ){
-                        Dlc.id = parseInt(idDlc)
+                        Jogo_genero.id = parseInt(idJogo_genero)
 
-                        let result = await dlcDAO.updateDlc(Dlc)
+                        let result = await jogo_generoDAO.updateJogo_genero(Jogo_genero)
                         // console.log(result)
                         
                         if(result){
@@ -76,7 +76,7 @@ async function atualizarDlc(Dlc, idDlc, contentType) {
                     }else{
                         return MENSAGE.ERROR_NOT_FOUND_FOREIGN_KEY
                     }
-                }else if(resultDlc.status_code == 404){
+                }else if(resultJogo_genero.status_code == 404){
 
                     return MENSAGE.ERROR_NOT_FOUND
                 }else{
@@ -96,15 +96,15 @@ async function atualizarDlc(Dlc, idDlc, contentType) {
     }
 }
 
-async function excluirDlc(idDlc) {
+async function excluirJogo_genero(idJogo_genero) {
     try { 
-        if(CORRECTION.CHECK_ID(idDlc)){
-            let verification = await dlcDAO.selectByIdDlc(parseInt(idDlc))
+        if(CORRECTION.CHECK_ID(idJogo_genero)){
+            let verification = await jogo_generoDAO.selectByIdJogo_genero(parseInt(idJogo_genero))
 
             if(verification != false || typeof(verification) == 'object'){
                 if(verification.length > 0){
-                    let resultDlc = await dlcDAO.deleteDlc(parseInt(idDlc))
-                    return resultDlc ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
+                    let resultJogo_genero = await jogo_generoDAO.deleteJogo_genero(parseInt(idJogo_genero))
+                    return resultJogo_genero ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -121,19 +121,19 @@ async function excluirDlc(idDlc) {
     }
 }
 
-async function listarTodosDlc() {
+async function listarTodosJogo_genero() {
     try {
-        let resultDlc = await dlcDAO.selectAllDlc()
+        let resultJogo_genero = await jogo_generoDAO.selectAllJogo_genero()
 
-        if(resultDlc != false || typeof(resultDlc) == 'object'){
-            if(resultDlc.length > 0){
-                let dadosDlcs = {
+        if(resultJogo_genero != false || typeof(resultJogo_genero) == 'object'){
+            if(resultJogo_genero.length > 0){
+                let dadosJogo_generos = {
                     "status": true,
                     "status_code": 201,
-                    "items": resultDlc.length,
-                    "DLCs": resultDlc
+                    "items": resultJogo_genero.length,
+                    "Jogo_generos": resultJogo_genero
                 }
-                return dadosDlcs
+                return dadosJogo_generos
             }else{
                 return MENSAGE.ERROR_NOT_FOUND
             }
@@ -146,21 +146,21 @@ async function listarTodosDlc() {
     }
 }
 
-async function buscarDlc(idDlc) {
+async function buscarJogo_genero(idJogo_genero) {
     try {
-        // console.log(idDlc);
+        // console.log(idJogo_genero);
         
-        if(CORRECTION.CHECK_ID(idDlc)){
-            let resultDlc = await dlcDAO.selectByIdDlc(parseInt(idDlc))
+        if(CORRECTION.CHECK_ID(idJogo_genero)){
+            let resultJogo_genero = await jogo_generoDAO.selectByIdJogo_genero(parseInt(idJogo_genero))
 
-            if(resultDlc != false || typeof(resultDlc) == 'object'){
-                if(resultDlc.length > 0){
-                    let dadosDlcs = {
+            if(resultJogo_genero != false || typeof(resultJogo_genero) == 'object'){
+                if(resultJogo_genero.length > 0){
+                    let dadosJogo_generos = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultDlc
+                        "sex": resultJogo_genero
                     }
-                    return dadosDlcs
+                    return dadosJogo_generos
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -180,9 +180,9 @@ async function buscarDlc(idDlc) {
 
 
 module.exports = {
-    inserirDlc,
-    atualizarDlc,
-    excluirDlc,
-    listarTodosDlc,
-    buscarDlc
+    inserirJogo_genero,
+    atualizarJogo_genero,
+    excluirJogo_genero,
+    listarTodosJogo_genero,
+    buscarJogo_genero
 }

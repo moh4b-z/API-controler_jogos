@@ -26,14 +26,7 @@ CREATE TABLE tbl_avaliacao (
   FOREIGN KEY (id_usuario) REFERENCES tbl_usuario (id)
 );
 
--- Relacionamento entre Jogos e Gêneros
-CREATE TABLE tbl_jogo_genero (
-  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  id_jogo INT NOT NULL,
-  id_genero INT NOT NULL,
-  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id),
-  FOREIGN KEY (id_genero) REFERENCES tbl_genero (id)
-);
+
 
 -- Tabela de Compras de Jogos
 CREATE TABLE tbl_compra_jogo (

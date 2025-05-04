@@ -59,6 +59,18 @@ function CHECK_tbl_paises(paises){
         return false
     }
 }
+function CHECK_tbl_sexo(sexo){
+    // console.log(sexo);
+    if(
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(sexo.nome, 50) &&
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(sexo.sigla, 3)
+    ){
+        return true
+    }else{
+        return false
+    }
+}
+
 function CHECK_tbl_dlc(dlc){    
     if(
         CORRECTION.CHECK_ID(dlc.id_jogo_principal) &&
@@ -69,11 +81,10 @@ function CHECK_tbl_dlc(dlc){
         return false
     }
 }
-function CHECK_tbl_sexo(sexo){
-    // console.log(sexo);
+function CHECK_tbl_jogo_genero(dlc){    
     if(
-        CORRECTION.CHECK_VARCHAR_NOT_NULL(sexo.nome, 50) &&
-        CORRECTION.CHECK_VARCHAR_NOT_NULL(sexo.sigla, 3)
+        CORRECTION.CHECK_ID(dlc.id_jogo_principal) &&
+        CORRECTION.CHECK_ID(dlc.id_jogo_dlc)
     ){
         return true
     }else{
@@ -91,4 +102,5 @@ module.exports = {
     CHECK_tbl_plataforma,
 
     CHECK_tbl_dlc,
+    CHECK_tbl_jogo_genero
 }
