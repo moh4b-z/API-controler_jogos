@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
+const routesConquistas = require('./routesConquistas')
 const routesGenero = require('./routesGenero')
 const routesJogo = require('./routesJogo')
 const routesJogoGenero = require('./routesJogoGenero')
@@ -12,6 +13,7 @@ const routesSexo = require('./routesSexo')
 const routesTipoPagamento = require('./routesTipoPagamento')
 const routesDlc = require('./routesDlc')
 
+router.use('/conquistas', routesConquistas)
 router.use('/genero', routesGenero)
 router.use('/jogo', routesJogo)
 router.use('/jogo-genero', routesJogoGenero)
