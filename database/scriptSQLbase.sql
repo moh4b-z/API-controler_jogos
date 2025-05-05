@@ -10,8 +10,6 @@ CREATE TABLE tbl_compra_jogo (
   FOREIGN KEY (id_preco) REFERENCES tbl_preco (id)
 );
 
-
-
 -- Relacionamento entre Usuários e Conquistas
 CREATE TABLE tbl_usuario_conquistas (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,

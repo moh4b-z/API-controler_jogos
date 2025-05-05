@@ -6,6 +6,15 @@ function CHECK_ID(id){
         return true
     }
 }
+function CHECK_TINYINT(valor){
+    if( !(CHECK_NOT_NULL(valor)) || isNaN(valor)){
+        return false
+    }else if( valor == 0 || valor == 1){
+        return true
+    }else{
+        return false
+    }
+}
 function CHECK_pontuacao(pontuacao){
     if( !(CHECK_NOT_NULL(pontuacao)) || isNaN(pontuacao) || pontuacao < 0 || pontuacao > 10){
         return false
