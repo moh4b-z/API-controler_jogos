@@ -123,6 +123,20 @@ CREATE TABLE tbl_usuario (
 );
 
 
+-- Tabela de Empresas
+CREATE TABLE tbl_empresa (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(50) NOT NULL,
+  senha_salt VARCHAR(32) NOT NULL,
+  senha_hash VARCHAR(128) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  data_de_fundacao DATE NOT NULL,
+  biografia TEXT NULL,
+  foto VARCHAR(250) NULL,
+  id_paises INT NOT NULL,
+  FOREIGN KEY (id_paises) REFERENCES tbl_paises (id)
+);
+
 
 use db_controle_jogos_bb;
 

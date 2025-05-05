@@ -153,6 +153,31 @@ function CHECK_tbl_empresa(empresa){
 }
 
 
+function CHECK_tbl_publicacao_jogo_da_empresa(publicacao){    
+    if(
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(publicacao.data_de_publicacao, 10) &&
+        CORRECTION.CHECK_ID(publicacao.id_empresa) &&
+        CORRECTION.CHECK_ID(publicacao.id_jogo)
+    ){
+        return true
+    }else{
+        return false
+    }
+}
+
+function CHECK_tbl_publicacao_jogo_do_usuario(publicacao){    
+    if(
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(publicacao.data_de_publicacao, 10) &&
+        CORRECTION.CHECK_ID(publicacao.id_usuario) &&
+        CORRECTION.CHECK_ID(publicacao.id_jogo)
+    ){
+        return true
+    }else{
+        return false
+    }
+}
+
+
 
 module.exports = {
     CHECK_tbl_jogo,
@@ -168,5 +193,8 @@ module.exports = {
     CHECK_tbl_preco,
 
     CHECK_tbl_usuario,
-    CHECK_tbl_empresa
+    CHECK_tbl_empresa,
+
+    CHECK_tbl_publicacao_jogo_da_empresa,
+    CHECK_tbl_publicacao_jogo_do_usuario
 }

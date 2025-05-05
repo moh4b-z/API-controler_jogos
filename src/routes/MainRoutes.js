@@ -14,6 +14,8 @@ const routesTipoPagamento = require('./routesTipoPagamento')
 const routesDlc = require('./routesDlc')
 const routesUsuario = require('./routesUsuario')
 const routesEmpresa = require('./routesEmpresa')
+const routesPublicacaoJogoDaEmpresa = require('./routesPublicacaoJogoDaEmpresa')
+const routesPublicacaoJogoDoUsuario = require('./routesPublicacaoJogoDoUsuario')
 
 router.use('/conquistas', routesConquistas)
 router.use('/genero', routesGenero)
@@ -28,5 +30,7 @@ router.use('/tipo-pagamento', routesTipoPagamento)
 router.use('/dlc', routesDlc)
 router.use('/usuario', routesUsuario)
 router.use('/empresa', routesEmpresa)
+router.use('/publicacao-jogo-da-empresa', routesPublicacaoJogoDaEmpresa)
+router.use('/publicacao-jogo-do-usuario', routesPublicacaoJogoDoUsuario)
 
 module.exports = router

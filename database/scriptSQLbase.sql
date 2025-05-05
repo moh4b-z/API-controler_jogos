@@ -36,22 +36,10 @@ CREATE TABLE tbl_usuario_conquistas (
   FOREIGN KEY (id_conquistas) REFERENCES tbl_conquistas (id)
 );
 
--- Tabela de Empresas
-CREATE TABLE tbl_empresa (
-  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  nome VARCHAR(50) NOT NULL,
-  senha_salt VARCHAR(32) NOT NULL,
-  senha_hash VARCHAR(128) NOT NULL,
-  email VARCHAR(100) NOT NULL,
-  data_de_fundacao DATE NOT NULL,
-  biografia TEXT NULL,
-  foto VARCHAR(250) NULL,
-  id_paises INT NOT NULL,
-  FOREIGN KEY (id_paises) REFERENCES tbl_paises (id)
-);
+
 
 -- Relacionamento entre Empresas e Jogos
-CREATE TABLE tbl_empresa_jogo (
+CREATE TABLE tbl_publicacao_jogo_da_empresa (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   data_de_publicacao DATE NOT NULL,
   id_empresa INT NOT NULL,
@@ -61,7 +49,7 @@ CREATE TABLE tbl_empresa_jogo (
 );
 
 -- Relacionamento entre Usuários e Jogos
-CREATE TABLE tbl_usuario_jogo (
+CREATE TABLE tbl_publicacao_jogo_do_usuario (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   data_de_publicacao DATE NOT NULL,
   id_usuario INT NOT NULL,
