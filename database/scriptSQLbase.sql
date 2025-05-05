@@ -39,7 +39,7 @@ CREATE TABLE tbl_usuario_conquistas (
 -- Tabela de Empresas
 CREATE TABLE tbl_empresa (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  nome VARCHAR(45) NOT NULL,
+  nome VARCHAR(50) NOT NULL,
   senha_salt VARCHAR(32) NOT NULL,
   senha_hash VARCHAR(128) NOT NULL,
   email VARCHAR(100) NOT NULL,

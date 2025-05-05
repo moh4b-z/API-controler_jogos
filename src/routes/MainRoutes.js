@@ -13,6 +13,7 @@ const routesSexo = require('./routesSexo')
 const routesTipoPagamento = require('./routesTipoPagamento')
 const routesDlc = require('./routesDlc')
 const routesUsuario = require('./routesUsuario')
+const routesEmpresa = require('./routesEmpresa')
 
 router.use('/conquistas', routesConquistas)
 router.use('/genero', routesGenero)
@@ -26,5 +27,6 @@ router.use('/sexo', routesSexo)
 router.use('/tipo-pagamento', routesTipoPagamento)
 router.use('/dlc', routesDlc)
 router.use('/usuario', routesUsuario)
+router.use('/empresa', routesEmpresa)
 
 module.exports = router

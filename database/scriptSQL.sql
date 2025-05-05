@@ -114,7 +114,7 @@ CREATE TABLE tbl_usuario (
   email VARCHAR(100) NOT NULL,
   biografia TEXT,
   data_de_nascimento DATE NOT NULL,
-  nome VARCHAR(80) NOT NULL,
+  nome VARCHAR(50) NOT NULL,
   foto_perfil VARCHAR(250) NOT NULL,
   id_paises INT NOT NULL,
   id_sexo INT NOT NULL,
