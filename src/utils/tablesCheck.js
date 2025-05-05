@@ -81,39 +81,59 @@ function CHECK_tbl_dlc(dlc){
         return false
     }
 }
-function CHECK_tbl_jogo_genero(dlc){    
+function CHECK_tbl_jogo_genero(jogo_genero){    
     if(
-        CORRECTION.CHECK_ID(dlc.id_jogo) &&
-        CORRECTION.CHECK_ID(dlc.id_genero)
+        CORRECTION.CHECK_ID(jogo_genero.id_jogo) &&
+        CORRECTION.CHECK_ID(jogo_genero.id_genero)
     ){
         return true
     }else{
         return false
     }
 }
-function CHECK_tbl_preco(dlc){    
+function CHECK_tbl_preco(preco){    
     if(
-        CORRECTION.CHECK_DECIMAL_NOT_NULL(dlc.valor, 7, 2) &&
-        CORRECTION.CHECK_ID(dlc.id_jogo) &&
-        CORRECTION.CHECK_ID(dlc.id_plataforma) &&
-        CORRECTION.CHECK_ID(dlc.id_paises) &&
-        CORRECTION.CHECK_ID(dlc.id_tipo_pagamento)
+        CORRECTION.CHECK_DECIMAL_NOT_NULL(preco.valor, 7, 2) &&
+        CORRECTION.CHECK_ID(preco.id_jogo) &&
+        CORRECTION.CHECK_ID(preco.id_plataforma) &&
+        CORRECTION.CHECK_ID(preco.id_paises) &&
+        CORRECTION.CHECK_ID(preco.id_tipo_pagamento)
     ){
         return true
     }else{
         return false
     }
 }
-function CHECK_tbl_jogo_plataforma(dlc){    
+function CHECK_tbl_jogo_plataforma(jogo_plataforma){    
     if(
-        CORRECTION.CHECK_ID(dlc.id_jogo) &&
-        CORRECTION.CHECK_ID(dlc.id_plataforma)
+        CORRECTION.CHECK_ID(jogo_plataforma.id_jogo) &&
+        CORRECTION.CHECK_ID(jogo_plataforma.id_plataforma)
     ){
         return true
     }else{
         return false
     }
 }
+
+
+function CHECK_tbl_usuario(usuario){    
+    if(
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(usuario.senha_salt, 32) &&
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(usuario.senha_hash, 128) &&
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(usuario.email, 100) &&
+        CORRECTION.CHECK_UNDEFINED(usuario.biografia) &&
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(usuario.data_lancamento, 10) &&
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(usuario.nome, 80) &&
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(usuario.foto_perfil, 250) &&
+        CORRECTION.CHECK_ID(usuario.id_paises) &&
+        CORRECTION.CHECK_ID(usuario.id_sexo)
+    ){
+        return true
+    }else{
+        return false
+    }
+}
+
 
 
 module.exports = {
@@ -127,5 +147,7 @@ module.exports = {
     CHECK_tbl_dlc,
     CHECK_tbl_jogo_genero,
     CHECK_tbl_jogo_plataforma,
-    CHECK_tbl_preco
+    CHECK_tbl_preco,
+
+    CHECK_tbl_usuario
 }

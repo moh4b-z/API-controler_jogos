@@ -63,6 +63,16 @@ CREATE TABLE tbl_dlc (
   FOREIGN KEY (id_jogo_dlc) REFERENCES tbl_jogo (id)
 );
 
+
+-- Tabela de Conquistas
+CREATE TABLE tbl_conquistas (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(45) NOT NULL,
+  descricao TEXT NOT NULL,
+  id_jogo INT NOT NULL,
+  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id)
+);
+
 -- Relacionamento entre Jogos e Gêneros
 CREATE TABLE tbl_jogo_genero (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -93,6 +103,23 @@ CREATE TABLE tbl_preco (
   FOREIGN KEY (id_paises) REFERENCES tbl_paises (id),
   FOREIGN KEY (id_plataforma) REFERENCES tbl_plataforma (id),
   FOREIGN KEY (id_tipo_pagamento) REFERENCES tbl_tipo_pagamento (id)
+);
+
+
+-- Tabela de Usuários
+CREATE TABLE tbl_usuario (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  senha_salt VARCHAR(32) NOT NULL,
+  senha_hash VARCHAR(128) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  biografia TEXT,
+  data_de_nascimento DATE NOT NULL,
+  nome VARCHAR(80) NOT NULL,
+  foto_perfil VARCHAR(250) NOT NULL,
+  id_paises INT NOT NULL,
+  id_sexo INT NOT NULL,
+  FOREIGN KEY (id_paises) REFERENCES tbl_paises (id),
+  FOREIGN KEY (id_sexo) REFERENCES tbl_sexo (id)
 );
 
 
