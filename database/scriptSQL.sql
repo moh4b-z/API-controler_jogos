@@ -138,6 +138,28 @@ CREATE TABLE tbl_empresa (
 );
 
 
+-- Relacionamento entre Empresas e Jogos
+CREATE TABLE tbl_publicacao_jogo_da_empresa (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  data_de_publicacao DATE NOT NULL,
+  id_empresa INT NOT NULL,
+  id_jogo INT NOT NULL,
+  FOREIGN KEY (id_empresa) REFERENCES tbl_empresa (id),
+  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id)
+);
+
+-- Relacionamento entre Usuários e Jogos
+CREATE TABLE tbl_publicacao_jogo_do_usuario (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  data_de_publicacao DATE NOT NULL,
+  id_usuario INT NOT NULL,
+  id_jogo INT NOT NULL,
+  FOREIGN KEY (id_usuario) REFERENCES tbl_usuario (id),
+  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id)
+);
+
+
+
 use db_controle_jogos_bb;
 
 show tables;
