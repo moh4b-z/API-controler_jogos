@@ -159,6 +159,17 @@ CREATE TABLE tbl_publicacao_jogo_do_usuario (
 );
 
 
+-- Tabela de Avaliações
+CREATE TABLE tbl_avaliacao (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  comentario TEXT,
+  pontuacao INT NOT NULL,
+  id_jogo INT NOT NULL,
+  id_usuario INT NOT NULL,
+  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id),
+  FOREIGN KEY (id_usuario) REFERENCES tbl_usuario (id)
+);
+
 
 use db_controle_jogos_bb;
 

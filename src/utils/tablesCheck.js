@@ -176,6 +176,18 @@ function CHECK_tbl_publicacao_jogo_do_usuario(publicacao){
         return false
     }
 }
+function CHECK_tbl_avaliacao(avaliacao){    
+    if(
+        CORRECTION.CHECK_UNDEFINED(avaliacao.comentario) &&
+        CORRECTION.CHECK_pontuacao(avaliacao.pontuacao) &&
+        CORRECTION.CHECK_ID(avaliacao.id_usuario) &&
+        CORRECTION.CHECK_ID(avaliacao.id_jogo)
+    ){
+        return true
+    }else{
+        return false
+    }
+}
 
 
 
@@ -196,5 +208,7 @@ module.exports = {
     CHECK_tbl_empresa,
 
     CHECK_tbl_publicacao_jogo_da_empresa,
-    CHECK_tbl_publicacao_jogo_do_usuario
+    CHECK_tbl_publicacao_jogo_do_usuario,
+
+    CHECK_tbl_avaliacao
 }

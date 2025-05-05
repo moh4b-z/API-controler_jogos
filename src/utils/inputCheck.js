@@ -6,6 +6,13 @@ function CHECK_ID(id){
         return true
     }
 }
+function CHECK_pontuacao(pontuacao){
+    if( !(CHECK_NOT_NULL(pontuacao)) || isNaN(pontuacao) || pontuacao < 0 || pontuacao > 10){
+        return false
+    }else{
+        return true
+    }
+}
 
 // console.log(!(CHECK_ID("1")));
 

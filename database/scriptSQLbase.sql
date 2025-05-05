@@ -1,18 +1,4 @@
 
-
--- Tabela de Avaliações
-CREATE TABLE tbl_avaliacao (
-  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  comentario TEXT NOT NULL,
-  pontuacao INT NOT NULL,
-  id_jogo INT NOT NULL,
-  id_usuario INT NOT NULL,
-  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id),
-  FOREIGN KEY (id_usuario) REFERENCES tbl_usuario (id)
-);
-
-
-
 -- Tabela de Compras de Jogos
 CREATE TABLE tbl_compra_jogo (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
