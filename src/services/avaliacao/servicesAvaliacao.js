@@ -4,17 +4,17 @@ const TableCORRECTION = require("../../utils/tablesCheck")
 
 const servicesJogo = require("../jogo/servicesJogo")
 const servicesUsuario = require("../usuario/servicesUsuario")
-const AvaliacaoDAO = require("../../model/DAO/jogoGenero")
+const AvaliacaoDAO = require("../../model/DAO/avaliacao")
 // const { log } = require("console")
 
 async function inserirAvaliacao(Avaliacao, contentType) {
     try {
         if(contentType == "application/json"){
             // console.log(Avaliacao)
-            // console.log(TableCORRECTION.CHECK_tbl_Avaliacao(Avaliacao))
+            // console.log(TableCORRECTION.CHECK_tbl_avaliacao(Avaliacao))
             
             
-            if(TableCORRECTION.CHECK_tbl_Avaliacao(Avaliacao)){
+            if(TableCORRECTION.CHECK_tbl_avaliacao(Avaliacao)){
                 if(
                     servicesJogo.buscarJogo(Avaliacao.id_jogo) && 
                     servicesUsuario.buscarUsuario(Avaliacao.id_usuario)
@@ -54,7 +54,7 @@ async function atualizarAvaliacao(Avaliacao, idAvaliacao, contentType) {
             
             
             if(
-                TableCORRECTION.CHECK_tbl_Avaliacao(Avaliacao) && 
+                TableCORRECTION.CHECK_tbl_avaliacao(Avaliacao) && 
                 CORRECTION.CHECK_ID(idAvaliacao)
             ){
                 let resultAvaliacao = await buscarAvaliacao(parseInt(idAvaliacao))

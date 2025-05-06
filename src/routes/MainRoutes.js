@@ -17,6 +17,7 @@ const routesEmpresa = require('./routesEmpresa')
 const routesPublicacaoJogoDaEmpresa = require('./routesPublicacaoJogoDaEmpresa')
 const routesPublicacaoJogoDoUsuario = require('./routesPublicacaoJogoDoUsuario')
 const routesAvaliacao = require('./routesAvaliacao')
+const routesUsuarioConquistas = require('./routesUsuarioConquistas')
 
 router.use('/conquistas', routesConquistas)
 router.use('/genero', routesGenero)
@@ -34,5 +35,6 @@ router.use('/empresa', routesEmpresa)
 router.use('/publicacao-jogo-da-empresa', routesPublicacaoJogoDaEmpresa)
 router.use('/publicacao-jogo-do-usuario', routesPublicacaoJogoDoUsuario)
 router.use('/avaliacao', routesAvaliacao)
+router.use('/usuario-conquistas', routesUsuarioConquistas)
 
 module.exports = router

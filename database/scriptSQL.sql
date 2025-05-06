@@ -171,6 +171,18 @@ CREATE TABLE tbl_avaliacao (
 );
 
 
+-- Relacionamento entre Usuários e Conquistas
+CREATE TABLE tbl_usuario_conquistas (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  realizada TINYINT NOT NULL,
+  id_usuario INT NOT NULL,
+  id_conquistas INT NOT NULL,
+  FOREIGN KEY (id_usuario) REFERENCES tbl_usuario (id),
+  FOREIGN KEY (id_conquistas) REFERENCES tbl_conquistas (id)
+);
+
+
+
 use db_controle_jogos_bb;
 
 show tables;

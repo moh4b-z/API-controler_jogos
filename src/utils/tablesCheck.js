@@ -188,6 +188,29 @@ function CHECK_tbl_avaliacao(avaliacao){
         return false
     }
 }
+function CHECK_tbl_compra_jogo(compra){    
+    if(
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(compra.data_compra, 10) &&
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(compra.comprovante, 250) &&
+        CORRECTION.CHECK_ID(compra.id_usuario) &&
+        CORRECTION.CHECK_ID(compra.id_preco)
+    ){
+        return true
+    }else{
+        return false
+    }
+}
+function CHECK_tbl_usuario_conquistas(conquistas){    
+    if(
+        CORRECTION.CHECK_TINYINT(conquistas.realizada) &&
+        CORRECTION.CHECK_ID(conquistas.id_usuario) &&
+        CORRECTION.CHECK_ID(conquistas.id_conquistas)
+    ){
+        return true
+    }else{
+        return false
+    }
+}
 
 
 
@@ -210,5 +233,7 @@ module.exports = {
     CHECK_tbl_publicacao_jogo_da_empresa,
     CHECK_tbl_publicacao_jogo_do_usuario,
 
-    CHECK_tbl_avaliacao
+    CHECK_tbl_avaliacao,
+    CHECK_tbl_usuario_conquistas,
+    CHECK_tbl_compra_jogo
 }

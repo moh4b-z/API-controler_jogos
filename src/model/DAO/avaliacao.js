@@ -32,8 +32,8 @@ async function insertAvaliacao(Avaliacao){
 async function updateAvaliacao(Avaliacao){
     try {
         let sql = `update tbl_avaliacao set  comentario = '${Avaliacao.comentario}',
-                                        pontuacao = '${Avaliacao.pontuacao}'                      
-                                        id_jogo = '${Avaliacao.id_jogo}'                      
+                                        pontuacao = '${Avaliacao.pontuacao}',                      
+                                        id_jogo = '${Avaliacao.id_jogo}',                      
                                         id_usuario = '${Avaliacao.id_usuario}'                      
                                         
                                 where id = ${Avaliacao.id}`
