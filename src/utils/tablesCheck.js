@@ -8,8 +8,8 @@ function CHECK_tbl_jogo(jogo){
         CORRECTION.CHECK_VARCHAR_NOT_NULL(jogo.versao, 10) &&
         CORRECTION.CHECK_VARCHAR(jogo.tamanho, 10) &&
         CORRECTION.CHECK_UNDEFINED(jogo.descricao) &&
-        CORRECTION.CHECK_VARCHAR(jogo.foto_capa, 200) &&
-        CORRECTION.CHECK_VARCHAR(jogo.link, 200)
+        CORRECTION.CHECK_VARCHAR(jogo.foto_capa, 250) &&
+        CORRECTION.CHECK_VARCHAR(jogo.link, 250)
     ){
         return false
     }else{
@@ -28,7 +28,7 @@ function CHECK_tbl_genero(genero){
 function CHECK_tbl_tipo_pagamento(tipo_pagamento){
     if(
         CORRECTION.CHECK_VARCHAR_NOT_NULL(tipo_pagamento.tipo, 50) &&
-        CORRECTION.CHECK_VARCHAR(tipo_pagamento.logo, 200)
+        CORRECTION.CHECK_VARCHAR(tipo_pagamento.logo, 250)
     ){
         return true
     }else{
@@ -39,7 +39,7 @@ function CHECK_tbl_plataforma(plataforma){
     if(
         CORRECTION.CHECK_VARCHAR_NOT_NULL(plataforma.nome, 45) &&
         CORRECTION.CHECK_DECIMAL_NOT_NULL(plataforma.taxa, 4, 2) &&
-        CORRECTION.CHECK_VARCHAR(plataforma.logo, 200)
+        CORRECTION.CHECK_VARCHAR(plataforma.logo, 250)
     ){
         return true
     }else{
@@ -52,7 +52,7 @@ function CHECK_tbl_paises(paises){
         CORRECTION.CHECK_VARCHAR_NOT_NULL(paises.sigla, 4) &&
         CORRECTION.CHECK_VARCHAR_NOT_NULL(paises.moeda, 30) &&
         CORRECTION.CHECK_VARCHAR_NOT_NULL(paises.simbolo_de_moeda, 4) &&
-        CORRECTION.CHECK_VARCHAR(paises.bandeira, 200) 
+        CORRECTION.CHECK_VARCHAR(paises.bandeira, 250) 
     ){
         return true
     }else{

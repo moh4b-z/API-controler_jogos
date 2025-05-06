@@ -3,59 +3,59 @@ DROP TABLE nome_da_tabela;
 
 
 
-create table tbl_jogo(
+CREATE TABLE IF NOT EXISTS IF NOT EXISTS tbl_jogo(
 	id int not null primary key auto_increment,
   nome varchar(80) not null UNIQUE,
   data_lancamento date not null,
   versao varchar(10) not null,
   tamanho varchar(10),
   descricao text,
-  foto_capa varchar(200),
-  link varchar(200)
+  foto_capa varchar(250),
+  link varchar(250)
 );
 
 -- Tabela de Gêneros
-CREATE TABLE tbl_genero (
+CREATE TABLE IF NOT EXISTS tbl_genero (
   id INT NOT NULL PRIMARY KEY  AUTO_INCREMENT,
   nome VARCHAR(45) NOT NULL UNIQUE
 );
 
 -- Tabela de Países
-CREATE TABLE tbl_paises (
+CREATE TABLE IF NOT EXISTS tbl_paises (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(50) NOT NULL UNIQUE,
   sigla VARCHAR(4) NOT NULL UNIQUE,
   moeda VARCHAR(30) NOT NULL,
   simbolo_de_moeda VARCHAR(4) NOT NULL,
-  bandeira VARCHAR(200)
+  bandeira VARCHAR(250)
 );
 
-CREATE TABLE tbl_plataforma (
+CREATE TABLE IF NOT EXISTS tbl_plataforma (
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   nome VARCHAR(45) NOT NULL UNIQUE,
   taxa DECIMAL(4,2) NOT NULL,
-  logo VARCHAR(200) NOT NULL
+  logo VARCHAR(250) NOT NULL
 );
 
 
 -- Tabela de Sexo
-CREATE TABLE tbl_sexo (
+CREATE TABLE IF NOT EXISTS tbl_sexo (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(40) NOT NULL UNIQUE,
   sigla VARCHAR(3) NOT NULL UNIQUE
 );
 
 -- Tabela de Tipos de Pagamento
-CREATE TABLE tbl_tipo_pagamento (
+CREATE TABLE IF NOT EXISTS tbl_tipo_pagamento (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   tipo VARCHAR(50) NOT NULL UNIQUE,
-  logo VARCHAR(200)
+  logo VARCHAR(250)
 );
 
 
 
 -- Tabela de DLCs
-CREATE TABLE tbl_dlc (
+CREATE TABLE IF NOT EXISTS tbl_dlc (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   id_jogo_principal INT NOT NULL,
   id_jogo_dlc INT NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE tbl_dlc (
 
 
 -- Tabela de Conquistas
-CREATE TABLE tbl_conquistas (
+CREATE TABLE IF NOT EXISTS tbl_conquistas (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(45) NOT NULL,
   descricao TEXT NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE tbl_conquistas (
 );
 
 -- Relacionamento entre Jogos e Gêneros
-CREATE TABLE tbl_jogo_genero (
+CREATE TABLE IF NOT EXISTS tbl_jogo_genero (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   id_jogo INT NOT NULL,
   id_genero INT NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE tbl_jogo_genero (
   FOREIGN KEY (id_genero) REFERENCES tbl_genero (id)
 );
 
-CREATE TABLE tbl_jogo_plataforma (
+CREATE TABLE IF NOT EXISTS tbl_jogo_plataforma (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   id_plataforma INT NOT NULL,
   id_jogo INT NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE tbl_jogo_plataforma (
 
 
 -- Tabela de Preços
-CREATE TABLE tbl_preco (
+CREATE TABLE IF NOT EXISTS tbl_preco (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   valor DECIMAL(7,2) NOT NULL,
   id_jogo INT NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE tbl_preco (
 
 
 -- Tabela de Usuários
-CREATE TABLE tbl_usuario (
+CREATE TABLE IF NOT EXISTS tbl_usuario (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   senha_salt VARCHAR(32) NOT NULL,
   senha_hash VARCHAR(128) NOT NULL,
@@ -124,7 +124,7 @@ CREATE TABLE tbl_usuario (
 
 
 -- Tabela de Empresas
-CREATE TABLE tbl_empresa (
+CREATE TABLE IF NOT EXISTS tbl_empresa (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(50) NOT NULL,
   senha_salt VARCHAR(32) NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE tbl_empresa (
 
 
 -- Relacionamento entre Empresas e Jogos
-CREATE TABLE tbl_publicacao_jogo_da_empresa (
+CREATE TABLE IF NOT EXISTS tbl_publicacao_jogo_da_empresa (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   data_de_publicacao DATE NOT NULL,
   id_empresa INT NOT NULL,
@@ -149,7 +149,7 @@ CREATE TABLE tbl_publicacao_jogo_da_empresa (
 );
 
 -- Relacionamento entre Usuários e Jogos
-CREATE TABLE tbl_publicacao_jogo_do_usuario (
+CREATE TABLE IF NOT EXISTS tbl_publicacao_jogo_do_usuario (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   data_de_publicacao DATE NOT NULL,
   id_usuario INT NOT NULL,
@@ -160,7 +160,7 @@ CREATE TABLE tbl_publicacao_jogo_do_usuario (
 
 
 -- Tabela de Avaliações
-CREATE TABLE tbl_avaliacao (
+CREATE TABLE IF NOT EXISTS tbl_avaliacao (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   comentario TEXT,
   pontuacao INT NOT NULL,
@@ -172,7 +172,7 @@ CREATE TABLE tbl_avaliacao (
 
 
 -- Relacionamento entre Usuários e Conquistas
-CREATE TABLE tbl_usuario_conquistas (
+CREATE TABLE IF NOT EXISTS tbl_usuario_conquistas (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   realizada TINYINT NOT NULL,
   id_usuario INT NOT NULL,
@@ -183,7 +183,7 @@ CREATE TABLE tbl_usuario_conquistas (
 
 
 -- Tabela de Compras de Jogos
-CREATE TABLE tbl_compra_jogo (
+CREATE TABLE IF NOT EXISTS tbl_compra_jogo (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   data_compra DATE NOT NULL,
   comprovante VARCHAR(250) NOT NULL,
