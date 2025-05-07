@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS tbl_dlc (
   id_jogo_principal INT NOT NULL,
   id_jogo_dlc INT NOT NULL,
   FOREIGN KEY (id_jogo_principal) REFERENCES tbl_jogo (id),
-  FOREIGN KEY (id_jogo_dlc) REFERENCES tbl_jogo (id)
+  FOREIGN KEY (id_jogo_dlc) REFERENCES tbl_jogo (id) ON DELETE CASCADE
 );
 
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS tbl_conquistas (
   nome VARCHAR(45) NOT NULL,
   descricao TEXT NOT NULL,
   id_jogo INT NOT NULL,
-  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id)
+  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id) ON DELETE CASCADE
 );
 
 -- Relacionamento entre Jogos e Gêneros
@@ -78,16 +78,16 @@ CREATE TABLE IF NOT EXISTS tbl_jogo_genero (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   id_jogo INT NOT NULL,
   id_genero INT NOT NULL,
-  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id),
-  FOREIGN KEY (id_genero) REFERENCES tbl_genero (id)
+  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id) ON DELETE CASCADE,
+  FOREIGN KEY (id_genero) REFERENCES tbl_genero (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS tbl_jogo_plataforma (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   id_plataforma INT NOT NULL,
   id_jogo INT NOT NULL,
-  FOREIGN KEY (id_plataforma) REFERENCES tbl_plataforma (id),
-  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id)
+  FOREIGN KEY (id_plataforma) REFERENCES tbl_plataforma (id) ON DELETE CASCADE,
+  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id) ON DELETE CASCADE
 );
 
 
@@ -99,10 +99,10 @@ CREATE TABLE IF NOT EXISTS tbl_preco (
   id_paises INT NOT NULL,
   id_plataforma INT NOT NULL,
   id_tipo_pagamento INT NOT NULL,
-  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id),
-  FOREIGN KEY (id_paises) REFERENCES tbl_paises (id),
-  FOREIGN KEY (id_plataforma) REFERENCES tbl_plataforma (id),
-  FOREIGN KEY (id_tipo_pagamento) REFERENCES tbl_tipo_pagamento (id)
+  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id) ON DELETE CASCADE,
+  FOREIGN KEY (id_paises) REFERENCES tbl_paises (id) ON DELETE CASCADE,
+  FOREIGN KEY (id_plataforma) REFERENCES tbl_plataforma (id) ON DELETE CASCADE,
+  FOREIGN KEY (id_tipo_pagamento) REFERENCES tbl_tipo_pagamento (id) ON DELETE CASCADE
 );
 
 
@@ -111,13 +111,13 @@ CREATE TABLE IF NOT EXISTS tbl_usuario (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   senha_salt VARCHAR(32) NOT NULL,
   senha_hash VARCHAR(128) NOT NULL,
-  email VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
   biografia TEXT,
   data_de_nascimento DATE NOT NULL,
-  nome VARCHAR(50) NOT NULL,
+  nome VARCHAR(50) NOT NULL UNIQUE,
   foto_perfil VARCHAR(250) NOT NULL,
-  id_paises INT NOT NULL,
-  id_sexo INT NOT NULL,
+  id_paises INT,
+  id_sexo INT,
   FOREIGN KEY (id_paises) REFERENCES tbl_paises (id),
   FOREIGN KEY (id_sexo) REFERENCES tbl_sexo (id)
 );
@@ -126,10 +126,10 @@ CREATE TABLE IF NOT EXISTS tbl_usuario (
 -- Tabela de Empresas
 CREATE TABLE IF NOT EXISTS tbl_empresa (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  nome VARCHAR(50) NOT NULL,
+  nome VARCHAR(50) NOT NULL UNIQUE,
   senha_salt VARCHAR(32) NOT NULL,
   senha_hash VARCHAR(128) NOT NULL,
-  email VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
   data_de_fundacao DATE NOT NULL,
   biografia TEXT NULL,
   foto VARCHAR(250) NULL,
@@ -144,8 +144,8 @@ CREATE TABLE IF NOT EXISTS tbl_publicacao_jogo_da_empresa (
   data_de_publicacao DATE NOT NULL,
   id_empresa INT NOT NULL,
   id_jogo INT NOT NULL,
-  FOREIGN KEY (id_empresa) REFERENCES tbl_empresa (id),
-  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id)
+  FOREIGN KEY (id_empresa) REFERENCES tbl_empresa (id) ON DELETE CASCADE,
+  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id) ON DELETE CASCADE
 );
 
 -- Relacionamento entre Usuários e Jogos
@@ -154,8 +154,8 @@ CREATE TABLE IF NOT EXISTS tbl_publicacao_jogo_do_usuario (
   data_de_publicacao DATE NOT NULL,
   id_usuario INT NOT NULL,
   id_jogo INT NOT NULL,
-  FOREIGN KEY (id_usuario) REFERENCES tbl_usuario (id),
-  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id)
+  FOREIGN KEY (id_usuario) REFERENCES tbl_usuario (id) ON DELETE CASCADE,
+  FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id) ON DELETE CASCADE
 );
 
 
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS tbl_avaliacao (
   id_jogo INT NOT NULL,
   id_usuario INT NOT NULL,
   FOREIGN KEY (id_jogo) REFERENCES tbl_jogo (id),
-  FOREIGN KEY (id_usuario) REFERENCES tbl_usuario (id)
+  FOREIGN KEY (id_usuario) REFERENCES tbl_usuario (id) ON DELETE CASCADE
 );
 
 
@@ -177,8 +177,8 @@ CREATE TABLE IF NOT EXISTS tbl_usuario_conquistas (
   realizada TINYINT NOT NULL,
   id_usuario INT NOT NULL,
   id_conquistas INT NOT NULL,
-  FOREIGN KEY (id_usuario) REFERENCES tbl_usuario (id),
-  FOREIGN KEY (id_conquistas) REFERENCES tbl_conquistas (id)
+  FOREIGN KEY (id_usuario) REFERENCES tbl_usuario (id) ON DELETE CASCADE,
+  FOREIGN KEY (id_conquistas) REFERENCES tbl_conquistas (id) ON DELETE CASCADE
 );
 
 

@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 async function insertJogo_genero(Jogo_genero){
     try {
         
-        let sql = `insert into tbl_jogo_genero (
+        let sql = `insert IGNORE into tbl_jogo_genero (
                                             id_jogo,
                                             id_genero                              
                                         ) values (
