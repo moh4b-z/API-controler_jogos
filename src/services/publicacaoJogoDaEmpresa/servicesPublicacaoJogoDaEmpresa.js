@@ -10,10 +10,10 @@ async function inserirPublicacao(Publicacao, contentType) {
     try {
         if(contentType == "application/json"){
             // console.log(Publicacao)
-            // console.log(TableCORRECTION.CHECK_tbl_Publicacao(Publicacao))
+            // console.log(TableCORRECTION.CHECK_tbl_publicacao_jogo_da_empresa(Publicacao))
             
             
-            if(TableCORRECTION.CHECK_tbl_Publicacao(Publicacao)){
+            if(TableCORRECTION.CHECK_tbl_publicacao_jogo_da_empresa(Publicacao)){
                 if(
                     servicesJogo.buscarJogo(Publicacao.id_jogo) && 
                     servicesEmpresa.buscarEmpresa(Publicacao.id_empresa)
@@ -52,7 +52,7 @@ async function atualizarPublicacao(Publicacao, idPublicacao, contentType) {
             // console.log((idPublicacao));
             
             
-            if(TableCORRECTION.CHECK_tbl_Publicacao(Publicacao) && CORRECTION.CHECK_ID(idPublicacao)){
+            if(TableCORRECTION.CHECK_tbl_publicacao_jogo_da_empresa(Publicacao) && CORRECTION.CHECK_ID(idPublicacao)){
 
                 let resultPublicacao = await buscarPublicacao(parseInt(idPublicacao))
                 
@@ -134,7 +134,7 @@ async function listarTodosPublicacao() {
                     "status": true,
                     "status_code": 201,
                     "items": resultPublicacao.length,
-                    "game_genres": resultPublicacao
+                    "publishing_games": resultPublicacao
                 }
                 return dadosPublicacaos
             }else{
@@ -161,7 +161,7 @@ async function buscarPublicacao(idPublicacao) {
                     let dadosPublicacaos = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultPublicacao
+                        "publishing_games": resultPublicacao
                     }
                     return dadosPublicacaos
                 }else{

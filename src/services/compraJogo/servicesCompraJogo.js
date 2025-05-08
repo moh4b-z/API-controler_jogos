@@ -134,7 +134,7 @@ async function listarTodosCompraJogo() {
                     "status": true,
                     "status_code": 201,
                     "items": resultCompraJogo.length,
-                    "game_genres": resultCompraJogo
+                    "shopping": resultCompraJogo
                 }
                 return dadosCompraJogos
             }else{
@@ -161,7 +161,7 @@ async function buscarCompraJogo(idCompraJogo) {
                     let dadosCompraJogos = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultCompraJogo
+                        "shopping": resultCompraJogo
                     }
                     return dadosCompraJogos
                 }else{

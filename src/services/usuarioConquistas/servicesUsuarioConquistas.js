@@ -134,7 +134,7 @@ async function listarTodosUsuarioConquistas() {
                     "status": true,
                     "status_code": 201,
                     "items": resultUsuarioConquistas.length,
-                    "game_genres": resultUsuarioConquistas
+                    "user_achievements": resultUsuarioConquistas
                 }
                 return dadosUsuarioConquistass
             }else{
@@ -161,7 +161,7 @@ async function buscarUsuarioConquistas(idUsuarioConquistas) {
                     let dadosUsuarioConquistass = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultUsuarioConquistas
+                        "user_achievement": resultUsuarioConquistas
                     }
                     return dadosUsuarioConquistass
                 }else{

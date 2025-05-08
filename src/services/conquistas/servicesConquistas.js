@@ -157,7 +157,7 @@ async function buscarConquistas(idConquistas) {
                     let dadosConquistass = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultConquistas
+                        "achievement": resultConquistas
                     }
                     return dadosConquistass
                 }else{

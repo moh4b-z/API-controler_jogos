@@ -134,7 +134,7 @@ async function listarTodosAvaliacao() {
                     "status": true,
                     "status_code": 201,
                     "items": resultAvaliacao.length,
-                    "game_genres": resultAvaliacao
+                    "reviews": resultAvaliacao
                 }
                 return dadosAvaliacaos
             }else{
@@ -161,7 +161,7 @@ async function buscarAvaliacao(idAvaliacao) {
                     let dadosAvaliacaos = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultAvaliacao
+                        "review": resultAvaliacao
                     }
                     return dadosAvaliacaos
                 }else{

@@ -133,7 +133,7 @@ async function listarTodosEmpresa() {
                     "status": true,
                     "status_code": 201,
                     "items": resultEmpresa.length,
-                    "game_prices": resultEmpresa
+                    "enterprises": resultEmpresa
                 }
                 return dadosEmpresas
             }else{
@@ -160,7 +160,7 @@ async function buscarEmpresa(idEmpresa) {
                     let dadosEmpresas = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultEmpresa
+                        "enterprise": resultEmpresa
                     }
                     return dadosEmpresas
                 }else{

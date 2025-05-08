@@ -132,7 +132,7 @@ async function listarTodosJogo_plataforma() {
                     "status": true,
                     "status_code": 201,
                     "items": resultJogo_plataforma.length,
-                    "game_genres": resultJogo_plataforma
+                    "game_platform": resultJogo_plataforma
                 }
                 return dadosJogo_plataformas
             }else{
@@ -159,7 +159,7 @@ async function buscarJogo_plataforma(idJogo_plataforma) {
                     let dadosJogo_plataformas = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultJogo_plataforma
+                        "game_platform": resultJogo_plataforma
                     }
                     return dadosJogo_plataformas
                 }else{

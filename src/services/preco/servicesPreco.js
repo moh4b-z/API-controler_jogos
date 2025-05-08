@@ -168,7 +168,7 @@ async function buscarPreco(idPreco) {
                     let dadosPrecos = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultPreco
+                        "game_price": resultPreco
                     }
                     return dadosPrecos
                 }else{

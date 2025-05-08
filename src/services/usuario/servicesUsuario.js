@@ -136,7 +136,7 @@ async function listarTodosUsuario() {
                     "status": true,
                     "status_code": 201,
                     "items": resultUsuario.length,
-                    "game_prices": resultUsuario
+                    "users": resultUsuario
                 }
                 return dadosUsuarios
             }else{
@@ -163,7 +163,7 @@ async function buscarUsuario(idUsuario) {
                     let dadosUsuarios = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultUsuario
+                        "user": resultUsuario
                     }
                     return dadosUsuarios
                 }else{

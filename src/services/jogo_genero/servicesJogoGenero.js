@@ -159,7 +159,7 @@ async function buscarJogo_genero(idJogo_genero) {
                     let dadosJogo_generos = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultJogo_genero
+                        "game_genre": resultJogo_genero
                     }
                     return dadosJogo_generos
                 }else{

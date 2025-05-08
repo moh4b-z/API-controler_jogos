@@ -158,7 +158,7 @@ async function buscarDlc(idDlc) {
                     let dadosDlcs = {
                         "status": true,
                         "status_code": 201,
-                        "sex": resultDlc
+                        "DLC": resultDlc
                     }
                     return dadosDlcs
                 }else{
