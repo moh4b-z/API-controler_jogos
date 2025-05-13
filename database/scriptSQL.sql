@@ -1,9 +1,9 @@
+CREATE DATABASE db_controle_jogos_bb;
+
 use db_controle_jogos_bb;
-DROP TABLE nome_da_tabela;
 
 
-
-CREATE TABLE IF NOT EXISTS IF NOT EXISTS tbl_jogo(
+CREATE TABLE IF NOT EXISTS tbl_jogo(
 	id int not null primary key auto_increment,
   nome varchar(80) not null UNIQUE,
   data_lancamento date not null,

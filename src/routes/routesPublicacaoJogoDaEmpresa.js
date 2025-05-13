@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const controllerPublicacaoJogoDaEmpresa = require('../controller/publicacaoJogoDaEmpresa/controllerPublicacaoJogoDaEmpresaJogoDaEmpresa')
+const controllerPublicacaoJogoDaEmpresa = require('../controller/publicacaoJogoDaEmpresa/controllerPublicacaoJogoDaEmpresa')
 
 router.post(
     '/post',
