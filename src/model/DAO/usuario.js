@@ -11,7 +11,7 @@ async function insertUsuario(Usuario){
                                             senha_hash,
                                             email,
                                             biografia,
-                                            data_lancamento,
+                                            data_de_nascimento,
                                             nome,
                                             foto_perfil,
                                             id_paises,
@@ -21,7 +21,7 @@ async function insertUsuario(Usuario){
                                             '${Usuario.senha_hash}',
                                             '${Usuario.email}',
                                             '${Usuario.biografia}',
-                                            '${Usuario.data_lancamento}',
+                                            '${Usuario.data_de_nascimento}',
                                             '${Usuario.nome}',
                                             '${Usuario.foto_perfil}',
                                             '${Usuario.id_paises}',
@@ -30,10 +30,19 @@ async function insertUsuario(Usuario){
 
         //executar script no BD        
         let result = await prisma.$executeRawUnsafe(sql)
+        console.log(result);
+        console.log("----");
 
-        return result ? true : false
+        // Faz o SELECT para retornar o objeto recém-criado
+        if (result) {
+            let sqlSelect = `SELECT * FROM tbl_usuario WHERE email = '${Usuario.email}' ORDER BY id DESC LIMIT 1`
+            let Criado = await prisma.$queryRawUnsafe(sqlSelect)
+            return Criado[0] // Retorna o objeto completo
+        } else {
+            return false
+        }
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         return false
     }
 }
@@ -45,7 +54,7 @@ async function updateUsuario(Usuario){
                                         senha_hash = '${Usuario.senha_hash}',
                                         email = '${Usuario.email}',
                                         biografia = '${Usuario.biografia}',
-                                        data_lancamento = '${Usuario.data_lancamento}',
+                                        data_de_nascimento = '${Usuario.data_de_nascimento}',
                                         nome = '${Usuario.nome}',
                                         foto_perfil = '${Usuario.foto_perfil}',
                                         id_paises = '${Usuario.id_paises}',
@@ -54,17 +63,21 @@ async function updateUsuario(Usuario){
                                 where id = ${Usuario.id}`
         // console.log(sql)
         let result = await prisma.$executeRawUnsafe(sql)
+        console.log(result);
+        console.log("----");
+        
+        
 
         // Faz o SELECT para retornar o objeto recém-criado
         if (result) {
-            let sqlSelect = `SELECT * FROM tbl_usuario WHERE email = '${usuario.email}' ORDER BY id DESC LIMIT 1`
+            let sqlSelect = `SELECT * FROM tbl_usuario WHERE email = '${Usuario.email}' ORDER BY id DESC LIMIT 1`
             let usuarioCriado = await prisma.$queryRawUnsafe(sqlSelect)
             return usuarioCriado[0] // Retorna o objeto completo
         } else {
             return false
         }
     } catch (error) {
-        // console.log(error)        
+        console.log(error)        
         return false
     }
 }

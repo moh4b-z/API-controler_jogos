@@ -71,6 +71,13 @@ const SUCCESS_UPDATED_ITEM = {
     messagem: "Item atualizado"
 }
 
+const SUCCESS_LOGIN = {
+    status: true,
+    status_code: 200,
+    messagem: "Login realizado com sucesso"
+}
+
+
 module.exports = {
     ERROR_REQUIRED_FIELDS,
     ERROR_INTERNAL_SERVER_MODEL,
@@ -83,5 +90,6 @@ module.exports = {
 
     SUCCESS_CEATED_ITEM,
     SUCCESS_DELETE_ITEM,
-    SUCCESS_UPDATED_ITEM
+    SUCCESS_UPDATED_ITEM,
+    SUCCESS_LOGIN
 }

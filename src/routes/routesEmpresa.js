@@ -14,6 +14,10 @@ router.put(
     '/put/:idEmpresa',
     controllerEmpresa.putEmpresa
 )
+router.put(
+    '/login',
+    controllerEmpresa.putLoginEmpresa
+)
 router.get(
     '/get/getSearchAll',
     controllerEmpresa.getSearchAllEmpresa

@@ -41,6 +41,14 @@ async function putUsuario(request, response) {
     response.status(resultUsuario.status_code)
     response.json(resultUsuario)
 }
+async function putLoginUsuario(request, response) {
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+    let resultUsuario = await servicesUsuario.loginUsuario(dadosBody, contentType)
+
+    response.status(resultUsuario.status_code)
+    response.json(resultUsuario)
+}
 
 
 module.exports = {
@@ -48,5 +56,6 @@ module.exports = {
     putUsuario,
     deleteUsuario,
     getSearchAllUsuario,
-    getSearchUsuario
+    getSearchUsuario,
+    putLoginUsuario
 }

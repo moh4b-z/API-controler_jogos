@@ -14,6 +14,10 @@ router.put(
     '/put/:idUsuario',
     controllerUsuario.putUsuario
 )
+router.put(
+    '/login',
+    controllerUsuario.putLoginUsuario
+)
 router.get(
     '/get/getSearchAll',
     controllerUsuario.getSearchAllUsuario

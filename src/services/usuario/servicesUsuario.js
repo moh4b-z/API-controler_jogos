@@ -12,7 +12,7 @@ async function inserirUsuario(Usuario, contentType) {
     try {
         if(contentType == "application/json"){
             // console.log(Usuario)
-            // console.log(TableCORRECTION.CHECK_tbl_usuario(Usuario))
+            // 
             
             const { senha_salt, senha_hash } = encryptionFunction.hashPassword(Usuario.senha)
             Usuario.senha_salt = senha_salt
@@ -25,12 +25,15 @@ async function inserirUsuario(Usuario, contentType) {
                     servicesPaises.buscarPaises(Usuario.id_paises)
                 ){
                     let resultUsuario = await usuarioDAO.insertUsuario(Usuario)
+                    console.log(resultUsuario)
                     if (resultUsuario){
                         return {
                             ...MENSAGE.SUCCESS_CEATED_ITEM,
                             usuario: resultUsuario
                         }
                     }else{
+                        console.log(Usuario)
+                        // console.log(resultUsuario)
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                     }
                 }else{
@@ -38,6 +41,8 @@ async function inserirUsuario(Usuario, contentType) {
                 }
                 
             }else{
+                
+                // console.log(TableCORRECTION.CHECK_tbl_usuario(Usuario))
                 return MENSAGE.ERROR_REQUIRED_FIELDS
             }
         }else{
@@ -232,5 +237,6 @@ module.exports = {
     atualizarUsuario,
     excluirUsuario,
     listarTodosUsuario,
-    buscarUsuario
+    buscarUsuario,
+    loginUsuario
 }

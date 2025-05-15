@@ -95,9 +95,9 @@ function CHECK_VARCHAR(text, letters){
 }
 function CHECK_UNDEFINED(text){
     if(text == undefined){
-        return true
-    }else{
         return false
+    }else{
+        return true
     }
 }
 
@@ -110,5 +110,6 @@ module.exports = {
     CHECK_UNDEFINED,
     CHECK_DECIMAL,
     CHECK_DECIMAL_NOT_NULL,
-    CHECK_TINYINT
+    CHECK_TINYINT,
+    CHECK_pontuacao
 }

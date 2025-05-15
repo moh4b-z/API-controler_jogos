@@ -2,17 +2,17 @@ const crypto = require('crypto')
 
 function hashPassword(password) {
     // Gera um salt aleatório de 16 bytes e converte para hexadecimal
-    const salt = crypto.randomBytes(16).toString('hex')
+    const senha_salt = crypto.randomBytes(16).toString('hex')
     // Gera o hash com PBKDF2, 100000 iterações, 64 bytes de saída e SHA-256
     const hashedPassword = crypto.pbkdf2Sync(
         password, 
-        salt, 
+        senha_salt, 
         100000, 
         64, 
         'sha256'
     ).toString('hex')
     
-    return { salt, hash: hashedPassword } // Retorna salt e hash separados
+    return { senha_salt, senha_hash: hashedPassword } // Retorna salt e hash separados
 }
 
 function verifyPassword(password, salt, storedHash) {

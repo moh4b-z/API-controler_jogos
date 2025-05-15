@@ -29,7 +29,13 @@ async function insertEmpresa(Empresa){
         //executar script no BD        
         let result = await prisma.$executeRawUnsafe(sql)
 
-        return result ? true : false
+        if (result) {
+            let sqlSelect = `SELECT * FROM tbl_empresa WHERE email = '${Empresa.email}' ORDER BY id DESC LIMIT 1`
+            let Criado = await prisma.$queryRawUnsafe(sqlSelect)
+            return Criado[0] // Retorna o objeto completo
+        } else {
+            return false
+        }
     } catch (error) {
         // console.log(error)
         return false
@@ -58,6 +64,19 @@ async function updateEmpresa(Empresa){
         return false
     }
 }
+
+
+async function loginEmpresa(email) {
+    try {
+        let sql = `SELECT * FROM tbl_empresa WHERE email = '${email}'`
+        let result = await prisma.$queryRawUnsafe(sql)
+        return result.length > 0 ? result[0] : false
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 
 // deletar
 async function deleteEmpresa(idEmpresa){
@@ -104,5 +123,6 @@ module.exports = {
     updateEmpresa,
     deleteEmpresa,
     selectAllEmpresa,
-    selectByIdEmpresa
+    selectByIdEmpresa,
+    loginEmpresa
 }

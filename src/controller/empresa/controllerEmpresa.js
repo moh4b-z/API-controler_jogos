@@ -42,11 +42,21 @@ async function putEmpresa(request, response) {
     response.json(resultEmpresa)
 }
 
+async function putLoginEmpresa(request, response) {
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+    let resultEmpresa = await servicesEmpresa.loginEmpresa(dadosBody, contentType)
+
+    response.status(resultEmpresa.status_code)
+    response.json(resultEmpresa)
+}
+
 
 module.exports = {
     postEmpresa,
     putEmpresa,
     deleteEmpresa,
     getSearchAllEmpresa,
-    getSearchEmpresa
+    getSearchEmpresa,
+    putLoginEmpresa
 }

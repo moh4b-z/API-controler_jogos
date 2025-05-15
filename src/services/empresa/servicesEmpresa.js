@@ -24,7 +24,10 @@ async function inserirEmpresa(Empresa, contentType) {
                 ){
                     let resultEmpresa = await empresaDAO.insertEmpresa(Empresa)
                     if (resultEmpresa){
-                        return MENSAGE.SUCCESS_CEATED_ITEM
+                        return {
+                            ...MENSAGE.SUCCESS_CEATED_ITEM,
+                            empresa: resultEmpresa
+                        }
                     }else{
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                     }
@@ -97,6 +100,48 @@ async function atualizarEmpresa(Empresa, idEmpresa, contentType) {
         return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
 }
+
+
+async function loginEmpresa(loginData, contentType) {
+    try {
+        if (contentType == "application/json") {
+            const { email, senha } = loginData
+
+            if (!email || !senha) {
+                return MENSAGE.ERROR_REQUIRED_FIELDS
+            }
+
+            const Empresa = await empresaDAO.loginEmpresa(email)
+
+            if (!Empresa) {
+                return MENSAGE.ERROR_NOT_FOUND 
+            }
+            const senhaValida = encryptionFunction.verifyPassword(
+                senha,
+                Empresa.senha_salt,
+                Empresa.senha_hash
+            )
+            if (senhaValida) {
+                // remove os dados sensíveis
+                delete Empresa.senha_salt
+                delete Empresa.senha_hash
+
+                return {
+                    ...MENSAGE.SUCCESS_LOGIN,
+                    Empresa: Empresa
+                }
+            } else {
+                return MENSAGE.ERROR_INVALID_CREDENTIALS
+            }
+        } else {
+            return MENSAGE.ERROR_CONTENT_TYPE
+        }
+    } catch (error) {
+        console.log(error)
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
+    }
+}
+
 
 async function excluirEmpresa(idEmpresa) {
     try { 
@@ -186,5 +231,6 @@ module.exports = {
     atualizarEmpresa,
     excluirEmpresa,
     listarTodosEmpresa,
-    buscarEmpresa
+    buscarEmpresa,
+    loginEmpresa
 }
