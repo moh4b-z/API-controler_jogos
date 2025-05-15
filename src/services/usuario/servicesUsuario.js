@@ -26,7 +26,10 @@ async function inserirUsuario(Usuario, contentType) {
                 ){
                     let resultUsuario = await usuarioDAO.insertUsuario(Usuario)
                     if (resultUsuario){
-                        return MENSAGE.SUCCESS_CEATED_ITEM
+                        return {
+                            ...MENSAGE.SUCCESS_CEATED_ITEM,
+                            usuario: resultUsuario
+                        }
                     }else{
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                     }
@@ -97,6 +100,46 @@ async function atualizarUsuario(Usuario, idUsuario, contentType) {
         }
     } catch (error) {
         
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
+    }
+}
+
+async function loginUsuario(loginData, contentType) {
+    try {
+        if (contentType == "application/json") {
+            const { email, senha } = loginData
+
+            if (!email || !senha) {
+                return MENSAGE.ERROR_REQUIRED_FIELDS
+            }
+
+            const usuario = await usuarioDAO.loginUsuario(email)
+
+            if (!usuario) {
+                return MENSAGE.ERROR_NOT_FOUND 
+            }
+            const senhaValida = encryptionFunction.verifyPassword(
+                senha,
+                usuario.senha_salt,
+                usuario.senha_hash
+            )
+            if (senhaValida) {
+                // remove os dados sensíveis
+                delete usuario.senha_salt
+                delete usuario.senha_hash
+
+                return {
+                    ...MENSAGE.SUCCESS_LOGIN,
+                    usuario: usuario
+                }
+            } else {
+                return MENSAGE.ERROR_INVALID_CREDENTIALS
+            }
+        } else {
+            return MENSAGE.ERROR_CONTENT_TYPE
+        }
+    } catch (error) {
+        console.log(error)
         return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
 }

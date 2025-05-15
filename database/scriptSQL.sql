@@ -27,7 +27,8 @@ CREATE TABLE IF NOT EXISTS tbl_paises (
   sigla VARCHAR(4) NOT NULL UNIQUE,
   moeda VARCHAR(30) NOT NULL,
   simbolo_de_moeda VARCHAR(4) NOT NULL,
-  bandeira VARCHAR(250)
+  bandeira VARCHAR(250),
+  emoji VARCHAR(8)
 );
 
 CREATE TABLE IF NOT EXISTS tbl_plataforma (

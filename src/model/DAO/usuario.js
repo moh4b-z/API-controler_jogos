@@ -52,12 +52,30 @@ async function updateUsuario(Usuario){
                                         id_sexo = '${Usuario.id_sexo}'                  
                                         
                                 where id = ${Usuario.id}`
-        console.log(sql)
+        // console.log(sql)
         let result = await prisma.$executeRawUnsafe(sql)
 
-        return result ? true : false
+        // Faz o SELECT para retornar o objeto recém-criado
+        if (result) {
+            let sqlSelect = `SELECT * FROM tbl_usuario WHERE email = '${usuario.email}' ORDER BY id DESC LIMIT 1`
+            let usuarioCriado = await prisma.$queryRawUnsafe(sqlSelect)
+            return usuarioCriado[0] // Retorna o objeto completo
+        } else {
+            return false
+        }
     } catch (error) {
         // console.log(error)        
+        return false
+    }
+}
+
+async function loginUsuario(email) {
+    try {
+        let sql = `SELECT * FROM tbl_usuario WHERE email = '${email}'`
+        let result = await prisma.$queryRawUnsafe(sql)
+        return result.length > 0 ? result[0] : false
+    } catch (error) {
+        console.log(error)
         return false
     }
 }
@@ -105,6 +123,7 @@ async function selectByIdUsuario(idUsuario){
 module.exports = {
     insertUsuario,
     updateUsuario,
+    loginUsuario,
     deleteUsuario,
     selectAllUsuario,
     selectByIdUsuario
