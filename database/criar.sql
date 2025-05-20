@@ -1,8 +1,32 @@
 INSERT INTO tbl_paises (nome, sigla, moeda, simbolo_de_moeda, bandeira) VALUES
-    ('Estados Unidos', 'USA', 'Dólar Americano', '$', 'https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg'),
-    ('Japão', 'JP', 'Iene', '¥', 'https://upload.wikimedia.org/wikipedia/en/9/9e/Flag_of_Japan.svg'),
-    ('Polônia', 'PL', 'Zloty', 'zł', 'https://upload.wikimedia.org/wikipedia/en/1/12/Flag_of_Poland.svg'),
-    ('Brasil', 'BR', 'Real', 'R$', 'https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg');
+    (
+        'Estados Unidos', 
+        'USA', 
+        'Dólar Americano', 
+        '$', 
+        'https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg'
+    ),
+    (
+        'Japão', 
+        'JP', 
+        'Iene', 
+        '¥', 
+        'https://upload.wikimedia.org/wikipedia/en/9/9e/Flag_of_Japan.svg'
+    ),
+    (
+        'Polônia', 
+        'PL', 
+        'Zloty', 
+        'zł', 
+        'https://upload.wikimedia.org/wikipedia/en/1/12/Flag_of_Poland.svg'
+    ),
+    (
+        'Brasil', 
+        'BR', 
+        'Real', 
+        'R$', 
+        'https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg'
+    );
 
 INSERT INTO tbl_sexo (nome, sigla) VALUES
     ('Masculino', 'M'),
