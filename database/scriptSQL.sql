@@ -1,3 +1,4 @@
+
 CREATE DATABASE db_controle_jogos_bb;
 
 use db_controle_jogos_bb;
@@ -27,8 +28,7 @@ CREATE TABLE IF NOT EXISTS tbl_paises (
   sigla VARCHAR(4) NOT NULL UNIQUE,
   moeda VARCHAR(30) NOT NULL,
   simbolo_de_moeda VARCHAR(4) NOT NULL,
-  bandeira VARCHAR(250),
-  emoji VARCHAR(8)
+  bandeira VARCHAR(250)
 );
 
 CREATE TABLE IF NOT EXISTS tbl_plataforma (
@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS tbl_avaliacao (
 -- Relacionamento entre Usuários e Conquistas
 CREATE TABLE IF NOT EXISTS tbl_usuario_conquistas (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  realizada TINYINT NOT NULL,
+  data_de_conquista DATE NOT NULL,
   id_usuario INT NOT NULL,
   id_conquistas INT NOT NULL,
   FOREIGN KEY (id_usuario) REFERENCES tbl_usuario (id) ON DELETE CASCADE,
@@ -195,9 +195,10 @@ CREATE TABLE IF NOT EXISTS tbl_compra_jogo (
 );
 
 
-use db_controle_jogos_bb;
+
 
 show tables;
 SELECT * FROM tbl_jogo WHERE id = 1;
 
 select * from tbl_jogo;
+

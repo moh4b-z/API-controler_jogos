@@ -2,8 +2,8 @@ const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
 
-const servicesConquistas = require("../conquistas/servicesConquistas")
-const servicesUsuario = require("../usuario/servicesUsuario")
+const servicesConquistas = require("../jogo/servicesConquistas")
+const servicesUsuario = require("./servicesUsuario")
 const UsuarioConquistasDAO = require("../../model/DAO/usuarioConquistas")
 // const { log } = require("console")
 

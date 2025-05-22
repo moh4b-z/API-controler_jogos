@@ -3,7 +3,7 @@ const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
 const encryptionFunction = require("../../utils/encryptionFunction")
 
-const servicesSexo = require("../sexo/servicesSexo")
+const servicesSexo = require("./servicesSexo")
 const servicesPaises = require("../paises/servicesPaises")
 
 const usuarioDAO = require("../../model/DAO/usuario")

@@ -2,25 +2,21 @@ const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
 
-const servicesJogo = require("../jogo/servicesJogo")
-const servicesUsuario = require("../usuario/servicesUsuario")
-const AvaliacaoDAO = require("../../model/DAO/avaliacao")
+const servicesJogo = require("./servicesJogo")
+const dlcDAO = require("../../model/DAO/dlc")
 // const { log } = require("console")
 
-async function inserirAvaliacao(Avaliacao, contentType) {
+async function inserirDlc(Dlc, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Avaliacao)
-            // console.log(TableCORRECTION.CHECK_tbl_avaliacao(Avaliacao))
+            // console.log(Dlc);
+            // console.log(TableCORRECTION.CHECK_tbl_dlc(Dlc));
             
             
-            if(TableCORRECTION.CHECK_tbl_avaliacao(Avaliacao)){
-                if(
-                    servicesJogo.buscarJogo(Avaliacao.id_jogo) && 
-                    servicesUsuario.buscarUsuario(Avaliacao.id_usuario)
-                ){
-                    let resultAvaliacao = await AvaliacaoDAO.insertAvaliacao(Avaliacao)
-                    if (resultAvaliacao){
+            if(TableCORRECTION.CHECK_tbl_dlc(Dlc)){
+                if(servicesJogo.buscarJogo(Dlc.id_jogo_principal) && servicesJogo.buscarJogo(Dlc.id_jogo_dlc)){
+                    let resultDlc = await dlcDAO.insertDlc(Dlc)
+                    if (resultDlc){
                         return MENSAGE.SUCCESS_CEATED_ITEM
                     }else{
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
@@ -43,30 +39,31 @@ async function inserirAvaliacao(Avaliacao, contentType) {
     
 }
 
-async function atualizarAvaliacao(Avaliacao, idAvaliacao, contentType) {
+async function atualizarDlc(Dlc, idDlc, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Avaliacao);
-            // console.log(CORRECTION.verificarAtributosAvaliacao(Avaliacao));
-            // console.log(CORRECTION.CHECK_ID(idAvaliacao));
-            // console.log((Avaliacao));
-            // console.log((idAvaliacao));
+            // console.log(Dlc);
+            // console.log(CORRECTION.verificarAtributosDlc(Dlc));
+            // console.log(CORRECTION.CHECK_ID(idDlc));
+            // console.log((Dlc));
+            // console.log((idDlc));
             
             
-            if(
-                TableCORRECTION.CHECK_tbl_avaliacao(Avaliacao) && 
-                CORRECTION.CHECK_ID(idAvaliacao)
-            ){
-                let resultAvaliacao = await buscarAvaliacao(parseInt(idAvaliacao))
+            if(TableCORRECTION.CHECK_tbl_dlc(Dlc) && CORRECTION.CHECK_ID(idDlc)){
 
-                if(resultAvaliacao.status_code == 201){
+                let resultDlc = await buscarDlc(parseInt(idDlc))
+                
+                
+
+                if(resultDlc.status_code == 201){
+
                     if(
-                        servicesJogo.buscarJogo(Avaliacao.id_jogo) && 
-                        servicesUsuario.buscarUsuario(Avaliacao.id_usuario)
+                        servicesJogo.buscarJogo(Dlc.id_jogo_principal) && 
+                        servicesJogo.buscarJogo(Dlc.id_jogo_dlc)
                     ){
-                        Avaliacao.id = parseInt(idAvaliacao)
+                        Dlc.id = parseInt(idDlc)
 
-                        let result = await AvaliacaoDAO.updateAvaliacao(Avaliacao)
+                        let result = await dlcDAO.updateDlc(Dlc)
                         // console.log(result)
                         
                         if(result){
@@ -79,7 +76,7 @@ async function atualizarAvaliacao(Avaliacao, idAvaliacao, contentType) {
                     }else{
                         return MENSAGE.ERROR_NOT_FOUND_FOREIGN_KEY
                     }
-                }else if(resultAvaliacao.status_code == 404){
+                }else if(resultDlc.status_code == 404){
 
                     return MENSAGE.ERROR_NOT_FOUND
                 }else{
@@ -99,15 +96,15 @@ async function atualizarAvaliacao(Avaliacao, idAvaliacao, contentType) {
     }
 }
 
-async function excluirAvaliacao(idAvaliacao) {
+async function excluirDlc(idDlc) {
     try { 
-        if(CORRECTION.CHECK_ID(idAvaliacao)){
-            let verification = await AvaliacaoDAO.selectByIdAvaliacao(parseInt(idAvaliacao))
+        if(CORRECTION.CHECK_ID(idDlc)){
+            let verification = await dlcDAO.selectByIdDlc(parseInt(idDlc))
 
             if(verification != false || typeof(verification) == 'object'){
                 if(verification.length > 0){
-                    let resultAvaliacao = await AvaliacaoDAO.deleteAvaliacao(parseInt(idAvaliacao))
-                    return resultAvaliacao ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
+                    let resultDlc = await dlcDAO.deleteDlc(parseInt(idDlc))
+                    return resultDlc ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -124,19 +121,19 @@ async function excluirAvaliacao(idAvaliacao) {
     }
 }
 
-async function listarTodosAvaliacao() {
+async function listarTodosDlc() {
     try {
-        let resultAvaliacao = await AvaliacaoDAO.selectAllAvaliacao()
+        let resultDlc = await dlcDAO.selectAllDlc()
 
-        if(resultAvaliacao != false || typeof(resultAvaliacao) == 'object'){
-            if(resultAvaliacao.length > 0){
-                let dadosAvaliacaos = {
+        if(resultDlc != false || typeof(resultDlc) == 'object'){
+            if(resultDlc.length > 0){
+                let dadosDlcs = {
                     "status": true,
                     "status_code": 201,
-                    "items": resultAvaliacao.length,
-                    "reviews": resultAvaliacao
+                    "items": resultDlc.length,
+                    "DLCs": resultDlc
                 }
-                return dadosAvaliacaos
+                return dadosDlcs
             }else{
                 return MENSAGE.ERROR_NOT_FOUND
             }
@@ -149,21 +146,21 @@ async function listarTodosAvaliacao() {
     }
 }
 
-async function buscarAvaliacao(idAvaliacao) {
+async function buscarDlc(idDlc) {
     try {
-        // console.log(idAvaliacao);
+        // console.log(idDlc);
         
-        if(CORRECTION.CHECK_ID(idAvaliacao)){
-            let resultAvaliacao = await AvaliacaoDAO.selectByIdAvaliacao(parseInt(idAvaliacao))
+        if(CORRECTION.CHECK_ID(idDlc)){
+            let resultDlc = await dlcDAO.selectByIdDlc(parseInt(idDlc))
 
-            if(resultAvaliacao != false || typeof(resultAvaliacao) == 'object'){
-                if(resultAvaliacao.length > 0){
-                    let dadosAvaliacaos = {
+            if(resultDlc != false || typeof(resultDlc) == 'object'){
+                if(resultDlc.length > 0){
+                    let dadosDlcs = {
                         "status": true,
                         "status_code": 201,
-                        "review": resultAvaliacao
+                        "DLC": resultDlc
                     }
-                    return dadosAvaliacaos
+                    return dadosDlcs
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -183,9 +180,9 @@ async function buscarAvaliacao(idAvaliacao) {
 
 
 module.exports = {
-    inserirAvaliacao,
-    atualizarAvaliacao,
-    excluirAvaliacao,
-    listarTodosAvaliacao,
-    buscarAvaliacao
+    inserirDlc,
+    atualizarDlc,
+    excluirDlc,
+    listarTodosDlc,
+    buscarDlc
 }

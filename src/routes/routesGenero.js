@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const controllerGenero = require('../controller/genero/controllerGenero')
+const controllerGenero = require('../controller/jogo/controllerGenero')
 
 router.post(
     '/post',

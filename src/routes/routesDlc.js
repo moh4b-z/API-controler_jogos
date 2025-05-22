@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const controllerDlc = require('../controller/dlc/controllerDlc')
+const controllerDlc = require('../controller/jogo/controllerDlc')
 
 router.post(
     '/post',

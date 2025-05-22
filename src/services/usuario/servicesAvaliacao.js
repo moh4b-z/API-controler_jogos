@@ -3,20 +3,24 @@ const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
 
 const servicesJogo = require("../jogo/servicesJogo")
-const conquistasDAO = require("../../model/DAO/conquistas")
+const servicesUsuario = require("./servicesUsuario")
+const AvaliacaoDAO = require("../../model/DAO/avaliacao")
 // const { log } = require("console")
 
-async function inserirConquistas(Conquistas, contentType) {
+async function inserirAvaliacao(Avaliacao, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Conquistas)
-            // console.log(TableCORRECTION.CHECK_tbl_Conquistas(Conquistas))
+            // console.log(Avaliacao)
+            // console.log(TableCORRECTION.CHECK_tbl_avaliacao(Avaliacao))
             
             
-            if(TableCORRECTION.CHECK_tbl_Conquistas(Conquistas)){
-                if(servicesJogo.buscarJogo(Conquistas.id_jogo)){
-                    let resultConquistas = await conquistasDAO.insertConquistas(Conquistas)
-                    if (resultConquistas){
+            if(TableCORRECTION.CHECK_tbl_avaliacao(Avaliacao)){
+                if(
+                    servicesJogo.buscarJogo(Avaliacao.id_jogo) && 
+                    servicesUsuario.buscarUsuario(Avaliacao.id_usuario)
+                ){
+                    let resultAvaliacao = await AvaliacaoDAO.insertAvaliacao(Avaliacao)
+                    if (resultAvaliacao){
                         return MENSAGE.SUCCESS_CEATED_ITEM
                     }else{
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
@@ -39,30 +43,30 @@ async function inserirConquistas(Conquistas, contentType) {
     
 }
 
-async function atualizarConquistas(Conquistas, idConquistas, contentType) {
+async function atualizarAvaliacao(Avaliacao, idAvaliacao, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Conquistas);
-            // console.log(CORRECTION.verificarAtributosConquistas(Conquistas));
-            // console.log(CORRECTION.CHECK_ID(idConquistas));
-            // console.log((Conquistas));
-            // console.log((idConquistas));
+            // console.log(Avaliacao);
+            // console.log(CORRECTION.verificarAtributosAvaliacao(Avaliacao));
+            // console.log(CORRECTION.CHECK_ID(idAvaliacao));
+            // console.log((Avaliacao));
+            // console.log((idAvaliacao));
             
             
-            if(TableCORRECTION.CHECK_tbl_Conquistas(Conquistas) && CORRECTION.CHECK_ID(idConquistas)){
+            if(
+                TableCORRECTION.CHECK_tbl_avaliacao(Avaliacao) && 
+                CORRECTION.CHECK_ID(idAvaliacao)
+            ){
+                let resultAvaliacao = await buscarAvaliacao(parseInt(idAvaliacao))
 
-                let resultConquistas = await buscarConquistas(parseInt(idConquistas))
-                
-                
-
-                if(resultConquistas.status_code == 201){
-
+                if(resultAvaliacao.status_code == 201){
                     if(
-                        servicesJogo.buscarJogo(Conquistas.id_jogo)
+                        servicesJogo.buscarJogo(Avaliacao.id_jogo) && 
+                        servicesUsuario.buscarUsuario(Avaliacao.id_usuario)
                     ){
-                        Conquistas.id = parseInt(idConquistas)
+                        Avaliacao.id = parseInt(idAvaliacao)
 
-                        let result = await conquistasDAO.updateConquistas(Conquistas)
+                        let result = await AvaliacaoDAO.updateAvaliacao(Avaliacao)
                         // console.log(result)
                         
                         if(result){
@@ -75,7 +79,7 @@ async function atualizarConquistas(Conquistas, idConquistas, contentType) {
                     }else{
                         return MENSAGE.ERROR_NOT_FOUND_FOREIGN_KEY
                     }
-                }else if(resultConquistas.status_code == 404){
+                }else if(resultAvaliacao.status_code == 404){
 
                     return MENSAGE.ERROR_NOT_FOUND
                 }else{
@@ -95,15 +99,15 @@ async function atualizarConquistas(Conquistas, idConquistas, contentType) {
     }
 }
 
-async function excluirConquistas(idConquistas) {
+async function excluirAvaliacao(idAvaliacao) {
     try { 
-        if(CORRECTION.CHECK_ID(idConquistas)){
-            let verification = await conquistasDAO.selectByIdConquistas(parseInt(idConquistas))
+        if(CORRECTION.CHECK_ID(idAvaliacao)){
+            let verification = await AvaliacaoDAO.selectByIdAvaliacao(parseInt(idAvaliacao))
 
             if(verification != false || typeof(verification) == 'object'){
                 if(verification.length > 0){
-                    let resultConquistas = await conquistasDAO.deleteConquistas(parseInt(idConquistas))
-                    return resultConquistas ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
+                    let resultAvaliacao = await AvaliacaoDAO.deleteAvaliacao(parseInt(idAvaliacao))
+                    return resultAvaliacao ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -120,19 +124,19 @@ async function excluirConquistas(idConquistas) {
     }
 }
 
-async function listarTodosConquistas() {
+async function listarTodosAvaliacao() {
     try {
-        let resultConquistas = await conquistasDAO.selectAllConquistas()
+        let resultAvaliacao = await AvaliacaoDAO.selectAllAvaliacao()
 
-        if(resultConquistas != false || typeof(resultConquistas) == 'object'){
-            if(resultConquistas.length > 0){
-                let dadosConquistass = {
+        if(resultAvaliacao != false || typeof(resultAvaliacao) == 'object'){
+            if(resultAvaliacao.length > 0){
+                let dadosAvaliacaos = {
                     "status": true,
                     "status_code": 201,
-                    "items": resultConquistas.length,
-                    "achievements": resultConquistas
+                    "items": resultAvaliacao.length,
+                    "reviews": resultAvaliacao
                 }
-                return dadosConquistass
+                return dadosAvaliacaos
             }else{
                 return MENSAGE.ERROR_NOT_FOUND
             }
@@ -145,21 +149,21 @@ async function listarTodosConquistas() {
     }
 }
 
-async function buscarConquistas(idConquistas) {
+async function buscarAvaliacao(idAvaliacao) {
     try {
-        // console.log(idConquistas);
+        // console.log(idAvaliacao);
         
-        if(CORRECTION.CHECK_ID(idConquistas)){
-            let resultConquistas = await conquistasDAO.selectByIdConquistas(parseInt(idConquistas))
+        if(CORRECTION.CHECK_ID(idAvaliacao)){
+            let resultAvaliacao = await AvaliacaoDAO.selectByIdAvaliacao(parseInt(idAvaliacao))
 
-            if(resultConquistas != false || typeof(resultConquistas) == 'object'){
-                if(resultConquistas.length > 0){
-                    let dadosConquistass = {
+            if(resultAvaliacao != false || typeof(resultAvaliacao) == 'object'){
+                if(resultAvaliacao.length > 0){
+                    let dadosAvaliacaos = {
                         "status": true,
                         "status_code": 201,
-                        "achievement": resultConquistas
+                        "review": resultAvaliacao
                     }
-                    return dadosConquistass
+                    return dadosAvaliacaos
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
                 }
@@ -179,9 +183,9 @@ async function buscarConquistas(idConquistas) {
 
 
 module.exports = {
-    inserirConquistas,
-    atualizarConquistas,
-    excluirConquistas,
-    listarTodosConquistas,
-    buscarConquistas
+    inserirAvaliacao,
+    atualizarAvaliacao,
+    excluirAvaliacao,
+    listarTodosAvaliacao,
+    buscarAvaliacao
 }

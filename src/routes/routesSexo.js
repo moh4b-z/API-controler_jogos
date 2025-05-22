@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const controllerSexo = require('../controller/sexo/controllerSexo')
+const controllerSexo = require('../controller/usuario/controllerSexo')
 
 router.post(
     '/post',

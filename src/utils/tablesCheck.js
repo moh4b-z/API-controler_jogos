@@ -203,7 +203,7 @@ function CHECK_tbl_compra_jogo(compra){
 }
 function CHECK_tbl_usuario_conquistas(conquistas){    
     if(
-        CORRECTION.CHECK_TINYINT(conquistas.realizada) &&
+        CORRECTION.CHECK_VARCHAR_NOT_NULL(conquistas.data_de_conquista, 10) &&
         CORRECTION.CHECK_ID(conquistas.id_usuario) &&
         CORRECTION.CHECK_ID(conquistas.id_conquistas)
     ){

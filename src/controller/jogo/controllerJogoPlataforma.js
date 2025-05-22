@@ -1,4 +1,4 @@
-const servicesJogo_plataforma = require("../../services/jogo_plataforma/servicesJogoPlataforma")
+const servicesJogo_plataforma = require("../../services/jogo/servicesJogoPlataforma")
 
 async function postJogo_plataforma (request, response) {
     let contentType = request.headers['content-type']
