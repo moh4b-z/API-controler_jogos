@@ -2,7 +2,7 @@ const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
 
-const servicesJogo = require("./servicesJogo")
+const DAOjogo = require("../../model/DAO/jogo")
 const conquistasDAO = require("../../model/DAO/conquistas")
 // const { log } = require("console")
 
@@ -14,7 +14,7 @@ async function inserirConquistas(Conquistas, contentType) {
             
             
             if(TableCORRECTION.CHECK_tbl_Conquistas(Conquistas)){
-                if(servicesJogo.buscarJogo(Conquistas.id_jogo)){
+                if(DAOjogo.selectByIdJogo(Conquistas.id_jogo)){
                     let resultConquistas = await conquistasDAO.insertConquistas(Conquistas)
                     if (resultConquistas){
                         return MENSAGE.SUCCESS_CEATED_ITEM
@@ -58,7 +58,7 @@ async function atualizarConquistas(Conquistas, idConquistas, contentType) {
                 if(resultConquistas.status_code == 201){
 
                     if(
-                        servicesJogo.buscarJogo(Conquistas.id_jogo)
+                        DAOjogo.selectByIdJogo(Conquistas.id_jogo)
                     ){
                         Conquistas.id = parseInt(idConquistas)
 
@@ -175,6 +175,47 @@ async function buscarConquistas(idConquistas) {
         return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
 }
+async function buscarConquistasDejogo(idJogo) {
+    try {
+        // console.log(idConquistas);
+        
+        if(CORRECTION.CHECK_ID(idJogo)){
+            let resultConquistas = await conquistasDAO.selectByIdConquistasDeJogo(parseInt(idJogo))
+
+            if(resultConquistas != false || typeof(resultConquistas) == 'object'){
+                if(resultConquistas.length > 0){
+                    let listaConquistas = []
+
+                    for (let item of resultConquistas) {
+                        listaConquistas.push({
+                            id: item.id,
+                            nome: item.nome,
+                            descricao: item.descricao
+                        })
+                    }
+                    let dadosConquistass = {
+                        "status": true,
+                        "status_code": 201,
+                        "achievement": listaConquistas
+                    }
+                    return dadosConquistass
+                }else{
+                    return MENSAGE.ERROR_NOT_FOUND
+                }
+            }else{
+                return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }else{
+            return MENSAGE.ERROR_REQUIRED_FIELDS
+        }
+        
+        
+    } catch (error) {
+        console.log(error);
+        
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
+    }
+}
 
 
 
@@ -183,5 +224,6 @@ module.exports = {
     atualizarConquistas,
     excluirConquistas,
     listarTodosConquistas,
-    buscarConquistas
+    buscarConquistas,
+    buscarConquistasDejogo
 }

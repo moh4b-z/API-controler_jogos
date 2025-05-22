@@ -2,7 +2,7 @@ const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
 
-const servicesJogo = require("./servicesJogo")
+const DAOjogo = require("../../model/DAO/jogo")
 const servicesPlataforma = require("../plataforma/servicesPlataforma")
 const jogo_plataformaDAO = require("../../model/DAO/jogoPlataforma")
 // const { log } = require("console")
@@ -15,7 +15,7 @@ async function inserirJogo_plataforma(Jogo_plataforma, contentType) {
             
             
             if(TableCORRECTION.CHECK_tbl_jogo_plataforma(Jogo_plataforma)){
-                if(servicesJogo.buscarJogo(Jogo_plataforma.id_jogo) && servicesPlataforma.buscarPlataforma(Jogo_plataforma.id_plataforma)){
+                if(DAOjogo.selectByIdJogo(Jogo_plataforma.id_jogo) && servicesPlataforma.buscarPlataforma(Jogo_plataforma.id_plataforma)){
                     let resultJogo_plataforma = await jogo_plataformaDAO.insertJogo_plataforma(Jogo_plataforma)
                     if (resultJogo_plataforma){
                         return MENSAGE.SUCCESS_CEATED_ITEM
@@ -59,7 +59,7 @@ async function atualizarJogo_plataforma(Jogo_plataforma, idJogo_plataforma, cont
                 if(resultJogo_plataforma.status_code == 201){
 
                     if(
-                        servicesJogo.buscarJogo(Jogo_plataforma.id_jogo) && 
+                        DAOjogo.selectByIdJogo(Jogo_plataforma.id_jogo) && 
                         servicesPlataforma.buscarPlataforma(Jogo_plataforma.id_plataforma)
                     ){
                         Jogo_plataforma.id = parseInt(idJogo_plataforma)

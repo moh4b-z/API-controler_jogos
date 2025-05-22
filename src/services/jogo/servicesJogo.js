@@ -9,6 +9,8 @@ const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
 
 const jogoDAO = require("../../model/DAO/jogo")
+const servicesConquistas = require("./servicesConquistas")
+const servicesDlc = require("./servicesDlc")
 // const { log } = require("console")
 
 async function inserirJogo(jogo, contentType) {
@@ -143,17 +145,29 @@ async function listarTodosJogo() {
 
 async function buscarJogo(idJogo) {
     try {
-        // console.log(idJogo);
+        // console.log(idJogo)
         
         if(CORRECTION.CHECK_ID(idJogo)){
             let resultJogo = await jogoDAO.selectByIdJogo(parseInt(idJogo))
 
             if(resultJogo != false || typeof(resultJogo) == 'object'){
                 if(resultJogo.length > 0){
+                    
+                    let listaJogo = []
+
+                    for(item of resultJogo){
+                        let conquistas = await servicesConquistas.buscarConquistasDejogo(item.id)
+                        
+                        
+                        item.achievement = conquistas.achievement
+
+                        listaJogo.push(item)
+                    }
+
                     let dadosJogos = {
                         "status": true,
                         "status_code": 201,
-                        "game": resultJogo
+                        "games": listaJogo
                     }
                     return dadosJogos
                 }else{
@@ -168,6 +182,8 @@ async function buscarJogo(idJogo) {
         
         
     } catch (error) {
+        console.log(error);
+        
         return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
 }

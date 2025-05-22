@@ -30,8 +30,8 @@ async function insertUsuario(Usuario){
 
         //executar script no BD        
         let result = await prisma.$executeRawUnsafe(sql)
-        console.log(result);
-        console.log("----");
+        // console.log(result);
+        // console.log("----");
 
         // Faz o SELECT para retornar o objeto recém-criado
         if (result) {

@@ -81,11 +81,26 @@ async function selectByIdDlc(idDlc){
         return false
     }
 }
+async function selectByIdDlcDeJogo(idJogo){
+    try {
+        let sql = `SELECT * FROM tbl_dlc WHERE id_jogo_principal = ${idJogo}`
+        // console.log(sql);
+        
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        return result ? result : false
+    } catch (error) {
+        // console.log(error);
+        
+        return false
+    }
+}
 
 module.exports = {
     insertDlc,
     updateDlc,
     deleteDlc,
     selectAllDlc,
-    selectByIdDlc
+    selectByIdDlc,
+    selectByIdDlcDeJogo
 }

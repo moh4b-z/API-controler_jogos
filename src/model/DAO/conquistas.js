@@ -84,11 +84,27 @@ async function selectByIdConquistas(idConquistas){
         return false
     }
 }
+// filtro pelo ID
+async function selectByIdConquistasDeJogo(idJogo){
+    try {
+        let sql = `SELECT * FROM tbl_conquistas WHERE id_jogo = ${idJogo}`
+        // console.log(sql);
+        
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        return result ? result : false
+    } catch (error) {
+        // console.log(error);
+        
+        return false
+    }
+}
 
 module.exports = {
     insertConquistas,
     updateConquistas,
     deleteConquistas,
     selectAllConquistas,
-    selectByIdConquistas
+    selectByIdConquistas,
+    selectByIdConquistasDeJogo
 }

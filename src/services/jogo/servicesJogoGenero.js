@@ -2,7 +2,7 @@ const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
 
-const servicesJogo = require("./servicesJogo")
+const DAOjogo = require("../../model/DAO/jogo")
 const servicesGenero = require("./servicesGenero")
 const jogo_generoDAO = require("../../model/DAO/jogoGenero")
 // const { log } = require("console")
@@ -15,7 +15,7 @@ async function inserirJogo_genero(Jogo_genero, contentType) {
             
             
             if(TableCORRECTION.CHECK_tbl_jogo_genero(Jogo_genero)){
-                if(servicesJogo.buscarJogo(Jogo_genero.id_jogo) && servicesGenero.buscarGenero(Jogo_genero.id_genero)){
+                if(DAOjogo.selectByIdJogo(Jogo_genero.id_jogo) && servicesGenero.buscarGenero(Jogo_genero.id_genero)){
                     let resultJogo_genero = await jogo_generoDAO.insertJogo_genero(Jogo_genero)
                     if (resultJogo_genero){
                         return MENSAGE.SUCCESS_CEATED_ITEM
@@ -59,7 +59,7 @@ async function atualizarJogo_genero(Jogo_genero, idJogo_genero, contentType) {
                 if(resultJogo_genero.status_code == 201){
 
                     if(
-                        servicesJogo.buscarJogo(Jogo_genero.id_jogo) && 
+                        DAOjogo.selectByIdJogo(Jogo_genero.id_jogo) && 
                         servicesGenero.buscarGenero(Jogo_genero.id_genero)
                     ){
                         Jogo_genero.id = parseInt(idJogo_genero)

@@ -10,7 +10,6 @@ FROM tbl_genero g
 JOIN tbl_jogo_genero jg ON g.id = jg.id_genero
 WHERE jg.id_jogo = 1;
 
-
 -- Mostrar todos os jogos de um determinado gênero
 SELECT j.*
 FROM tbl_jogo j

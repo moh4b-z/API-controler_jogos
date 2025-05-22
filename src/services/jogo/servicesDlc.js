@@ -2,7 +2,7 @@ const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
 
-const servicesJogo = require("./servicesJogo")
+const DAOjogo = require("../../model/DAO/jogo")
 const dlcDAO = require("../../model/DAO/dlc")
 // const { log } = require("console")
 
@@ -14,7 +14,7 @@ async function inserirDlc(Dlc, contentType) {
             
             
             if(TableCORRECTION.CHECK_tbl_dlc(Dlc)){
-                if(servicesJogo.buscarJogo(Dlc.id_jogo_principal) && servicesJogo.buscarJogo(Dlc.id_jogo_dlc)){
+                if(DAOjogo.selectByIdJogo(Dlc.id_jogo_principal) && DAOjogo.selectByIdJogo(Dlc.id_jogo_dlc)){
                     let resultDlc = await dlcDAO.insertDlc(Dlc)
                     if (resultDlc){
                         return MENSAGE.SUCCESS_CEATED_ITEM
@@ -58,8 +58,8 @@ async function atualizarDlc(Dlc, idDlc, contentType) {
                 if(resultDlc.status_code == 201){
 
                     if(
-                        servicesJogo.buscarJogo(Dlc.id_jogo_principal) && 
-                        servicesJogo.buscarJogo(Dlc.id_jogo_dlc)
+                        DAOjogo.selectByIdJogo(Dlc.id_jogo_principal) && 
+                        DAOjogo.selectByIdJogo(Dlc.id_jogo_dlc)
                     ){
                         Dlc.id = parseInt(idDlc)
 
@@ -176,6 +176,47 @@ async function buscarDlc(idDlc) {
         return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
 }
+async function buscarDlcDeJogo(id_jogo) {
+    try {
+        // console.log(id_jogo);
+        
+        if(CORRECTION.CHECK_ID(id_jogo)){
+            let resultDlc = await dlcDAO.selectByIdDlcDeJogo(parseInt(id_jogo))
+
+            if(resultDlc != false || typeof(resultDlc) == 'object'){
+                if(resultDlc.length > 0){
+
+                    let listaDlc = []
+
+                    for (let item of resultConquistas) {
+                        
+                        listaDlc.push({
+                            id: item.id,
+                            nome: item.nome,
+                            descricao: item.descricao
+                        })
+                    }
+                    let dadosDlcs = {
+                        "status": true,
+                        "status_code": 201,
+                        "DLC": resultDlc
+                    }
+                    return dadosDlcs
+                }else{
+                    return MENSAGE.ERROR_NOT_FOUND
+                }
+            }else{
+                return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }else{
+            return MENSAGE.ERROR_REQUIRED_FIELDS
+        }
+        
+        
+    } catch (error) {
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
+    }
+}
 
 
 
@@ -184,5 +225,6 @@ module.exports = {
     atualizarDlc,
     excluirDlc,
     listarTodosDlc,
-    buscarDlc
+    buscarDlc,
+    buscarDlcDeJogo
 }
