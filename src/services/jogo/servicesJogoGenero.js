@@ -178,6 +178,46 @@ async function buscarJogo_genero(idJogo_genero) {
     }
 }
 
+async function buscarJogo_generoDejogo(idJogo) {
+    try {
+        // console.log(idJogo);
+        
+        if(CORRECTION.CHECK_ID(idJogo)){
+            let resultJogo_genero = await jogo_generoDAO.selectByIdJogo_generoDejogo(parseInt(idJogo))
+
+            if(resultJogo_genero != false || typeof(resultJogo_genero) == 'object'){
+                if(resultJogo_genero.length > 0){
+                    let listaJogo_genero = []
+
+                    for (const item of resultJogo_genero) {
+                        let genero = await servicesGenero.buscarGenero(item.id_genero)
+                        item.genre = genero.genre
+                        delete item.id_jogo
+                        delete item.id_genero
+                        listaJogo_genero.push(item)
+                    }
+                    let dadosJogo_generos = {
+                        "status": true,
+                        "status_code": 201,
+                        "game_genre": listaJogo_genero
+                    }
+                    return dadosJogo_generos
+                }else{
+                    return MENSAGE.ERROR_NOT_FOUND
+                }
+            }else{
+                return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }else{
+            return MENSAGE.ERROR_REQUIRED_FIELDS
+        }
+        
+        
+    } catch (error) {
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
+    }
+}
+
 
 
 module.exports = {
@@ -185,5 +225,6 @@ module.exports = {
     atualizarJogo_genero,
     excluirJogo_genero,
     listarTodosJogo_genero,
-    buscarJogo_genero
+    buscarJogo_genero,
+    buscarJogo_generoDejogo
 }

@@ -188,18 +188,14 @@ async function buscarDlcDeJogo(id_jogo) {
 
                     let listaDlc = []
 
-                    for (let item of resultConquistas) {
-                        
-                        listaDlc.push({
-                            id: item.id,
-                            nome: item.nome,
-                            descricao: item.descricao
-                        })
+                    for (const item of resultDlc) {
+                        delete item.id_jogo_principal
+                        listaDlc.push(item)
                     }
                     let dadosDlcs = {
                         "status": true,
                         "status_code": 201,
-                        "DLC": resultDlc
+                        "DLC": listaDlc
                     }
                     return dadosDlcs
                 }else{

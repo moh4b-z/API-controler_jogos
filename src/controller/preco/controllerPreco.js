@@ -1,4 +1,4 @@
-const servicesPreco = require("../../services/preco/servicesPreco")
+const servicesPreco = require("../../services/jogo/servicesPreco")
 
 async function postPreco (request, response) {
     let contentType = request.headers['content-type']

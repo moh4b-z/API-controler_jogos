@@ -3,7 +3,7 @@ const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
 
 const DAOjogo = require("../../model/DAO/jogo")
-const servicesPlataforma = require("../plataforma/servicesPlataforma")
+const servicesPlataforma = require("./servicesPlataforma")
 const jogo_plataformaDAO = require("../../model/DAO/jogoPlataforma")
 // const { log } = require("console")
 
@@ -177,6 +177,45 @@ async function buscarJogo_plataforma(idJogo_plataforma) {
         return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
 }
+async function buscarJogo_plataformaDeJogo(idJogo) {
+    try {
+        // console.log(idJogo);
+        
+        if(CORRECTION.CHECK_ID(idJogo)){
+            let resultJogo_plataforma = await jogo_plataformaDAO.selectByIdJogo_plataformaDeJogo(parseInt(idJogo))
+
+            if(resultJogo_plataforma != false || typeof(resultJogo_plataforma) == 'object'){
+                if(resultJogo_plataforma.length > 0){
+                    let listaJogo_plataforma = []
+                    
+                    for (const item of resultJogo_plataforma) {
+                        let plataforma = await servicesPlataforma.buscarPlataforma(item.id_plataforma)
+                        item.platforms = plataforma.platform
+                        delete item.id_jogo
+                        delete item.id_plataforma
+                        listaJogo_plataforma.push(item)
+                    }
+                    let dadosJogo_plataformas = {
+                        "status": true,
+                        "status_code": 201,
+                        "game_platform": listaJogo_plataforma
+                    }
+                    return dadosJogo_plataformas
+                }else{
+                    return MENSAGE.ERROR_NOT_FOUND
+                }
+            }else{
+                return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }else{
+            return MENSAGE.ERROR_REQUIRED_FIELDS
+        }
+        
+        
+    } catch (error) {
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
+    }
+}
 
 
 
@@ -185,5 +224,6 @@ module.exports = {
     atualizarJogo_plataforma,
     excluirJogo_plataforma,
     listarTodosJogo_plataforma,
-    buscarJogo_plataforma
+    buscarJogo_plataforma,
+    buscarJogo_plataformaDeJogo
 }

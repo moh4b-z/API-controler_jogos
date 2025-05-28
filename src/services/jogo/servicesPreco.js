@@ -1,8 +1,9 @@
 const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
+const util = require('util');
 
-const servicesJogo = require("./servicesJogo")
+const DAOjogo = require("../../model/DAO/jogo")
 const servicesPlataforma = require("./servicesPlataforma")
 const servicesPaises = require("../paises/servicesPaises")
 const servicesTipoPagamento = require("./servicesTipoPagamento")
@@ -18,7 +19,7 @@ async function inserirPreco(Preco, contentType) {
             
             if(TableCORRECTION.CHECK_tbl_preco(Preco)){
                 if(
-                    servicesJogo.buscarJogo(Preco.id_jogo) && 
+                    DAOjogo.selectByIdJogo(Preco.id_jogo) && 
                     servicesPaises.buscarPaises(Preco.id_paises) &&
                     servicesPlataforma.buscarPlataforma(Preco.id_plataforma) && 
                     servicesTipoPagamento.buscarTipo_pagamento(Preco.id_tipo_pagamento)
@@ -66,7 +67,7 @@ async function atualizarPreco(Preco, idPreco, contentType) {
                 if(resultPreco.status_code == 201){
 
                     if(
-                        servicesJogo.buscarJogo(Preco.id_jogo) && 
+                        DAOjogo.selectByIdJogo(Preco.id_jogo) && 
                         servicesPaises.buscarPaises(Preco.id_paises) &&
                         servicesPlataforma.buscarPlataforma(Preco.id_plataforma) && 
                         servicesTipoPagamento.buscarTipo_pagamento(Preco.id_tipo_pagamento)
@@ -187,6 +188,52 @@ async function buscarPreco(idPreco) {
     }
 }
 
+async function buscarPrecoDeJogo(idJogo) {
+    try {
+        // console.log(idJogo);
+        
+        if(CORRECTION.CHECK_ID(idJogo)){
+            let resultPreco = await precoDAO.selectByIdPrecoDeJogo(parseInt(idJogo))
+
+            if(resultPreco != false || typeof(resultPreco) == 'object'){
+                if(resultPreco.length > 0){
+                    let listaPreco = []
+                                        
+                    for (const item of resultPreco) {
+                        let plataforma = await servicesPlataforma.buscarPlataforma(item.id_plataforma)
+                        let paises = await servicesPaises.buscarPaises(item.id_paises)
+                        let tipo_pagamento = await servicesTipoPagamento.buscarTipo_pagamento(item.id_tipo_pagamento)
+                        item.platforms = plataforma.platform
+                        item.countries = paises.country
+                        item.typeOfPayments = tipo_pagamento.typeOfPayments
+                        delete item.id_jogo
+                        delete item.id_plataforma
+                        delete item.id_paises
+                        delete item.id_tipo_pagamento
+                        listaPreco.push(item)
+                    }
+                    let dadosPrecos = {
+                        "status": true,
+                        "status_code": 201,
+                        "game_price": listaPreco
+                    }
+                    return dadosPrecos
+                }else{
+                    return MENSAGE.ERROR_NOT_FOUND
+                }
+            }else{
+                return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }else{
+            return MENSAGE.ERROR_REQUIRED_FIELDS
+        }
+        
+        
+    } catch (error) {
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
+    }
+}
+
 
 
 module.exports = {
@@ -194,5 +241,6 @@ module.exports = {
     atualizarPreco,
     excluirPreco,
     listarTodosPreco,
-    buscarPreco
+    buscarPreco,
+    buscarPrecoDeJogo
 }

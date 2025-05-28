@@ -81,11 +81,27 @@ async function selectByIdJogo_genero(idJogo_genero){
         return false
     }
 }
+// filtro pelo ID do jogo
+async function selectByIdJogo_generoDejogo(id_jogo){
+    try {
+        let sql = `SELECT * FROM tbl_jogo_genero WHERE id_jogo = ${id_jogo}`
+        // console.log(sql);
+        
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        return result ? result : false
+    } catch (error) {
+        // console.log(error);
+        
+        return false
+    }
+}
 
 module.exports = {
     insertJogo_genero,
     updateJogo_genero,
     deleteJogo_genero,
     selectAllJogo_genero,
-    selectByIdJogo_genero
+    selectByIdJogo_genero,
+    selectByIdJogo_generoDejogo
 }

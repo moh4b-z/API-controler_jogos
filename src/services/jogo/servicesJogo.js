@@ -7,10 +7,14 @@ Versão: 1.1
 const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
+const util = require('util');
 
 const jogoDAO = require("../../model/DAO/jogo")
 const servicesConquistas = require("./servicesConquistas")
 const servicesDlc = require("./servicesDlc")
+const servicesJogoGenero = require("./servicesJogoGenero")
+const servicesJogoPlataforma = require("./servicesJogoPlataforma")
+const servicesPreco = require("./servicesPreco")
 // const { log } = require("console")
 
 async function inserirJogo(jogo, contentType) {
@@ -124,11 +128,32 @@ async function listarTodosJogo() {
 
         if(resultJogo != false || typeof(resultJogo) == 'object'){
             if(resultJogo.length > 0){
+                let listaJogo = []
+
+                for(item of resultJogo){
+                    let conquistas = await servicesConquistas.buscarConquistasDejogo(item.id)
+                    item.achievement = conquistas.achievement
+
+                    let dlcs = await servicesDlc.buscarDlcDeJogo(item.id)
+                    item.DLCs = dlcs.DLC
+
+                    let generos = await servicesJogoGenero.buscarJogo_generoDejogo(item.id)
+                    item.game_genre = generos.game_genre
+
+                    let plataformas = await servicesJogoPlataforma.buscarJogo_plataformaDeJogo(item.id)
+                    item.game_platform = plataformas.game_platform
+
+                    let preco = await servicesPreco.buscarPrecoDeJogo(item.id)
+                    item.game_price = preco.game_price
+
+                    listaJogo.push(item)
+                }
+
                 let dadosJogos = {
                     "status": true,
                     "status_code": 201,
-                    "items": resultJogo.length,
-                    "games": resultJogo
+                    "items": listaJogo.length,
+                    "games": listaJogo
                 }
                 return dadosJogos
             }else{
@@ -157,9 +182,19 @@ async function buscarJogo(idJogo) {
 
                     for(item of resultJogo){
                         let conquistas = await servicesConquistas.buscarConquistasDejogo(item.id)
-                        
-                        
                         item.achievement = conquistas.achievement
+
+                        let dlcs = await servicesDlc.buscarDlcDeJogo(item.id)
+                        item.DLCs = dlcs.DLC
+
+                        let generos = await servicesJogoGenero.buscarJogo_generoDejogo(item.id)
+                        item.game_genre = generos.game_genre
+
+                        let plataformas = await servicesJogoPlataforma.buscarJogo_plataformaDeJogo(item.id)
+                        item.game_platform = plataformas.game_platform
+
+                        let preco = await servicesPreco.buscarPrecoDeJogo(item.id)
+                        item.game_price = preco.game_price
 
                         listaJogo.push(item)
                     }
@@ -169,6 +204,7 @@ async function buscarJogo(idJogo) {
                         "status_code": 201,
                         "games": listaJogo
                     }
+                    // console.log(util.inspect(dadosJogos, { depth: null }))
                     return dadosJogos
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
