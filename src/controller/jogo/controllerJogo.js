@@ -5,6 +5,7 @@ Autor: Mohammmad
 Versão: 1.2
 ************************************************************************/
 const servicesJogo = require("../../services/jogo/servicesJogo")
+const servicesCarateriticasJogo = require("../../services/jogo/servicesCarateriticasJogo")
 
 async function postJogo (request, response) {
     let contentType = request.headers['content-type']
@@ -18,6 +19,12 @@ async function postJogo (request, response) {
 }
 async function getSearchAllJogo(request, response) {
     let resultJogo = await servicesJogo.listarTodosJogo()
+
+    response.status(resultJogo.status_code)
+    response.json(resultJogo)
+}
+async function getSearchAllCarateriticas(request, response) {
+    let resultJogo = await servicesCarateriticasJogo.listarCarateristicas()
 
     response.status(resultJogo.status_code)
     response.json(resultJogo)
@@ -54,5 +61,6 @@ module.exports = {
     putJogo,
     deleteJogo,
     getSearchAllJogo,
-    getSearchJogo
+    getSearchJogo,
+    getSearchAllCarateriticas
 }

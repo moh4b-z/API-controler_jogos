@@ -19,6 +19,10 @@ router.get(
     controllerJogo.getSearchAllJogo
 )
 router.get(
+    '/get/getSearchAllCarateriticas',
+    controllerJogo.getSearchAllCarateriticas
+)
+router.get(
     '/get/getSearch/:idJogo',
     controllerJogo.getSearchJogo
 )
