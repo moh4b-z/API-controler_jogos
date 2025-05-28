@@ -2,33 +2,26 @@ const { PrismaClient } = require('@prisma/client')
 //Instancia da classe do prisma client, para gera um objeto
 const prisma = new PrismaClient()
 
-// inseri
-async function insertPreco(Preco){
+// inserir
+async function insertPreco(preco) {
     try {
-        
-        let sql = `insert into tbl_preco (
-                                            valor,
-                                            id_jogo,
-                                            id_paises,
-                                            id_plataforma,                  
-                                            id_tipo_pagamento                   
-                                        ) values (
-                                            '${Preco.valor}',
-                                            '${Preco.id_jogo}',
-                                            '${Preco.id_paises}',
-                                            '${Preco.id_plataforma}',
-                                            '${Preco.id_tipo_pagamento}'
-                                        )`
+        const novoPreco = await prisma.tbl_preco.create({
+            data: {
+                valor: preco.valor,
+                id_jogo: preco.id_jogo,
+                id_paises: preco.id_paises,
+                id_plataforma: preco.id_plataforma,
+                id_tipo_pagamento: preco.id_tipo_pagamento
+            }
+        });
 
-        //executar script no BD        
-        let result = await prisma.$executeRawUnsafe(sql)
-
-        return result ? true : false
+        return novoPreco; // retorna o objeto inserido, com o ID gerado
     } catch (error) {
-        // console.log(error)
-        return false
+        console.log(error);
+        return null;
     }
 }
+
 
 // atualizar
 async function updatePreco(Preco){

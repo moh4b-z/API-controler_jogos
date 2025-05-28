@@ -2,29 +2,24 @@ const { PrismaClient } = require('@prisma/client')
 //Instancia da classe do prisma client, para gera um objeto
 const prisma = new PrismaClient()
 
-// inseri
-async function insertPublicacao(Publicacao){
+// Inserir publicação de jogo por empresa
+async function insertPublicacao(publicacao) {
     try {
-        
-        let sql = `insert into tbl_publicacao_jogo_da_empresa (
-                                            data_de_publicacao,                            
-                                            id_empresa,                            
-                                            id_jogo                            
-                                        ) values (
-                                            '${Publicacao.data_de_publicacao}',
-                                            '${Publicacao.id_empresa}',
-                                            '${Publicacao.id_jogo}'
-                                        )`
+        const result = await prisma.tbl_publicacao_jogo_da_empresa.create({
+            data: {
+                data_de_publicacao: new Date(publicacao.data_de_publicacao),
+                id_empresa: publicacao.id_empresa,
+                id_jogo: publicacao.id_jogo
+            }
+        })
 
-        //executar script no BD        
-        let result = await prisma.$executeRawUnsafe(sql)
-
-        return result ? true : false
+        return result
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         return false
     }
 }
+
 
 // atualizar
 async function updatePublicacao(Publicacao){

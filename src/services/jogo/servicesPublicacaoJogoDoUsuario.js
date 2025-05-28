@@ -2,25 +2,25 @@ const MENSAGE = require("../../modulo/config")
 const CORRECTION = require("../../utils/inputCheck")
 const TableCORRECTION = require("../../utils/tablesCheck")
 
-const servicesJogo = require("../jogo/servicesJogo")
-const servicesEmpresa = require("../empresa/servicesEmpresa")
+const DAOjogo = require("../../model/DAO/jogo")
+const servicesUsuario = require("../usuario/servicesUsuario")
 const publicacaoJogoDaEmpresaDAO = require("../../model/DAO/publicacaoJogoDaEmpresa")
 
 async function inserirPublicacao(Publicacao, contentType) {
     try {
         if(contentType == "application/json"){
-            // console.log(Publicacao)
-            // console.log(TableCORRECTION.CHECK_tbl_publicacao_jogo_da_empresa(Publicacao))
+            // console.log(contentType)
+            // console.log(TableCORRECTION.CHECK_tbl_Publicacao(Publicacao))
             
             
-            if(TableCORRECTION.CHECK_tbl_publicacao_jogo_da_empresa(Publicacao)){
+            if(TableCORRECTION.CHECK_tbl_publicacao_jogo_do_usuario(Publicacao)){
                 if(
-                    servicesJogo.buscarJogo(Publicacao.id_jogo) && 
-                    servicesEmpresa.buscarEmpresa(Publicacao.id_empresa)
+                    DAOjogo.selectByIdJogo(Publicacao.id_jogo) && 
+                    servicesUsuario.buscarUsuario(Publicacao.id_usuario)
                 ){
                     let resultPublicacao = await publicacaoJogoDaEmpresaDAO.insertPublicacao(Publicacao)
                     if (resultPublicacao){
-                        return MENSAGE.SUCCESS_CEATED_ITEM
+                        return {...MENSAGE.SUCCESS_CEATED_ITEM, Publicacao: resultPublicacao}
                     }else{
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                     }
@@ -52,7 +52,7 @@ async function atualizarPublicacao(Publicacao, idPublicacao, contentType) {
             // console.log((idPublicacao));
             
             
-            if(TableCORRECTION.CHECK_tbl_publicacao_jogo_da_empresa(Publicacao) && CORRECTION.CHECK_ID(idPublicacao)){
+            if(TableCORRECTION.CHECK_tbl_publicacao_jogo_do_usuario(Publicacao) && CORRECTION.CHECK_ID(idPublicacao)){
 
                 let resultPublicacao = await buscarPublicacao(parseInt(idPublicacao))
                 
@@ -61,8 +61,8 @@ async function atualizarPublicacao(Publicacao, idPublicacao, contentType) {
                 if(resultPublicacao.status_code == 201){
 
                     if(
-                        servicesJogo.buscarJogo(Publicacao.id_jogo) && 
-                        servicesEmpresa.buscarEmpresa(Publicacao.id_empresa)
+                        DAOjogo.selectByIdJogo(Publicacao.id_jogo) && 
+                        servicesUsuario.buscarUsuario(Publicacao.id_usuario)
                     ){
                         Publicacao.id = parseInt(idPublicacao)
 

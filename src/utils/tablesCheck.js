@@ -2,6 +2,17 @@ const CORRECTION = require("./inputCheck")
 
 
 function CHECK_tbl_jogo(jogo){
+    // console.log(CORRECTION.CHECK_VARCHAR(jogo.tamanho, 10), jogo.tamanho)
+    // console.log(
+    //     CORRECTION.CHECK_VARCHAR_NOT_NULL(jogo.nome, 80) ,
+    //     CORRECTION.CHECK_VARCHAR_NOT_NULL(jogo.data_lancamento, 10),
+    //     CORRECTION.CHECK_VARCHAR_NOT_NULL(jogo.versao, 10),
+    //     CORRECTION.CHECK_VARCHAR(jogo.tamanho, 10),
+    //     CORRECTION.CHECK_UNDEFINED(jogo.descricao) ,
+    //     CORRECTION.CHECK_VARCHAR(jogo.foto_capa, 250) ,
+    //     CORRECTION.CHECK_VARCHAR(jogo.link, 250)
+    // );
+    
     if(
         CORRECTION.CHECK_VARCHAR_NOT_NULL(jogo.nome, 80) &&
         CORRECTION.CHECK_VARCHAR_NOT_NULL(jogo.data_lancamento, 10) &&
@@ -11,9 +22,9 @@ function CHECK_tbl_jogo(jogo){
         CORRECTION.CHECK_VARCHAR(jogo.foto_capa, 250) &&
         CORRECTION.CHECK_VARCHAR(jogo.link, 250)
     ){
-        return false
-    }else{
         return true
+    }else{
+        return false
     }
 }
 function CHECK_tbl_genero(genero){

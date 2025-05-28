@@ -26,7 +26,7 @@ async function inserirPreco(Preco, contentType) {
                 ){
                     let resultPreco = await precoDAO.insertPreco(Preco)
                     if (resultPreco){
-                        return MENSAGE.SUCCESS_CEATED_ITEM
+                        return {...MENSAGE.SUCCESS_CEATED_ITEM, precos: resultPreco}
                     }else{
                         return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
                     }

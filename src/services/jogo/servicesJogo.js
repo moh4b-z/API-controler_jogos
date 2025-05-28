@@ -15,29 +15,99 @@ const servicesDlc = require("./servicesDlc")
 const servicesJogoGenero = require("./servicesJogoGenero")
 const servicesJogoPlataforma = require("./servicesJogoPlataforma")
 const servicesPreco = require("./servicesPreco")
+const servicesPublicacaoJogoDaEmpresa = require("./servicesPublicacaoJogoDaEmpresa")
+const servicesPublicacaoJogoDoUsuario = require("./servicesPublicacaoJogoDoUsuario")
 // const { log } = require("console")
 
 async function inserirJogo(jogo, contentType) {
     try {
         if(contentType == "application/json"){
             // console.log(TableCORRECTION.CHECK_tbl_jogo(jogo));
-            
-            if(TableCORRECTION.CHECK_tbl_jogo(jogo)){
-                let resultJogo = await jogoDAO.insertJogo(jogo)
-                if (resultJogo){
-                    return MENSAGE.SUCCESS_CEATED_ITEM
+            // Verifica se o publicador existe (empresa ou usuário)
+            const isEmpresa = jogo.IsItACompany
+            const publicacaoExiste = isEmpresa
+                ? (await servicesPublicacaoJogoDaEmpresa.buscarPublicacao(jogo.publisherId)).status_code === 201
+                : (await servicesPublicacaoJogoDoUsuario.buscarPublicacao(jogo.publisherId)).status_code === 201
+
+            if(publicacaoExiste){
+                if(TableCORRECTION.CHECK_tbl_jogo(jogo)){
+                    
+                    let resultJogo = await jogoDAO.insertJogo(jogo)
+                    resultJogo.resultPublicacao = isEmpresa ? 
+                        await servicesPublicacaoJogoDaEmpresa.inserirPublicacao(
+                            {
+                                data_de_publicacao: jogo.data_de_publicacao,
+                                id_empresa: jogo.publisherId,
+                                id_jogo: resultJogo.id
+                            }, contentType
+                        )
+                        :
+                        await servicesPublicacaoJogoDaEmpresa.inserirPublicacao(
+                            {
+                                data_de_publicacao: jogo.data_de_publicacao,
+                                id_usuario: jogo.publisherId,
+                                id_jogo: resultJogo.id
+                            }, contentType
+                        )
+                    resultJogo.resultGenero = []
+                    resultJogo.resultPlataforma = []
+                    resultJogo.resultPreco = []
+                    for(const idItem of jogo.game_genre){
+                        let result = await servicesJogoGenero.inserirJogo_genero(
+                            {
+                                id_jogo: resultJogo.id,
+                                id_genero: idItem
+                            },
+                            contentType
+                        )
+                        resultJogo.resultGenero.push(result)
+                    }
+                    for(const idItem of jogo.game_platform){
+                        let result = await servicesJogoPlataforma.inserirJogo_plataforma(
+                            {
+                                id_jogo: resultJogo.id,
+                                id_plataforma: idItem
+                            },
+                            contentType
+                        )
+                        resultJogo.resultPlataforma.push(result)
+                    }
+
+                    for (const idPlataforma of jogo.game_platform) {
+                        for (const idTipoPagamento of jogo.typeOfPayments) {
+                            const result = await servicesPreco.inserirPreco(
+                                {
+                                    valor: jogo.valor || 0.00,
+                                    id_jogo: resultJogo.id,
+                                    id_paises: jogo.id_paises,
+                                    id_plataforma: idPlataforma,
+                                    id_tipo_pagamento: idTipoPagamento,
+                                },
+                                contentType
+                            )
+
+                            resultJogo.resultPreco.push(result)
+                        }
+                    }
+                    
+                    if (resultJogo){
+                        return {...MENSAGE.SUCCESS_CEATED_ITEM, game: resultJogo}
+                    }else{
+                        return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+                    }
+                    
                 }else{
-                    return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+                    return MENSAGE.ERROR_REQUIRED_FIELDS
                 }
-                
             }else{
-                return MENSAGE.ERROR_REQUIRED_FIELDS
+                return {...MENSAGE.ERROR_NOT_FOUND, speccification: "É obrigatorio ter o id de quem publicou"}
             }
+            
         }else{
             return MENSAGE.ERROR_CONTENT_TYPE
         }
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
     }
     

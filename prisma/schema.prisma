@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,7 +7,227 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model tbl_teste{
-  id Int @id @default(autoincrement())
-  nome String
+model tbl_avaliacao {
+  id          Int         @id @default(autoincrement())
+  comentario  String?     @db.Text
+  pontuacao   Int
+  id_jogo     Int
+  id_usuario  Int
+  tbl_jogo    tbl_jogo    @relation(fields: [id_jogo], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbl_avaliacao_ibfk_1")
+  tbl_usuario tbl_usuario @relation(fields: [id_usuario], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_avaliacao_ibfk_2")
+
+  @@index([id_jogo], map: "id_jogo")
+  @@index([id_usuario], map: "id_usuario")
+}
+
+model tbl_compra_jogo {
+  id          Int         @id @default(autoincrement())
+  data_compra DateTime    @db.Date
+  comprovante String      @db.VarChar(250)
+  id_usuario  Int
+  id_preco    Int
+  tbl_usuario tbl_usuario @relation(fields: [id_usuario], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbl_compra_jogo_ibfk_1")
+  tbl_preco   tbl_preco   @relation(fields: [id_preco], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbl_compra_jogo_ibfk_2")
+
+  @@index([id_preco], map: "id_preco")
+  @@index([id_usuario], map: "id_usuario")
+}
+
+model tbl_conquistas {
+  id                     Int                      @id @default(autoincrement())
+  nome                   String                   @db.VarChar(45)
+  descricao              String                   @db.Text
+  id_jogo                Int
+  tbl_jogo               tbl_jogo                 @relation(fields: [id_jogo], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_conquistas_ibfk_1")
+  tbl_usuario_conquistas tbl_usuario_conquistas[]
+
+  @@index([id_jogo], map: "id_jogo")
+}
+
+model tbl_dlc {
+  id                                           Int      @id @default(autoincrement())
+  id_jogo_principal                            Int
+  id_jogo_dlc                                  Int
+  tbl_jogo_tbl_dlc_id_jogo_principalTotbl_jogo tbl_jogo @relation("tbl_dlc_id_jogo_principalTotbl_jogo", fields: [id_jogo_principal], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbl_dlc_ibfk_1")
+  tbl_jogo_tbl_dlc_id_jogo_dlcTotbl_jogo       tbl_jogo @relation("tbl_dlc_id_jogo_dlcTotbl_jogo", fields: [id_jogo_dlc], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_dlc_ibfk_2")
+
+  @@index([id_jogo_dlc], map: "id_jogo_dlc")
+  @@index([id_jogo_principal], map: "id_jogo_principal")
+}
+
+model tbl_empresa {
+  id                             Int                              @id @default(autoincrement())
+  nome                           String                           @unique(map: "nome") @db.VarChar(50)
+  senha_salt                     String                           @db.VarChar(32)
+  senha_hash                     String                           @db.VarChar(128)
+  email                          String                           @unique(map: "email") @db.VarChar(100)
+  data_de_fundacao               DateTime                         @db.Date
+  biografia                      String?                          @db.Text
+  foto                           String?                          @db.VarChar(250)
+  id_paises                      Int
+  tbl_paises                     tbl_paises                       @relation(fields: [id_paises], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbl_empresa_ibfk_1")
+  tbl_publicacao_jogo_da_empresa tbl_publicacao_jogo_da_empresa[]
+
+  @@index([id_paises], map: "id_paises")
+}
+
+model tbl_genero {
+  id              Int               @id @default(autoincrement())
+  nome            String            @unique(map: "nome") @db.VarChar(45)
+  tbl_jogo_genero tbl_jogo_genero[]
+}
+
+model tbl_jogo {
+  id                                          Int                              @id @default(autoincrement())
+  nome                                        String                           @unique(map: "nome") @db.VarChar(80)
+  data_lancamento                             DateTime                         @db.Date
+  versao                                      String                           @db.VarChar(10)
+  tamanho                                     String?                          @db.VarChar(10)
+  descricao                                   String?                          @db.Text
+  foto_capa                                   String?                          @db.VarChar(250)
+  link                                        String?                          @db.VarChar(250)
+  tbl_avaliacao                               tbl_avaliacao[]
+  tbl_conquistas                              tbl_conquistas[]
+  tbl_dlc_tbl_dlc_id_jogo_principalTotbl_jogo tbl_dlc[]                        @relation("tbl_dlc_id_jogo_principalTotbl_jogo")
+  tbl_dlc_tbl_dlc_id_jogo_dlcTotbl_jogo       tbl_dlc[]                        @relation("tbl_dlc_id_jogo_dlcTotbl_jogo")
+  tbl_jogo_genero                             tbl_jogo_genero[]
+  tbl_jogo_plataforma                         tbl_jogo_plataforma[]
+  tbl_preco                                   tbl_preco[]
+  tbl_publicacao_jogo_da_empresa              tbl_publicacao_jogo_da_empresa[]
+  tbl_publicacao_jogo_do_usuario              tbl_publicacao_jogo_do_usuario[]
+}
+
+model tbl_jogo_genero {
+  id         Int        @id @default(autoincrement())
+  id_jogo    Int
+  id_genero  Int
+  tbl_jogo   tbl_jogo   @relation(fields: [id_jogo], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_jogo_genero_ibfk_1")
+  tbl_genero tbl_genero @relation(fields: [id_genero], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_jogo_genero_ibfk_2")
+
+  @@index([id_genero], map: "id_genero")
+  @@index([id_jogo], map: "id_jogo")
+}
+
+model tbl_jogo_plataforma {
+  id             Int            @id @default(autoincrement())
+  id_plataforma  Int
+  id_jogo        Int
+  tbl_plataforma tbl_plataforma @relation(fields: [id_plataforma], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_jogo_plataforma_ibfk_1")
+  tbl_jogo       tbl_jogo       @relation(fields: [id_jogo], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_jogo_plataforma_ibfk_2")
+
+  @@index([id_jogo], map: "id_jogo")
+  @@index([id_plataforma], map: "id_plataforma")
+}
+
+model tbl_paises {
+  id               Int           @id @default(autoincrement())
+  nome             String        @unique(map: "nome") @db.VarChar(50)
+  sigla            String        @unique(map: "sigla") @db.VarChar(4)
+  moeda            String        @db.VarChar(30)
+  simbolo_de_moeda String        @db.VarChar(4)
+  bandeira         String?       @db.VarChar(250)
+  emoji            String?       @db.VarChar(8)
+  tbl_empresa      tbl_empresa[]
+  tbl_preco        tbl_preco[]
+  tbl_usuario      tbl_usuario[]
+}
+
+model tbl_plataforma {
+  id                  Int                   @id @default(autoincrement())
+  nome                String                @unique(map: "nome") @db.VarChar(45)
+  taxa                Decimal               @db.Decimal(4, 2)
+  logo                String                @db.VarChar(250)
+  tbl_jogo_plataforma tbl_jogo_plataforma[]
+  tbl_preco           tbl_preco[]
+}
+
+model tbl_preco {
+  id                 Int                @id @default(autoincrement())
+  valor              Decimal            @db.Decimal(7, 2)
+  id_jogo            Int
+  id_paises          Int
+  id_plataforma      Int
+  id_tipo_pagamento  Int
+  tbl_compra_jogo    tbl_compra_jogo[]
+  tbl_jogo           tbl_jogo           @relation(fields: [id_jogo], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_preco_ibfk_1")
+  tbl_paises         tbl_paises         @relation(fields: [id_paises], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_preco_ibfk_2")
+  tbl_plataforma     tbl_plataforma     @relation(fields: [id_plataforma], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_preco_ibfk_3")
+  tbl_tipo_pagamento tbl_tipo_pagamento @relation(fields: [id_tipo_pagamento], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_preco_ibfk_4")
+
+  @@index([id_jogo], map: "id_jogo")
+  @@index([id_paises], map: "id_paises")
+  @@index([id_plataforma], map: "id_plataforma")
+  @@index([id_tipo_pagamento], map: "id_tipo_pagamento")
+}
+
+model tbl_publicacao_jogo_da_empresa {
+  id                 Int         @id @default(autoincrement())
+  data_de_publicacao DateTime    @db.Date
+  id_empresa         Int
+  id_jogo            Int
+  tbl_empresa        tbl_empresa @relation(fields: [id_empresa], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_publicacao_jogo_da_empresa_ibfk_1")
+  tbl_jogo           tbl_jogo    @relation(fields: [id_jogo], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_publicacao_jogo_da_empresa_ibfk_2")
+
+  @@index([id_empresa], map: "id_empresa")
+  @@index([id_jogo], map: "id_jogo")
+}
+
+model tbl_publicacao_jogo_do_usuario {
+  id                 Int         @id @default(autoincrement())
+  data_de_publicacao DateTime    @db.Date
+  id_usuario         Int
+  id_jogo            Int
+  tbl_usuario        tbl_usuario @relation(fields: [id_usuario], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_publicacao_jogo_do_usuario_ibfk_1")
+  tbl_jogo           tbl_jogo    @relation(fields: [id_jogo], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_publicacao_jogo_do_usuario_ibfk_2")
+
+  @@index([id_jogo], map: "id_jogo")
+  @@index([id_usuario], map: "id_usuario")
+}
+
+model tbl_sexo {
+  id          Int           @id @default(autoincrement())
+  nome        String        @unique(map: "nome") @db.VarChar(40)
+  sigla       String        @unique(map: "sigla") @db.VarChar(3)
+  tbl_usuario tbl_usuario[]
+}
+
+model tbl_tipo_pagamento {
+  id        Int         @id @default(autoincrement())
+  tipo      String      @unique(map: "tipo") @db.VarChar(50)
+  logo      String?     @db.VarChar(250)
+  tbl_preco tbl_preco[]
+}
+
+model tbl_usuario {
+  id                             Int                              @id @default(autoincrement())
+  senha_salt                     String                           @db.VarChar(32)
+  senha_hash                     String                           @db.VarChar(128)
+  email                          String                           @unique(map: "email") @db.VarChar(100)
+  biografia                      String?                          @db.Text
+  data_de_nascimento             DateTime                         @db.Date
+  nome                           String                           @unique(map: "nome") @db.VarChar(50)
+  foto_perfil                    String                           @db.VarChar(250)
+  id_paises                      Int?
+  id_sexo                        Int?
+  tbl_avaliacao                  tbl_avaliacao[]
+  tbl_compra_jogo                tbl_compra_jogo[]
+  tbl_publicacao_jogo_do_usuario tbl_publicacao_jogo_do_usuario[]
+  tbl_paises                     tbl_paises?                      @relation(fields: [id_paises], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbl_usuario_ibfk_1")
+  tbl_sexo                       tbl_sexo?                        @relation(fields: [id_sexo], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tbl_usuario_ibfk_2")
+  tbl_usuario_conquistas         tbl_usuario_conquistas[]
+
+  @@index([id_paises], map: "id_paises")
+  @@index([id_sexo], map: "id_sexo")
+}
+
+model tbl_usuario_conquistas {
+  id             Int            @id @default(autoincrement())
+  realizada      Int            @db.TinyInt
+  id_usuario     Int
+  id_conquistas  Int
+  tbl_usuario    tbl_usuario    @relation(fields: [id_usuario], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_usuario_conquistas_ibfk_1")
+  tbl_conquistas tbl_conquistas @relation(fields: [id_conquistas], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tbl_usuario_conquistas_ibfk_2")
+
+  @@index([id_conquistas], map: "id_conquistas")
+  @@index([id_usuario], map: "id_usuario")
 }
