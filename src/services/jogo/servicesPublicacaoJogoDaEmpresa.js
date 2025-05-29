@@ -180,6 +180,37 @@ async function buscarPublicacao(idPublicacao) {
     }
 }
 
+async function buscarPublicacaoDaEmpresa(idPublicacao) {
+    try {
+        // console.log(idPublicacao);
+        
+        if(CORRECTION.CHECK_ID(idPublicacao)){
+            let resultPublicacao = await publicacaoJogoDaEmpresaDAO.selectByIdPublicacaoDaEmpresa(parseInt(idPublicacao))
+
+            if(resultPublicacao != false || typeof(resultPublicacao) == 'object'){
+                if(resultPublicacao.length > 0){
+                    let dadosPublicacaos = {
+                        "status": true,
+                        "status_code": 201,
+                        "publishing_games": resultPublicacao
+                    }
+                    return dadosPublicacaos
+                }else{
+                    return MENSAGE.ERROR_NOT_FOUND
+                }
+            }else{
+                return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }else{
+            return MENSAGE.ERROR_REQUIRED_FIELDS
+        }
+        
+        
+    } catch (error) {
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
+    }
+}
+
 
 
 module.exports = {
@@ -187,5 +218,6 @@ module.exports = {
     atualizarPublicacao,
     excluirPublicacao,
     listarTodosPublicacao,
-    buscarPublicacao
+    buscarPublicacao,
+    buscarPublicacaoDaEmpresa
 }

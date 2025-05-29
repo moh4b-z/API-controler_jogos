@@ -79,11 +79,27 @@ async function selectByIdPublicacao(idPublicacao){
         return false
     }
 }
+// filtro pelo ID empresa
+async function selectByIdPublicacaoDaEmpresa(idPublicacao){
+    try {
+        let sql = `SELECT * FROM tbl_publicacao_jogo_da_empresa WHERE id_empresa = ${idPublicacao}`
+        // console.log(sql);
+        
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        return result ? result : false
+    } catch (error) {
+        // console.log(error);
+        
+        return false
+    }
+}
 
 module.exports = {
     insertPublicacao,
     updatePublicacao,
     deletePublicacao,
     selectAllPublicacao,
-    selectByIdPublicacao
+    selectByIdPublicacao,
+    selectByIdPublicacaoDaEmpresa
 }

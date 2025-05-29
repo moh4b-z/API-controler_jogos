@@ -4,7 +4,7 @@ const TableCORRECTION = require("../../utils/tablesCheck")
 
 const DAOjogo = require("../../model/DAO/jogo")
 const servicesUsuario = require("../usuario/servicesUsuario")
-const publicacaoJogoDaEmpresaDAO = require("../../model/DAO/publicacaoJogoDaEmpresa")
+const publicacaoJogoDoUsuarioDAO = require("../../model/DAO/publicacaoJogoDoUsuario")
 
 async function inserirPublicacao(Publicacao, contentType) {
     try {
@@ -18,7 +18,7 @@ async function inserirPublicacao(Publicacao, contentType) {
                     DAOjogo.selectByIdJogo(Publicacao.id_jogo) && 
                     servicesUsuario.buscarUsuario(Publicacao.id_usuario)
                 ){
-                    let resultPublicacao = await publicacaoJogoDaEmpresaDAO.insertPublicacao(Publicacao)
+                    let resultPublicacao = await publicacaoJogoDoUsuarioDAO.insertPublicacao(Publicacao)
                     if (resultPublicacao){
                         return {...MENSAGE.SUCCESS_CEATED_ITEM, Publicacao: resultPublicacao}
                     }else{
@@ -66,7 +66,7 @@ async function atualizarPublicacao(Publicacao, idPublicacao, contentType) {
                     ){
                         Publicacao.id = parseInt(idPublicacao)
 
-                        let result = await publicacaoJogoDaEmpresaDAO.updatePublicacao(Publicacao)
+                        let result = await publicacaoJogoDoUsuarioDAO.updatePublicacao(Publicacao)
                         // console.log(result)
                         
                         if(result){
@@ -102,11 +102,11 @@ async function atualizarPublicacao(Publicacao, idPublicacao, contentType) {
 async function excluirPublicacao(idPublicacao) {
     try { 
         if(CORRECTION.CHECK_ID(idPublicacao)){
-            let verification = await publicacaoJogoDaEmpresaDAO.selectByIdPublicacao(parseInt(idPublicacao))
+            let verification = await publicacaoJogoDoUsuarioDAO.selectByIdPublicacao(parseInt(idPublicacao))
 
             if(verification != false || typeof(verification) == 'object'){
                 if(verification.length > 0){
-                    let resultPublicacao = await publicacaoJogoDaEmpresaDAO.deletePublicacao(parseInt(idPublicacao))
+                    let resultPublicacao = await publicacaoJogoDoUsuarioDAO.deletePublicacao(parseInt(idPublicacao))
                     return resultPublicacao ? MENSAGE.SUCCESS_DELETE_ITEM : MENSAGE.ERROR_NOT_DELETE
                 }else{
                     return MENSAGE.ERROR_NOT_FOUND
@@ -126,7 +126,7 @@ async function excluirPublicacao(idPublicacao) {
 
 async function listarTodosPublicacao() {
     try {
-        let resultPublicacao = await publicacaoJogoDaEmpresaDAO.selectAllPublicacao()
+        let resultPublicacao = await publicacaoJogoDoUsuarioDAO.selectAllPublicacao()
 
         if(resultPublicacao != false || typeof(resultPublicacao) == 'object'){
             if(resultPublicacao.length > 0){
@@ -154,7 +154,37 @@ async function buscarPublicacao(idPublicacao) {
         // console.log(idPublicacao);
         
         if(CORRECTION.CHECK_ID(idPublicacao)){
-            let resultPublicacao = await publicacaoJogoDaEmpresaDAO.selectByIdPublicacao(parseInt(idPublicacao))
+            let resultPublicacao = await publicacaoJogoDoUsuarioDAO.selectByIdPublicacao(parseInt(idPublicacao))
+
+            if(resultPublicacao != false || typeof(resultPublicacao) == 'object'){
+                if(resultPublicacao.length > 0){
+                    let dadosPublicacaos = {
+                        "status": true,
+                        "status_code": 201,
+                        "publishing_games": resultPublicacao
+                    }
+                    return dadosPublicacaos
+                }else{
+                    return MENSAGE.ERROR_NOT_FOUND
+                }
+            }else{
+                return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }else{
+            return MENSAGE.ERROR_REQUIRED_FIELDS
+        }
+        
+        
+    } catch (error) {
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
+    }
+}
+async function buscarPublicacaoDoUsario(idPublicacao) {
+    try {
+        // console.log(idPublicacao);
+        
+        if(CORRECTION.CHECK_ID(idPublicacao)){
+            let resultPublicacao = await publicacaoJogoDoUsuarioDAO.selectByIdPublicacaoDoUsuario(parseInt(idPublicacao))
 
             if(resultPublicacao != false || typeof(resultPublicacao) == 'object'){
                 if(resultPublicacao.length > 0){
@@ -187,5 +217,6 @@ module.exports = {
     atualizarPublicacao,
     excluirPublicacao,
     listarTodosPublicacao,
-    buscarPublicacao
+    buscarPublicacao,
+    buscarPublicacaoDoUsario
 }

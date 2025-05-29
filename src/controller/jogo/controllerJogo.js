@@ -18,13 +18,16 @@ async function postJogo (request, response) {
     response.json(resultJogo)
 }
 async function getSearchAllJogo(request, response) {
+    
     let resultJogo = await servicesJogo.listarTodosJogo()
 
     response.status(resultJogo.status_code)
     response.json(resultJogo)
 }
 async function getSearchAllCarateriticas(request, response) {
-    let resultJogo = await servicesCarateriticasJogo.listarCarateristicas()
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+    let resultJogo = await servicesCarateriticasJogo.listarCarateristicas(dadosBody, contentType)
 
     response.status(resultJogo.status_code)
     response.json(resultJogo)

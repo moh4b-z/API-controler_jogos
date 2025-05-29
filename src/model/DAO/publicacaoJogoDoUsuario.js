@@ -25,7 +25,7 @@ async function insertPublicacao(publicacao) {
 async function updatePublicacao(Publicacao){
     try {
         let sql = `update tbl_publicacao_jogo_do_usuario set  data_de_publicacao = '${Publicacao.data_de_publicacao}',
-                                        id_empresa = '${Publicacao.id_empresa}',                    
+                                        id_usuario = '${Publicacao.id_usuario}',                    
                                         id_jogo = '${Publicacao.id_jogo}'                     
                                         
                                 where id = ${Publicacao.id}`
@@ -79,11 +79,27 @@ async function selectByIdPublicacao(idPublicacao){
         return false
     }
 }
+// filtro pelo ID
+async function selectByIdPublicacaoDoUsuario(idPublicacao){
+    try {
+        let sql = `SELECT * FROM tbl_publicacao_jogo_do_usuario WHERE id_usuario = ${idPublicacao}`
+        // console.log(sql);
+        
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        return result ? result : false
+    } catch (error) {
+        // console.log(error);
+        
+        return false
+    }
+}
 
 module.exports = {
     insertPublicacao,
     updatePublicacao,
     deletePublicacao,
     selectAllPublicacao,
-    selectByIdPublicacao
+    selectByIdPublicacao,
+    selectByIdPublicacaoDoUsuario
 }

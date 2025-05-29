@@ -158,7 +158,6 @@ async function atualizarJogo(jogo, idJogo, contentType) {
                 return MENSAGE.ERROR_REQUIRED_FIELDS
             }
         }else{
-
             return MENSAGE.ERROR_CONTENT_TYPE
         }
     } catch (error) {
@@ -294,6 +293,54 @@ async function buscarJogo(idJogo) {
     }
 }
 
+async function buscarJogoQuem(publicador) {
+    try {
+        // console.log(id)
+        
+        if(CORRECTION.CHECK_ID(publicador.id)){
+            const isEmpresa = publicador.IsItACompany
+            const ResultPublicacao = isEmpresa
+                ? (await servicesPublicacaoJogoDaEmpresa.buscarPublicacaoDaEmpresa(publicador.id))
+                : (await servicesPublicacaoJogoDoUsuario.buscarPublicacaoDoUsario(publicador.id))
+
+            // console.log(ResultPublicacao);
+            
+
+            if(ResultPublicacao != false || typeof(ResultPublicacao) == 'object'){
+                if(ResultPublicacao.publishing_games.length > 0){
+                    
+                    let listaJogo = []
+
+                    for(item of ResultPublicacao.publishing_games){
+                        let jogo =  await buscarJogo(item.id_jogo)
+                        listaJogo.push(jogo)
+                    }
+
+                    let dadosJogos = {
+                        "status": true,
+                        "status_code": 201,
+                        "games": listaJogo
+                    }
+                    // console.log(util.inspect(dadosJogos, { depth: null }))
+                    return dadosJogos
+                }else{
+                    return MENSAGE.ERROR_NOT_FOUND
+                }
+            }else{
+                return MENSAGE.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }else{
+            return MENSAGE.ERROR_REQUIRED_FIELDS
+        }
+        
+        
+    } catch (error) {
+        console.log(error);
+        
+        return MENSAGE.ERROR_INTERNAL_SERVER_SERVICES
+    }
+}
+
 
 // console.log(teste({
 //     "nome": "Mario Bros",
@@ -311,5 +358,6 @@ module.exports = {
     atualizarJogo,
     excluirJogo,
     listarTodosJogo,
-    buscarJogo
+    buscarJogo,
+    buscarJogoQuem
 }
